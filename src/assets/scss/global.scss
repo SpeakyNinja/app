@@ -1,0 +1,88 @@
+@font-face {
+    font-family: Roboto;
+    src: url(@/fonts/Roboto/Roboto-Regular.ttf);
+}
+
+@font-face {
+    font-family: RobotoBold;
+    src: url(@/fonts/Roboto/Roboto-Bold.ttf);
+}
+
+@font-face {
+    font-family: RobotoLight;
+    src: url(@/fonts/Roboto/Roboto-Light.ttf);
+}
+
+@font-face {
+    font-family: RobotoMono;
+    src: url(@/fonts/Roboto-mono/RobotoMono-Regular.ttf);
+}
+
+@font-face {
+    font-family: RobotoMonoBold;
+    src: url(@/fonts/Roboto-mono/RobotoMono-Bold.ttf);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-size: 18px;
+    font-family: Roboto, sans-serif;
+}
+
+html {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+    color: black;
+
+    #app {
+        flex: 1 0 auto;
+        display: flex;
+    }
+}
+
+.main-bg {
+	background-color: #30313f;
+}
+
+.m-bold {
+	font-family: RobotoBold;
+}
+
+.dialog-controls {
+    display: flex;
+    flex-direction: column;
+
+    .item {
+        color: #ebebed;
+        max-width: 500px;
+        display: flex;
+        justify-content: center;
+        padding: 20px 50px;
+        cursor: pointer;
+        border-top: 1px solid #ebebed;
+        border-image: linear-gradient(to right, #30313f, #ebebed, #30313f);
+        border-image-slice: 1;
+
+        &:last-child {
+            border-bottom: 1px solid #ebebed;
+        }
+    }
+}
+
+@media(max-width: 550px) {
+    .dialog-controls {
+        .item {
+            width: 80vw;
+        }
+    }
+}
