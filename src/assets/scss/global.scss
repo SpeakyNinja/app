@@ -66,6 +66,56 @@ b {
     background-color: #30313f;
 }
 
+.btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 70px;
+    width: 100%;
+    background-color: white;
+    border-radius: 10px;
+    cursor: pointer;
+    background-color: #30313f;
+    color: white;
+    font-size: 20px;
+    user-select: none;
+
+    &:hover {
+        background-color: #363743;
+    }
+
+    &:active {
+        padding-top: 2px;
+    }
+
+    &.green {
+        background-color: #95ff78;
+        color: black;
+
+        &:hover {
+            background-color: #adff97;
+        }
+    }
+
+    &.blue {
+        background-color: #9ae9f5;
+        color: black;
+
+        &:hover {
+            background-color: #b1f5ff;
+        }
+    }
+
+    &.gray {
+        background-color: #d5d5d5;
+        color: black;
+
+        &:hover {
+            background-color: #e9e9e9;
+        }
+    }
+}
+
 .dialog-controls {
     display: flex;
     flex-direction: column;

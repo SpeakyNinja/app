@@ -24,7 +24,7 @@
         </div>
 
         <div class="dialog-controls">
-            <div class="item" v-for="variant in variants">
+            <div class="item" v-for="variant in variants" @click="nextStep">
                 {{ variant }}
             </div>
         </div> 
@@ -75,7 +75,9 @@
         },
 
         methods: {
-            
+            nextStep() {
+                this.$router.push('/statistics');
+            }
         }
     }
 </script>

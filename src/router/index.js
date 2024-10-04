@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import AiDialog from '@/views/AiDialog.vue'
+import Login from '@/views/Login.vue'
 import Test from '@/views/Test.vue'
 import AddWords from '@/views/AddWords.vue'
 import Training from '@/views/Training.vue'
@@ -10,7 +10,7 @@ const router = createRouter({
     routes: [
         {
             path: '/',
-            component: AiDialog
+            component: Login
         }, {
             path: '/test',
             component: Test
@@ -24,14 +24,6 @@ const router = createRouter({
             path: '/statistics',
             component: Statistics
         }
-        // {
-        //     path: '/about',
-        //     name: 'about',
-        //     // route level code-splitting
-        //     // this generates a separate chunk (About.[hash].js) for this route
-        //     // which is lazy-loaded when the route is visited.
-        //     component: () => import('../views/AboutView.vue')
-        // }
     ]
 })
 

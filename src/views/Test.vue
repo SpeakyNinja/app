@@ -1,8 +1,5 @@
 <template>
     <div class="test main-bg">
-        <div class="ai-wrapper">
-            <Ai width="500" height="75" fill="#ebebed" />
-        </div>
 
         <div class="word-wrapper">
             <div class="word">stone</div>
@@ -22,14 +19,12 @@
 </template>
 
 <script>
-    import Ai from '@/components/icons/Ai.vue'
     import Timer from '@/components/Timer.vue'
 
     export default {
         name: "Test",
 
         components: {
-            Ai,
             Timer
         },
 
@@ -42,7 +37,7 @@
         methods: {
             submit(variant) {
                 this.$refs.timer.stop();
-                // todo:
+                this.$router.push('/add-words');
             }
         }
     }
@@ -59,10 +54,7 @@
         justify-content: center;
         gap: 110px;
         padding: 20px;
-
-        .ai-wrapper {
-            margin: 20px auto;
-        }
+        padding-bottom: 200px;
 
         .word-wrapper {
             display: flex;
@@ -79,9 +71,14 @@
         }
 
         .dialog-controls {
-            min-width: 500px;
+            width: 100%;
+            position: fixed;
+            bottom: 0;
+            left: 0;
 
             .item {
+                width: 500px;
+
                 &.soft {
                     color: #a94c4c;
                 }
@@ -89,10 +86,11 @@
         }
     }
 
-    @media(max-width: 550px) {
+    @media(max-width: 500px) {
         .test {
             .dialog-controls {
                 min-width: unset;
+                width: 100%;
             }
         }
     }

@@ -20,7 +20,7 @@
         </div>
 
         <div class="words-wrapper">
-            <div class=card>
+            <div class="card" @click="nextStep">
                 <div class="word">here</div>
                 <div class="translate">здесь</div>
             </div>
@@ -35,8 +35,7 @@
     import IcoNeuron from '@/components/icons/IcoNeuron.vue'
 
     export default {
-        name: "AddWords",
-
+        
         components: {
             Brain,
             ProgressBar,
@@ -51,7 +50,9 @@
         },
 
         methods: {
-            
+            nextStep() {
+                this.$router.push('/training');
+            }
         }
     }
 </script>
