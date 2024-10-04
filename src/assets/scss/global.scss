@@ -9,6 +9,11 @@
 }
 
 @font-face {
+    font-family: RobotoBlack;
+    src: url(@/fonts/Roboto/Roboto-Black.ttf);
+}
+
+@font-face {
     font-family: RobotoLight;
     src: url(@/fonts/Roboto/Roboto-Light.ttf);
 }
@@ -29,6 +34,7 @@
     box-sizing: border-box;
     font-size: 18px;
     font-family: Roboto, sans-serif;
+    letter-spacing: 0.1px;
 }
 
 html {
@@ -50,17 +56,20 @@ body {
     }
 }
 
-.main-bg {
-	background-color: #30313f;
+b {
+    font-family: RobotoBold;
+    font-weight: normal;
+    font-size: unset;
 }
 
-.m-bold {
-	font-family: RobotoBold;
+.main-bg {
+    background-color: #30313f;
 }
 
 .dialog-controls {
     display: flex;
     flex-direction: column;
+    align-items: center;
 
     .item {
         color: #ebebed;
@@ -72,6 +81,7 @@ body {
         border-top: 1px solid #ebebed;
         border-image: linear-gradient(to right, #30313f, #ebebed, #30313f);
         border-image-slice: 1;
+        flex-grow: 2;
 
         &:last-child {
             border-bottom: 1px solid #ebebed;
@@ -81,8 +91,94 @@ body {
 
 @media(max-width: 550px) {
     .dialog-controls {
+        width: 100%!important;
+
         .item {
-            width: 80vw;
+            width: 90vw;
         }
+    }
+}
+
+.hexagon {
+    --b: 2px;
+    height: 30px;
+    aspect-ratio: 1/cos(30deg);
+    clip-path: 
+        polygon(0 50%,50% -50%,100% 50%,50% 150%,0 50%,
+        var(--b) 50%,
+        calc(25% + var(--b)*cos(60deg)) calc(100% - var(--b)*sin(60deg)),
+        calc(75% - var(--b)*cos(60deg)) calc(100% - var(--b)*sin(60deg)),
+        calc(100% - var(--b)) 50%,
+        calc(75% - var(--b)*cos(60deg)) calc(var(--b)*sin(60deg)),
+        calc(25% + var(--b)*cos(60deg)) calc(var(--b)*sin(60deg)),
+        var(--b) 50%);
+    background: #525465;
+}
+
+.m-pointer {
+    cursor: pointer;
+}
+
+.m-bold {
+    font-family: RobotoBold;
+}
+
+.m-black {
+    font-family: RobotoBlack;
+}
+
+.m-light {
+    font-family: RobotoLight;
+}
+
+.m-capitalize {
+    text-transform: capitalize;
+}
+
+.m-pre {
+    white-space: pre-wrap;
+}
+
+@for $i from 0 through 10 {
+    $value: 10px * $i;
+
+    .mr-#{$i} {
+        margin-right: $value !important;
+    }
+
+    .ml-#{$i} {
+        margin-left: $value !important;
+    }
+
+    .pr-#{$i} {
+        padding-right: $value !important;
+    }
+
+    .pl-#{$i} {
+        padding-left: $value !important;
+    }
+
+    .mt-#{$i} {
+        margin-top: $value !important;
+    }
+
+    .mb-#{$i} {
+        margin-bottom: $value !important;
+    }
+
+    .pt-#{$i} {
+        padding-top: $value !important;
+    }
+
+    .pb-#{$i} {
+        padding-bottom: $value !important;
+    }
+}
+
+@for $k from 10 through 46 {
+    $value: 1px * $k;
+
+    .m-size#{$k} {
+        font-size: $value;
     }
 }
