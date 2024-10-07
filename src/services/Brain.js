@@ -42,6 +42,21 @@ export default class Brain {
         return {fillColor: fillColor, outlineColor: outlineColor, sides: hex.sides || []};
     }
 
+    addWord(status) {
+        for(let y in this.hexagons) {
+            const row = this.hexagons[y];
+            for(let x in row) {
+                const item = row[x];
+                if(item.status == 'pending') {
+                    item.status = status;
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
     makeHexagons() {
     	this.hexagons = [
             [
@@ -62,7 +77,7 @@ export default class Brain {
             ], [
                 { isEmpty: true },
                 { status: 'pending', sides: [2,3,4] },
-                { status: 'active', sides: [1,2] },
+                { status: 'pending', sides: [1,2] },
                 { isEmpty: true },
                 { status: 'pending', sides: [0,1] },
                 { status: 'pending', sides: [0,4,5] },
@@ -113,9 +128,9 @@ export default class Brain {
                 { status: 'pending', sides: [0,1,5] },
                 { status: 'pending', sides: [0,5] }
             ], [
-                { status: 'ready' },
                 { status: 'pending' },
-                { status: 'active', sides: [0] },
+                { status: 'pending' },
+                { status: 'pending', sides: [0] },
                 { status: 'pending', sides: [2] },
                 { status: 'pending' },
                 { status: 'pending' },
@@ -132,7 +147,7 @@ export default class Brain {
                 { status: 'pending', sides: [2] },
                 { status: 'pending', sides: [0,5] },
                 { status: 'pending', sides: [2,3] },
-                { status: 'active', sides: [0] },
+                { status: 'pending', sides: [0] },
                 { status: 'pending', sides: [1,2] },
             ], [
                 { isEmpty: true },

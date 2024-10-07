@@ -1,15 +1,15 @@
 <template>
-    <div class="test main-bg">
+    <div class="test main-bg" v-if="isReady">
 
         <div class="word-wrapper">
-            <div class="word">stone</div>
+            <div class="word">{{question.word}}</div>
 
             <Timer ref="timer" />
         </div>
 
         <div class="dialog-controls">
-            <div class="item" @click="submit(variant)" v-for="variant in variants">
-                {{ variant }}
+            <div class="item" @click="submit(answer)" v-for="answer in answers">
+                {{ answer }}
             </div>
             <div class="item soft" @click="submit()">
                 не знаю
@@ -20,6 +20,7 @@
 
 <script>
     import Timer from '@/components/Timer.vue'
+    import TestService from '@/services/TestService.js'
 
     export default {
         name: "Test",
@@ -30,15 +31,36 @@
 
         data() {
             return {
-                variants: ['журавль', 'камень', 'часть'],
+                question: {},
+                answers: [],
+                isReady: false
             }
         },
 
         methods: {
-            submit(variant) {
-                this.$refs.timer.stop();
-                this.$router.push('/add-words');
+            async submit(choice = null) {
+                this.testService.addChoices({word: this.question.word, choice: choice});
+
+                if(this.testService.choices.length >= 10) {
+                    console.log(this.testService.choices);
+                    this.$refs.timer.stop();
+                    this.$router.push('/add-words');
+                } else {
+                    this.updateQuestion();
+                    this.$refs.timer.reset();
+                }
+            },
+
+            updateQuestion() {
+                this.question = this.testService.getQuestion();
+                this.answers = this.testService.getAnswers(this.question);
             }
+        },
+
+        beforeMount() {
+            this.testService = new TestService();
+            this.updateQuestion();
+            this.isReady = true;
         }
     }
 </script>

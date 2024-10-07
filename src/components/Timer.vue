@@ -70,6 +70,13 @@
             stop() {
                 clearInterval(this.progressPid);
                 clearInterval(this.timePid);
+            },
+
+            reset() {
+                this.stop();
+                this.progressPercent = 0;
+                this.time = 60;
+                this.startAnimation();
             }
         },
 

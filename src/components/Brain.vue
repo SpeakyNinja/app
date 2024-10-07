@@ -117,6 +117,18 @@
                 const vertexX = x + this.hexRadius * Math.cos(angle);
                 const vertexY = y + this.hexRadius * Math.sin(angle);
                 return {x: vertexX, y: vertexY};
+            },
+
+            addWord(status) {
+                const success = this.brainService.addWord(status);
+                this.refresh();
+                return success;
+            },
+
+            refresh() {
+                this.ctx.clearRect(0, 0, this.$refs.canvas.width, this.$refs.canvas.height);
+                this.drawBackground(this.brainService.getHexagons());
+                this.drawHexagons(this.brainService.getHexagons());
             }
         },
 
