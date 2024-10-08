@@ -116,6 +116,17 @@ b {
     }
 }
 
+.input {
+    height: 70px;
+    width: 100%;
+    background-color: white;
+    border-radius: 10px;
+    outline: none;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    padding: 0 10px;
+    font-size: 20px;
+}
+
 .dialog-controls {
     display: flex;
     flex-direction: column;
@@ -187,6 +198,10 @@ b {
 
 .m-pre {
     white-space: pre-wrap;
+}
+
+.m-red {
+    color: #ff7272;
 }
 
 @for $i from 0 through 10 {

@@ -99,7 +99,6 @@
 
             updateCardStatus(pageY) {
                 const offset = pageY - this.start.y;
-                console.log(offset);
                 if(offset > 20) {
                     this.isIknow = true;
                     this.isToLearn = false;

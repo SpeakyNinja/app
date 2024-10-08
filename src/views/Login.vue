@@ -2,18 +2,27 @@
     <div class="login main-bg">
         
         <div class="title">Speaky Ninja</div>
-        <div class="mt-2 title2">слова запомнятся сами</div>
 
-        <div class="buttons">
-            <div class="btn green">Зарегистрироваться</div>
-            <div class="btn blue">Войти</div>
-            <div class="btn gray" @click="toTest">Пропустить</div>
+        <div class="form">
+            <div class="row">
+                <div class="m-light ml-1 mb-1 m-size20">E-mail</div>
+                <input class="input" type="text" v-model="student.email">
+            </div>
+
+            <div class="row">
+                <div class="m-light ml-1 mb-1 m-size20">Пароль</div>
+                <input class="input" type="password" v-model="student.password">
+                <div class="m-red mt-2" v-if="error">{{ error }}</div>
+            </div>
+
+            <div class="btn green mt-1" @click="login">Войти</div>
         </div>
         
     </div>
 </template>
 
 <script>
+    import Student from '@/models/Student.js'
 
     export default {
 
@@ -22,13 +31,25 @@
 
         data() {
             return {
+                error: ''
             }
         },
 
         methods: {
-            toTest() {
-                this.$router.push('/test');
+            async login() {
+                try {
+                    const r = await this.student.login();
+                    localStorage.setItem("access_token", r.access_token);
+                    this.$router.push('/test');
+                } catch(res) {
+                    this.error = res.message;
+                } finally {
+                }
             }
+        },
+
+        beforeMount() {
+            this.student = new Student();
         }
     }
 </script>
@@ -51,18 +72,17 @@
             color: #ebebed;
         }
 
-        .title2 {
-            font-size: 16px;
-            color: #ebebed;
-            letter-spacing: 2px;
-        }
-
-        .buttons {
-            margin-top: 140px;
+        .form {
+            margin-top: 80px;
             display: flex;
             flex-direction: column;
             gap: 20px;
             width: 420px;
+
+            .row {
+                .lable {
+                }
+            }
         }
     }
 

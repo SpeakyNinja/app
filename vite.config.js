@@ -12,9 +12,9 @@ export default defineConfig({
             registerType: 'autoUpdate',
             includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'],
             manifest: {
-                name: 'Мое приложение для изучения английского',
-                short_name: 'EnglishApp',
-                description: 'Приложение для изучения английского по необычной методике',
+                name: 'Speaky Ninja',
+                short_name: 'SpeakyNinja',
+                description: 'Слова запомнятся сами',
                 theme_color: '#ffffff',
                 icons: [
                     {
