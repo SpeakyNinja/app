@@ -10,7 +10,7 @@ export default class Student extends AbstractModel {
 
     registration() {
         const data = {
-            name: this.name,
+            name: '',
             email: this.email,
             password: this.password
         };

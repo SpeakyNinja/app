@@ -5,11 +5,6 @@
 
         <div class="form">
             <div class="row">
-                <div class="m-light ml-1 mb-1 m-size20">Имя</div>
-                <input class="input" type="text" v-model="student.name">
-            </div>
-            
-            <div class="row">
                 <div class="m-light ml-1 mb-1 m-size20">E-mail</div>
                 <input class="input" type="text" v-model="student.email">
             </div>
