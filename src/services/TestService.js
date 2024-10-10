@@ -1,10 +1,18 @@
-export default class TestService {
-    questions;
-    choices;
+import { inject } from 'vue';
+import AbstractService from "@/services/AbstractService.js";
+
+export default class TestService extends AbstractService {
+    student;
+    question;
+    questins;
 
     constructor() {
+        super();
+        this.student = inject('student');
+
         this.questions = [
             {
+                meaning_id: 1,
                 word: 'spring',
                 translate: 'весна',
                 wrong_answers: ['камень', 'окно', 'зима', 'светло', 'солнце', 'рука', 'стол', 'автомобиль', 'рыба', 'планета']
@@ -86,11 +94,23 @@ export default class TestService {
                 wrong_answers: ['дверь', 'стена', 'потолок', 'пол', 'крыша', 'балкон', 'терраса', 'веранда', 'гараж', 'подвал']
             }
         ];
-        this.choices = [];
     }
 
-    addChoices(choice) {
-        this.choices.push(choice);
+    fetchQuestion() {
+        return this.request('/test/question', {}, r => {
+            this.question = r.question;
+        });
+    }
+
+    sendAnswer(text) {
+        const data = {
+            meaning_id: this.question.meaning_id,
+            text: text
+        };
+
+        return this.request('/test/send-answer', data, r => {
+            this.question = r.question;
+        });
     }
 
     getQuestion() {
@@ -98,24 +118,5 @@ export default class TestService {
         const item = this.questions[i];
         this.questions.splice(i, 1);
         return item;
-    }
-
-    getAnswers(question) {
-        const answers = [question.translate];
-
-        [0,1].forEach(() => {
-            const i = Math.floor(Math.random() * question.wrong_answers.length);
-            answers.push(question.wrong_answers[i]);
-            question.wrong_answers.splice(i, 1);
-        });
-
-        const shuffledAnswers = [];
-        while(answers.length) {
-            const i = Math.floor(Math.random() * answers.length);
-            shuffledAnswers.push(answers[i]);
-            answers.splice(i, 1);
-        }
-
-        return shuffledAnswers;
     }
 }

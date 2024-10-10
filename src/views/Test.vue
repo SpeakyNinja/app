@@ -2,13 +2,13 @@
     <div class="test main-bg" v-if="isReady">
 
         <div class="word-wrapper">
-            <div class="word">{{question.word}}</div>
+            <div class="word">{{testService.question.word}}</div>
 
-            <Timer ref="timer" />
+            <Timer ref="timer" @isFinish="submit" />
         </div>
 
         <div class="dialog-controls">
-            <div class="item" @click="submit(answer)" v-for="answer in answers">
+            <div class="item" @click="submit(answer)" v-for="answer in testService.question.answers">
                 {{ answer }}
             </div>
             <div class="item soft" @click="submit()">
@@ -19,6 +19,7 @@
 </template>
 
 <script>
+    import { inject } from 'vue';
     import Timer from '@/components/Timer.vue'
     import TestService from '@/services/TestService.js'
 
@@ -31,6 +32,7 @@
 
         data() {
             return {
+                step: 1,
                 question: {},
                 answers: [],
                 isReady: false
@@ -38,29 +40,40 @@
         },
 
         methods: {
-            async submit(choice = null) {
-                this.testService.addChoices({word: this.question.word, choice: choice});
-
-                if(this.testService.choices.length >= 10) {
-                    console.log(this.testService.choices);
-                    this.$refs.timer.stop();
-                    this.$router.push('/add-words');
-                } else {
-                    this.updateQuestion();
-                    this.$refs.timer.reset();
+            async submit(text = '') {
+                try {
+                    this.preloader.show = true;
+                    await this.testService.sendAnswer(text);
+                    this.step++;
+                    if(this.step <= 10 && this.testService.question) {
+                        this.$refs.timer.reset();
+                        this.$forceUpdate();
+                    } else {
+                        this.$refs.timer.stop();
+                        this.$router.push('/add-words');
+                    }
+                } catch(res) {
+                    this.modal.show(res);
+                } finally {
+                    this.preloader.show = false;
                 }
-            },
-
-            updateQuestion() {
-                this.question = this.testService.getQuestion();
-                this.answers = this.testService.getAnswers(this.question);
             }
         },
 
-        beforeMount() {
+        async beforeMount() {
+            this.modal = inject('modal');
+            this.preloader = inject('preloader');
             this.testService = new TestService();
-            this.updateQuestion();
-            this.isReady = true;
+            
+            try {
+                this.preloader.show = true;
+                await this.testService.fetchQuestion();
+            } catch(res) {
+                this.modal.show(res);
+            } finally {
+                this.preloader.show = false;
+                this.isReady = true;
+            }
         }
     }
 </script>

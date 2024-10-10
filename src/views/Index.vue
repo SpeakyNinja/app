@@ -14,6 +14,7 @@
 </template>
 
 <script>
+    import { inject } from 'vue';
 
     export default {
 
@@ -26,8 +27,16 @@
         },
 
         methods: {
-            toTest() {
-                this.$router.push('/test');
+            async toTest() {
+                try {
+                    this.preloader.show = true;
+                    await this.student.autoRegistration();
+                    this.$router.push('/test');
+                } catch(res) {
+                    this.modal.show(res);
+                } finally {
+                    this.preloader.show = false;
+                }
             },
 
             toLogin() {
@@ -37,6 +46,12 @@
             toRegistration() {
                 this.$router.push('/registration');
             }
+        },
+
+        beforeMount() {
+            this.modal = inject('modal');
+            this.preloader = inject('preloader');
+            this.student = inject('student');
         }
     }
 </script>

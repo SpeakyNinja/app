@@ -15,10 +15,32 @@ export default class Student extends AbstractModel {
             password: this.password
         };
 
-        return this.request('/register', data);
+        return this.request('/register', data, r => {
+            this.setToken(r.access_token);
+        });
     }
 
     login() {
-        return this.request('/login', { email: this.email, password: this.password });
+        return this.request('/login', { email: this.email, password: this.password }, r => {
+            this.setToken(r.access_token);
+        });
+    }
+
+    autoRegistration() {
+        return this.request('/auto-registration', {}, r => {
+            this.setToken(r.access_token);
+        });
+    }
+
+    isGuest() {
+        return !this.getToken();
+    }
+
+    getToken() {
+        return localStorage.getItem("access_token");
+    }
+
+    setToken(token) {
+        localStorage.setItem("access_token", token);
     }
 }

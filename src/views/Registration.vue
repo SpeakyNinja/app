@@ -22,7 +22,7 @@
 </template>
 
 <script>
-    import Student from '@/models/Student.js'
+    import { inject } from 'vue';
 
     export default {
 
@@ -38,17 +38,20 @@
         methods: {
             async registration() {
                 try {
+                    this.preloader.show = true;
                     const r = await this.student.registration();
-                    this.$router.push('/login');
+                    this.$router.push('/test');
                 } catch(res) {
                     this.error = res.message || 'Ошибка сервера';
                 } finally {
+                    this.preloader.show = false;
                 }
             }
         },
 
         beforeMount() {
-            this.student = new Student();
+            this.preloader = inject('preloader');
+            this.student = inject('student');
         }
     }
 </script>

@@ -62,6 +62,7 @@
                 this.timePid = setInterval(() => {
                     this.time -= 1;
                     if(this.time < 1) {
+                        this.$emit('isFinish');
                         this.time = 60;
                     }
                 }, 1000);

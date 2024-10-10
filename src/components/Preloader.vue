@@ -21,7 +21,7 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@/../scss/main/global.scss';
+    @import '@/assets/scss/global.scss';
 
     .preloader {
         .mask {
@@ -54,7 +54,7 @@
             width: 13px;
             height: 13px;
             border-radius: 50%;
-            background: #1976d2;
+            background: #9ae9f5;
             animation-timing-function: cubic-bezier(0, 1, 1, 0);
         }
         .lds-ellipsis div:nth-child(1) {
