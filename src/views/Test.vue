@@ -32,7 +32,6 @@
 
         data() {
             return {
-                step: 1,
                 question: {},
                 answers: [],
                 isReady: false
@@ -44,8 +43,7 @@
                 try {
                     this.preloader.show = true;
                     await this.testService.sendAnswer(text);
-                    this.step++;
-                    if(this.step <= 10 && this.testService.question) {
+                    if(this.testService.question) {
                         this.$refs.timer.reset();
                         this.$forceUpdate();
                     } else {
@@ -99,7 +97,7 @@
 
             .word {
                 font-family: RobotoLight;
-                font-size: 90px;
+                font-size: clamp(16px, 7vw, 90px);;
                 letter-spacing: 2px;
                 color: #ebebed;
             }

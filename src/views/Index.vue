@@ -52,6 +52,10 @@
             this.modal = inject('modal');
             this.preloader = inject('preloader');
             this.student = inject('student');
+
+            if(!this.student.isGuest()) {
+                this.$router.push('/statistics');
+            }
         }
     }
 </script>
