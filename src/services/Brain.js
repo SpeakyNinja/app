@@ -43,15 +43,23 @@ export default class Brain {
     }
 
     addWord(status) {
+        const pendingItems = [];
+
         for(let y in this.hexagons) {
             const row = this.hexagons[y];
-            for(let x in row) {
+            for (let x in row) {
                 const item = row[x];
-                if(item.status == 'pending') {
-                    item.status = status;
-                    return true;
+                if (item.status === 'pending') {
+                    pendingItems.push(item);
                 }
             }
+        }
+
+        if(pendingItems.length > 0) {
+            const randomIndex = Math.floor(Math.random() * pendingItems.length);
+            const randomItem = pendingItems[randomIndex];
+            randomItem.status = status;
+            return true;
         }
 
         return false;

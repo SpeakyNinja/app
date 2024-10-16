@@ -1,5 +1,5 @@
 <template>
-    <div class="add-words main-bg">
+    <div class="add-words main-bg" v-if="isReady">
         
         <div class="top">
 
@@ -34,19 +34,20 @@
             >
                 <div class="learn-lable">Учить</div>
                 <div class="i-know-lable">Знаю</div>
-                <div class="word">{{ word.word }}</div>
-                <div class="translate">{{ word.translate }}</div>
+                <div class="word">{{ addWordService.data.word }}</div>
+                <div class="translate">{{ addWordService.data.translate }}</div>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+    import { inject } from 'vue';
     import Brain from '@/components/Brain.vue';
     import ProgressBar from '@/components/ProgressBar.vue';
     import IcoArrow from '@/components/icons/IcoArrow.vue';
     import IcoNeuron from '@/components/icons/IcoNeuron.vue';
-    import TestService from '@/services/TestService.js';
+    import AddWordService from '@/services/AddWordService.js';
 
     export default {
         
@@ -64,7 +65,8 @@
                 isActive: false,
                 isIknow: false,
                 isToLearn: false,
-                isScaling: false
+                isScaling: false,
+                isReady: false
             }
         },
 
@@ -143,21 +145,42 @@
                 }, 400);
             },
 
-            addWord(status) {
+            async addWord(status) {
                 const success = this.$refs.brain.addWord(status);
-                const word = this.testService.getQuestion();
+                // todo: обработка перебора
 
-                if(success && word) {
-                    this.word = word;
-                } else {
-                    this.nextStep();
+                try {
+                    this.preloader.show = true;
+                    const r = await this.addWordService.rateWord(status == 'active');
+                    this.$forceUpdate();
+                    if(!r.data) {
+                        this.nextStep();
+                    }
+                } catch(res) {
+                    this.modal.show(res);
+                } finally {
+                    this.preloader.show = false;
                 }
             }
         },
 
-        beforeMount() {
-            this.testService = new TestService();
-            this.word = this.testService.getQuestion();
+        async beforeMount() {
+            this.modal = inject('modal');
+            this.preloader = inject('preloader');
+            this.addWordService = new AddWordService();
+            try {
+                this.preloader.show = true;
+                await this.addWordService.fetchWord();
+                this.isReady = true;
+            } catch(res) {
+                if(res.code == 'scm-not-found') {
+                    this.$router.push('/test');
+                } else {
+                    this.modal.show(res);
+                }
+            } finally {
+                this.preloader.show = false;
+            }
         }
     }
 </script>
@@ -254,12 +277,12 @@
 
                 .word {
                     font-family: RobotoLight;
-                    font-size: 50px;
+                    font-size: clamp(16px, 5.5vw, 50px);
                 }
 
                 .translate {
                     font-family: RobotoLight;
-                    font-size: 26px;
+                    font-size: clamp(18px, 4vw, 20px);
                     color: #525465;
                 }
 
