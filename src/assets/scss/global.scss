@@ -205,6 +205,10 @@ b {
     color: #ff7272;
 }
 
+.m-hidden {
+    display: none!important;
+}
+
 @for $i from 0 through 10 {
     $value: 10px * $i;
 

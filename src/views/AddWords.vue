@@ -26,7 +26,8 @@
                     active: isActive,
                     'i-know': isIknow, 
                     'is-to-learn': isToLearn, 
-                    'scale-down-center' : isScaling
+                    'scale-down-center': isScaling,
+                    'm-hidden': isCardHidden
                 }" 
                 @mousedown="startDrag"
                 @mouseup="stopDrag"
@@ -66,7 +67,8 @@
                 isIknow: false,
                 isToLearn: false,
                 isScaling: false,
-                isReady: false
+                isReady: false,
+                isCardHidden: false
             }
         },
 
@@ -135,31 +137,47 @@
                 this.$refs.card.style.top = top;
 
                 setTimeout(() => {
-                    this.resetCardStatus();
-                    this.$refs.card.style.top = 0;
-                    this.isScaling = false;
+                    this.isCardHidden = true;
 
-                    if(status != 'pending') {
+                    if(status == 'pending') {
+                        this.restoreCard();
+                    } else {
                         this.addWord(status);
                     }
                 }, 400);
             },
 
+            restoreCard() {
+                this.resetCardStatus();
+                this.$refs.card.style.top = 0;
+                this.isScaling = false;
+                this.isCardHidden = false;
+            },
+
             async addWord(status) {
                 const success = this.$refs.brain.addWord(status);
-                // todo: обработка перебора
 
                 try {
                     this.preloader.show = true;
                     const r = await this.addWordService.rateWord(status == 'active');
                     this.$forceUpdate();
-                    if(!r.data) {
-                        this.nextStep();
-                    }
+                    this.restoreCard();
                 } catch(res) {
-                    this.modal.show(res);
+                    this.errorHandler(res);
                 } finally {
                     this.preloader.show = false;
+                }
+            },
+
+            errorHandler(res) {
+                if(res.code == 'scm-not-found') {
+                    this.$router.push('/test');
+                } else if(res.code == 'dict-is-full') {
+                    this.nextStep();
+                } else if(res.code == 'meaning-not-found') {
+                    this.nextStep();
+                } else {
+                    this.modal.show(res);
                 }
             }
         },
@@ -173,11 +191,7 @@
                 await this.addWordService.fetchWord();
                 this.isReady = true;
             } catch(res) {
-                if(res.code == 'scm-not-found') {
-                    this.$router.push('/test');
-                } else {
-                    this.modal.show(res);
-                }
+                this.errorHandler(res);
             } finally {
                 this.preloader.show = false;
             }
