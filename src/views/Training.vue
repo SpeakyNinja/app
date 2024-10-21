@@ -1,10 +1,13 @@
 <template>
-    <div class="training main-bg">
+    <div class="training main-bg" v-if="isReady">
         
         <div class="top-fixed">
             <div class="top">
-                <div class="hexagon"></div>
+                
+                <Memorization :mem="trainings.getCurrent().memorization" />
+                
                 <ProgressBar :settings="progress" />
+                
                 <div class="dotted-button">
                     <span></span>
                     <span></span>
@@ -17,66 +20,98 @@
 
         <div class="hints-wrapper">
             <div class="hints">
-                <div v-for="hint in hints" class="hint">
-                    <p v-html="hint.text"></p>
+                <div v-for="hint in trainings.getCurrent().hints" class="hint">
+                    <p v-html="hint"></p>
                 </div>
             </div>
         </div>
 
         <div class="dialog-controls">
-            <div class="item" v-for="variant in variants" @click="nextStep">
-                {{ variant }}
+            <div 
+                class="item" 
+                v-for="answer in trainings.getCurrent().answers" 
+                @click="nextStep(answer)"
+            >
+                {{ answer }}
             </div>
         </div> 
     </div>
 </template>
 
 <script>
+    import { inject } from 'vue';
     import ProgressBar from '@/components/ProgressBar.vue'
+    import Memorization from '@/components/Memorization.vue'
+    import Trainings from '@/collections/Trainings.js';
 
     export default {
 
         components: {
-            ProgressBar
+            ProgressBar,
+            Memorization
         },
 
         data() {
             return {
-                progress: {width: '250px', widthFilled: '30%'},
-                hints: [
-                    {
-                        text: 'Главная <b>part</b> в пьессе.'
-                    }, {
-                        text: 'Он сыграл не последнюю <b>part</b> в этой истории.'
-                    }, {
-                        text: 'Твоя <b>part</b> в пьессе была очень важна.'
-                    }, {
-                        text: 'Каждый играет свою <b>part</b>.'
-                    }, {
-                        text: 'Он получил главную <b>part</b> в фильме.'
-                    }, {
-                        text: 'Она играла очень большую <b>part</b> в его жизни.'
-                    }, {
-                        text: 'Главная <b>part</b> в пьессе.'
-                    }, {
-                        text: 'Он сыграл не последнюю <b>part</b> в этой истории.'
-                    }, {
-                        text: 'Твоя <b>part</b> в пьессе была очень важна.'
-                    }, {
-                        text: 'Каждый играет свою <b>part</b>.'
-                    }, {
-                        text: 'Он получил главную <b>part</b> в фильме.'
-                    }, {
-                        text: 'Она играла очень большую <b>part</b> в его жизни.'
-                    }
-                ],
-                variants: ['точно', 'роль, участие', 'приятно, хорошо'],
+                progress: {},
+                isReady: false
             }
         },
 
         methods: {
-            nextStep() {
-                this.$router.push('/statistics');
+            async nextStep(answer) {
+                if(!this.trainings.isCorrectAnswer(answer)) {
+                    this.trainings.deleteAnswer(answer);
+                    this.$forceUpdate();
+                    return false;
+                }
+
+                this.trainings.setAnswer();
+                if(this.trainings.isFinish()) {
+                    try {
+                        this.preloader.show = true;
+                        const r = await this.trainings.submitAnswers();
+                        this.$router.push('/statistics');
+                    } catch(res) {
+                        this.errorHandler(res);
+                    } finally {
+                        this.preloader.show = false;
+                    }
+                } else {
+                    this.updateProgress();
+                    this.$forceUpdate();
+                }
+            },
+
+            errorHandler(res) {
+                if(res.code == 'is-not-full') {
+                    this.$router.push('/add-words');
+                } else {
+                    this.modal.show(res);
+                }
+            },
+
+            updateProgress() {
+                const p = this.trainings.getProgressInPercents();
+                this.progress = {width: '250px', widthFilled: `${p}%`};
+            }
+        },
+
+        async beforeMount() {
+            this.modal = inject('modal');
+            this.preloader = inject('preloader');
+
+            this.trainings = new Trainings();
+
+            try {
+                this.preloader.show = true;
+                await this.trainings.fetch();
+                this.updateProgress();
+                this.isReady = true;
+            } catch(res) {
+                this.errorHandler(res);
+            } finally {
+                this.preloader.show = false;
             }
         }
     }
@@ -111,10 +146,6 @@
                 align-items: center;
                 gap: 20px;
                 z-index: 2;
-
-                .hexagon {
-                    height: 36px;
-                }
             }
 
             .dotted-button {

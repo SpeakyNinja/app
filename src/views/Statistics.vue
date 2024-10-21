@@ -14,7 +14,7 @@
                 <div class="m-bold">{{ item.word }}</div>
                 <div>-</div>
                 <div class="translate">{{ item.translate }}</div>
-                <RoundProgress :options="item" />
+                <Memorization :mem="item.progress" />
             </div>
         </div>
          
@@ -22,39 +22,37 @@
 </template>
 
 <script>
-    import ProgressBar from '@/components/ProgressBar.vue'
-    import RoundProgress from '@/components/RoundProgress.vue'
+    import Memorization from '@/components/Memorization.vue'
 
     export default {
 
         components: {
-            ProgressBar,
-            RoundProgress
+            Memorization
         },
 
         data() {
             return {
                 items: [
-                    {word: 'spring', translate: 'ручей', progress: 100},
-                    {word: 'summer', translate: 'лето', progress: 78},
-                    {word: 'autumn', translate: 'осень', progress: 62},
-                    {word: 'winter', translate: 'зима', progress: 15},
-                    {word: 'sun', translate: 'солнце', progress: 90},
-                    {word: 'moon', translate: 'луна', progress: 73},
-                    {word: 'star', translate: 'звезда', progress: 22},
-                    {word: 'sky', translate: 'небо', progress: 80},
-                    {word: 'cloud', translate: 'облако', progress: 67},
+                    {word: 'spring', translate: 'ручей', progress: 11},
+                    {word: 'summer', translate: 'лето', progress: 9},
+                    {word: 'autumn', translate: 'осень', progress: 8},
+                    {word: 'winter', translate: 'зима', progress: 3},
+                    {word: 'sun', translate: 'солнце', progress: 5},
+                    {word: 'moon', translate: 'луна', progress: 8},
+                    {word: 'star', translate: 'звезда', progress: 1},
+                    {word: 'sky', translate: 'небо', progress: 0},
+                    {word: 'cloud', translate: 'облако', progress: 3},
                     {word: 'rain', translate: 'дождь', progress: 7},
-                    {word: 'snow', translate: 'снег', progress: 92},
-                    {word: 'wind', translate: 'ветер', progress: 69},
-                    {word: 'storm', translate: 'буря', progress: 55},
-                    {word: 'lightning', translate: 'молния', progress: 45},
-                    {word: 'thunder', translate: 'гром', progress: 44},
-                    {word: 'river', translate: 'река', progress: 40},
-                    {word: 'mountain', translate: 'гора', progress: 37},
-                    {word: 'forest', translate: 'лес', progress: 80},
+                    {word: 'snow', translate: 'снег', progress: 1},
+                    {word: 'wind', translate: 'ветер', progress: 10},
+                    {word: 'storm', translate: 'буря', progress: 7},
+                    {word: 'lightning', translate: 'молния', progress: 7},
+                    {word: 'thunder', translate: 'гром', progress: 4},
+                    {word: 'river', translate: 'река', progress: 2},
+                    {word: 'mountain', translate: 'гора', progress: 8},
+                    {word: 'forest', translate: 'лес', progress: 1},
                     {word: 'tree', translate: 'дерево', progress: 10},
-                    {word: 'flower', translate: 'цветок', progress: 77}
+                    {word: 'flower', translate: 'цветок', progress: 0}
                 ]
             }
         },

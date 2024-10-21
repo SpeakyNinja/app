@@ -3,8 +3,8 @@
 
         <svg :width="progressSize" :height="progressSize">
             <circle class="bg"
-                fill="#30313f"
-                stroke="#4b4c56"
+                :fill="fill"
+                :stroke="stroke"
                 :cx="progressSize / 2"
                 :cy="progressSize / 2"
                 :r="radius"
@@ -12,7 +12,7 @@
             />
             <circle :class="{'animated' : options.progress}"
                 fill="none"
-                :stroke="getFill()"
+                :stroke="filledStroke"
                 :cx="progressSize / 2"
                 :cy="progressSize / 2"
                 :r="radius"
@@ -46,6 +46,21 @@
                 type: Number,
                 required: false,
                 default: 3
+            },
+            fill: {
+                type: String,
+                required: false,
+                default: '#30313f'
+            },
+            stroke: {
+                type: String,
+                required: false,
+                default: '#4b4c56'
+            },
+            filledStroke: {
+                type: String,
+                required: false,
+                default: '#fa3d3d'
             }
         },
 
@@ -60,20 +75,6 @@
                 const circumference = this.radius * Math.PI * 2;
                 const dash = (circumference * this.options.progress) / 100;
                 return `${dash} ${circumference - dash}`;
-            },
-
-            getFill() {
-                let color = '#fa3d3d';
-
-                if(this.options.progress == 100) {
-                    color = '#3db8fa'
-                } else if(this.options.progress > 50) {
-                    color = '#76fa3d'
-                } else if(this.options.progress > 25) {
-                    color = '#eafa3d'
-                }
-
-                return color;
             }
         }
     }
@@ -84,6 +85,7 @@
 
     .round-progress {
         position: relative;
+        font-size: 0;
 
         svg {
 
