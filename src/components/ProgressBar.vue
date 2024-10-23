@@ -53,6 +53,7 @@
                 width: v-bind('settings.widthFilled');
                 background-color: #ebebed;
                 border-radius: 2px;
+                transition: all 1.2s;
             }
         }
     }

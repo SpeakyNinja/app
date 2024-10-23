@@ -8,14 +8,14 @@
                 
                 <ProgressBar :settings="progress" />
                 
-                <div class="dotted-button">
+                <!-- <div class="dotted-button">
                     <span></span>
                     <span></span>
                     <span></span>
-                </div>
+                </div> -->
             </div>
 
-            <div class="muted">[part]</div>
+            <!-- <div class="muted">[part]</div> -->
         </div>
 
         <div class="hints-wrapper">
