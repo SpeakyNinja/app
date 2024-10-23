@@ -66,6 +66,9 @@
             try {
                 this.preloader.show = true;
                 await this.testService.fetchQuestion();
+                if(!this.testService.question) {
+                    this.$router.push('/add-words');
+                }
             } catch(res) {
                 this.modal.show(res);
             } finally {
