@@ -1,6 +1,6 @@
 <template>
     <div class="brain">
-        <canvas width="368" height="316" ref="canvas"></canvas>
+        <canvas :width="width" :height="height" ref="canvas"></canvas>
     </div>
 </template>
 
@@ -13,6 +13,24 @@
         components: {
         },
 
+        props: {
+            width: {
+                type: Number,
+                required: false,
+                default: 368
+            },
+            height: {
+                type: Number,
+                required: false,
+                default: 316
+            },
+            hexRadius: {
+                type: Number,
+                required: false,
+                default: 18
+            }
+        },
+
         data() {
             return {
             }
@@ -20,7 +38,6 @@
 
         methods: {
             init() {
-                this.hexRadius = 18;
                 this.ctx = this.$refs.canvas.getContext('2d');
                 this.ctx.setTransform(1, 0, 0, 1, 0, 0);
                 this.ctx.fillStyle = 'white';

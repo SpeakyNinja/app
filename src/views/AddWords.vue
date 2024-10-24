@@ -3,11 +3,11 @@
         
         <div class="top">
 
-            <ProgressBar :settings="progress" />
+            <ProgressBar :settings="progress" ref="progressBar" />
 
-            <div class="back-button">
+            <!-- <div class="back-button">
                 <IcoArrow height="18" fill="#ebebed" />
-            </div>
+            </div> -->
         </div>
 
         <div>
@@ -16,7 +16,13 @@
                 <div class="scores">70 000</div>
             </div>
 
-            <Brain ref="brain" />
+            <Brain 
+                ref="brain" 
+                :hexRadius="brainHexRadius"
+                :width="brainWidth"
+                :height="brainHeight"
+            />
+
         </div>
 
         <div class="words-wrapper" ref="cardWrapper">
@@ -31,6 +37,8 @@
                 }" 
                 @mousedown="startDrag"
                 @mouseup="stopDrag"
+                @touchstart="startDrag"
+                @touchend="stopDrag"
                 ref="card"
             >
                 <div class="learn-lable">Учить</div>
@@ -62,13 +70,16 @@
         data() {
             return {
                 word: {},
-                progress: {width: '300px', widthFilled: '20%'},
+                progress: {width: '300px', widthFilled: '0%'},
                 isActive: false,
                 isIknow: false,
                 isToLearn: false,
                 isScaling: false,
                 isReady: false,
-                isCardHidden: false
+                isCardHidden: false,
+                brainWidth: window.screen.width > 550 ? 368 : 283,
+                brainHeight: window.screen.width > 550 ? 316 : 245,
+                brainHexRadius: window.screen.width > 550 ? 18 : 14
             }
         },
 
@@ -79,19 +90,28 @@
 
             startDrag(e) {
                 this.isActive = true;
-                this.start = {x: e.pageX, y: e.pageY};
-                this.moveAt(e.pageX, e.pageY);
+                this.start = this.getCursorCoords(e);
+                this.moveAt(this.start.x, this.start.y);
                 document.addEventListener('mousemove', this.mouseMove);
+                document.addEventListener('touchmove', this.mouseMove);
             },
 
             stopDrag() {
                 this.animateChoose();
                 document.removeEventListener('mousemove', this.mouseMove);
+                document.removeEventListener('touchmove', this.mouseMove);
             },
 
             mouseMove(e) {
-                this.moveAt(e.pageX, e.pageY);
-                this.updateCardStatus(e.pageY);
+                const { x, y } = this.getCursorCoords(e);
+                this.moveAt(x, y);
+                this.updateCardStatus(y);
+            },
+
+            getCursorCoords(e) {
+                const x = e.pageX !== undefined ? e.pageX : e.touches[0].clientX;
+                const y = e.pageY !== undefined ? e.pageY : e.touches[0].clientY;
+                return {x: x, y: y};
             },
 
             moveAt(pageX, pageY) {
@@ -160,6 +180,7 @@
                 try {
                     this.preloader.show = true;
                     const r = await this.addWordService.rateWord(status == 'active');
+                    this.updateProgress();
                     this.$forceUpdate();
                     this.restoreCard();
                 } catch(res) {
@@ -179,6 +200,15 @@
                 } else {
                     this.modal.show(res);
                 }
+            },
+
+            updateProgress() {
+                const p = this.addWordService.data.scmCount * 100 / 10;
+                this.progress.widthFilled = `${p}%`;
+
+                if(this.$refs.progressBar) {
+                    this.$refs.progressBar.$forceUpdate();
+                }
             }
         },
 
@@ -189,6 +219,7 @@
             try {
                 this.preloader.show = true;
                 await this.addWordService.fetchWord();
+                this.updateProgress();
                 this.isReady = true;
             } catch(res) {
                 this.errorHandler(res);
@@ -340,12 +371,6 @@
         }
     }
 
-    @media(max-width: 550px) {
-        .add-words {
-            
-        }
-    }
-
     @-webkit-keyframes scale-down-center {
         0% {
             -webkit-transform: scale(1);
@@ -365,6 +390,97 @@
         100% {
             -webkit-transform: scale(0.2);
             transform: scale(0.2);
+        }
+    }
+
+    @media(max-width: 550px) {
+        .add-words {
+            .words-wrapper {
+                position: relative;
+                width: 80vw;
+                height: 40vw;
+                position: relative;
+
+                &:before, &:after {
+                    content: '';
+                    width: 80vw;
+                    height: 40vw;
+                    border-radius: 20px;
+                    background-color: white;
+                    transform: rotate(4deg);
+                    z-index: 1;
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    box-shadow: 0 2px 8px 0px rgba(0, 0, 0, 0.2);
+                }
+
+                &:after {
+                    transform: rotate(-2deg);
+                }
+
+                .card {
+                    width: 80vw;
+                    height: 40vw;
+                    border-radius: 20px;
+                    background-color: white;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    gap: 10px;
+                    box-shadow: 0 2px 8px 0px rgba(0, 0, 0, 0.2);
+                    z-index: 2;
+                    cursor: pointer;
+                    user-select: none;
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+
+                    .word {
+                        font-family: RobotoLight;
+                        font-size: clamp(16px, 5.5vw, 50px);
+                    }
+
+                    .translate {
+                        font-family: RobotoLight;
+                        font-size: clamp(18px, 4vw, 20px);
+                        color: #525465;
+                    }
+
+                    &.active {
+                        z-index: 1000;
+                        position: fixed;
+                    }
+
+                    &.i-know {
+                        background-color: #c8e8f7;
+
+                        .i-know-lable {
+                            display: block;
+                        }
+                    }
+
+                    &.is-to-learn {
+                        background-color: #ccf7c8;
+
+                        .learn-lable {
+                            display: block;
+                        }
+                    }
+
+                    .i-know-lable, .learn-lable {
+                        display: none;
+                        position: absolute;
+                        top: 20px;
+                        left: 0;
+                        width: 100%;
+                        text-align: center;
+                        font-family: RobotoLight;
+                        font-size: 16px;
+                    }
+                }
+            }
         }
     }
 

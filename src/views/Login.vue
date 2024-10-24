@@ -90,7 +90,7 @@
 
     @media(max-width: 500px) {
         .login {
-            .buttons {
+            .form {
                 min-width: 100%;
                 width: unset;
             }
