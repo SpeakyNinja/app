@@ -87,6 +87,8 @@
             errorHandler(res) {
                 if(res.code == 'is-not-full') {
                     this.$router.push('/add-words');
+                } else if(res.code == 'is-last-level') {
+                    this.$router.push('/statistics');
                 } else {
                     this.modal.show(res);
                 }
