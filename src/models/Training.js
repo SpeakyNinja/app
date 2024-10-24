@@ -7,6 +7,7 @@ export default class Training extends AbstractModel {
     memorization;
     trained_at;
     text;
+    errors = 0;
 
     deleteAnswer(answer) {
         for(let i in this.answers) {

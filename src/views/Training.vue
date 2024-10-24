@@ -61,6 +61,7 @@
         methods: {
             async nextStep(answer) {
                 if(!this.trainings.isCorrectAnswer(answer)) {
+                    this.trainings.countError();
                     this.trainings.deleteAnswer(answer);
                     this.$forceUpdate();
                     return false;

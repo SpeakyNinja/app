@@ -37,11 +37,17 @@ export default class Trainings extends AbstractCollection {
         training.trained_at = moment().utc().format();
     }
 
+    countError() {
+        const training = this.getCurrent();
+        training.errors += 1;
+    }
+
     submitAnswers() {
         const trainings = this.models.map(item => {
             return {
                 meaning_id: item.meaning_id,
-                trained_at: item.trained_at
+                trained_at: item.trained_at,
+                errors: item.errors
             };
         });
 

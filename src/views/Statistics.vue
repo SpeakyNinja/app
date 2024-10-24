@@ -1,28 +1,48 @@
 <template>
-    <div class="statistics main-bg">
+    <div class="statistics main-bg" v-if="isReady">
         
         <div class="top-fixed">
             <div class="wrapper">
-                <div class="m-size20 accuracy">Точность ответов</div>
-                <div class="m-bold mt-2 percents">95<span class="m-size46 m-light">%</span></div>
-                <div class="mt-4">10 тренировок: 98,5%</div>
+                
+                <div 
+                    class="m-size20 accuracy" 
+                    :class="{low : isLowAccuracy() , mid : isMidAccuracy()}"
+                >
+                    Точность ответов
+                </div>
+
+                <div 
+                    class="m-bold mt-2 percents" 
+                    :class="{low : isLowAccuracy() , mid : isMidAccuracy()}"
+                >
+                    {{ statService.getAccuracy() }}
+                    <span class="m-size46 m-light">%</span>
+                </div>
+
+                <!-- <div class="mt-4">10 тренировок: 98,5%</div> -->
             </div>
         </div>
 
         <div class="items">
-            <div class="item" v-for="item in items">
-                <div class="m-bold">{{ item.word }}</div>
+            <div class="item" v-for="item in statService.items">
+                <div class="m-bold">{{ item.en }}</div>
                 <div>-</div>
-                <div class="translate">{{ item.translate }}</div>
-                <Memorization :mem="item.progress" />
+                <div class="translate">{{ item.ru }}</div>
+                <Memorization :mem="item.memorization" />
             </div>
+        </div>
+
+        <div class="controls">
+            <div class="btn green" @click="toTraining()">Тренироваться</div>
         </div>
          
     </div>
 </template>
 
 <script>
+    import { inject } from 'vue';
     import Memorization from '@/components/Memorization.vue'
+    import StatService from '@/services/StatService.js';
 
     export default {
 
@@ -32,33 +52,45 @@
 
         data() {
             return {
-                items: [
-                    {word: 'spring', translate: 'ручей', progress: 11},
-                    {word: 'summer', translate: 'лето', progress: 9},
-                    {word: 'autumn', translate: 'осень', progress: 8},
-                    {word: 'winter', translate: 'зима', progress: 3},
-                    {word: 'sun', translate: 'солнце', progress: 5},
-                    {word: 'moon', translate: 'луна', progress: 8},
-                    {word: 'star', translate: 'звезда', progress: 1},
-                    {word: 'sky', translate: 'небо', progress: 0},
-                    {word: 'cloud', translate: 'облако', progress: 3},
-                    {word: 'rain', translate: 'дождь', progress: 7},
-                    {word: 'snow', translate: 'снег', progress: 1},
-                    {word: 'wind', translate: 'ветер', progress: 10},
-                    {word: 'storm', translate: 'буря', progress: 7},
-                    {word: 'lightning', translate: 'молния', progress: 7},
-                    {word: 'thunder', translate: 'гром', progress: 4},
-                    {word: 'river', translate: 'река', progress: 2},
-                    {word: 'mountain', translate: 'гора', progress: 8},
-                    {word: 'forest', translate: 'лес', progress: 1},
-                    {word: 'tree', translate: 'дерево', progress: 10},
-                    {word: 'flower', translate: 'цветок', progress: 0}
-                ]
+                isReady: false
             }
         },
 
         methods: {
-            
+            isMidAccuracy() {
+                const accuracy = this.statService.getAccuracy();
+                return accuracy >=50 && accuracy < 75;
+            },
+
+            isLowAccuracy() {
+                const accuracy = this.statService.getAccuracy();
+                return accuracy < 50;
+            },
+
+            toTraining() {
+                this.$router.push('/training');
+            }
+        },
+
+        async beforeMount() {
+            this.modal = inject('modal');
+            this.preloader = inject('preloader');
+
+            this.statService = new StatService();
+
+            try {
+                this.preloader.show = true;
+                await this.statService.fetch();
+                this.isReady = true;
+            } catch(res) {
+                if(res.code == 'training-not-found') {
+                    this.$router.push('/training');
+                } else {
+                    this.modal.show(res);
+                }
+            } finally {
+                this.preloader.show = false;
+            }
         }
     }
 </script>
@@ -93,6 +125,22 @@
                         0px 0px 20px rgba(34,240,0,0.5), 
                         0px 0px 10px rgba(34,240,0,0.25),
                         0px 0px 5px rgba(255,255,255,0.35);
+
+                    &.low {
+                        text-shadow: 
+                            0px 0px 80px rgba(240,22,0,1), 
+                            0px 0px 20px rgba(240,22,0,0.5), 
+                            0px 0px 10px rgba(240,22,0,0.25),
+                            0px 0px 5px rgba(255,255,255,0.35);
+                    }
+
+                    &.mid {
+                        text-shadow: 
+                            0px 0px 80px rgba(240,222,0,1), 
+                            0px 0px 20px rgba(240,222,0,0.5), 
+                            0px 0px 10px rgba(240,222,0,0.25),
+                            0px 0px 5px rgba(255,255,255,0.35);
+                    }
                 }
 
                 .percents {
@@ -109,6 +157,38 @@
                             0px 0px 20px rgba(34,240,0,1), 
                             0px 0px 10px rgba(34,240,0,0.25),
                             0px 0px 5px rgba(255,255,255,0.85);
+                    }
+
+                    &.low {
+                        text-shadow: 
+                            0px 0px 80px rgba(240,22,0,1), 
+                            0px 0px 50px rgba(240,22,0,1), 
+                            0px 0px 30px rgba(240,22,0,0.25), 
+                            0px 0px 20px rgba(255,255,255,0.85);
+
+                        span {
+                            text-shadow: 
+                                0px 0px 50px rgba(240,22,0,1), 
+                                0px 0px 20px rgba(240,22,0,1), 
+                                0px 0px 10px rgba(240,22,0,0.25),
+                                0px 0px 5px rgba(255,255,255,0.85);
+                        }
+                    }
+
+                    &.mid {
+                        text-shadow: 
+                            0px 0px 80px rgba(240,222,0,1), 
+                            0px 0px 50px rgba(240,222,0,1), 
+                            0px 0px 30px rgba(240,222,0,0.25), 
+                            0px 0px 20px rgba(255,255,255,0.85);
+
+                        span {
+                            text-shadow: 
+                                0px 0px 50px rgba(240,222,0,1), 
+                                0px 0px 20px rgba(240,222,0,1), 
+                                0px 0px 10px rgba(240,222,0,0.25),
+                                0px 0px 5px rgba(255,255,255,0.85);
+                        }
                     }
                 }
             }
@@ -142,6 +222,17 @@
                 .translate {
                     flex-grow: 2;
                 }
+            }
+        }
+
+        .controls {
+            margin-top: 10px;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+
+            .btn {
+                max-width: 400px;
             }
         }
     }
