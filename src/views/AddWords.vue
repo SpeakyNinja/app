@@ -106,6 +106,8 @@
                 const { x, y } = this.getCursorCoords(e);
                 this.moveAt(x, y);
                 this.updateCardStatus(y);
+                e.preventDefault();
+                e.stopImmediatePropagation();  
             },
 
             getCursorCoords(e) {
