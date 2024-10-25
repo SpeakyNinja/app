@@ -396,6 +396,8 @@
 
     @media(max-width: 550px) {
         .add-words {
+            gap: 40px;
+
             .words-wrapper {
                 width: 80vw;
                 height: 40vw;
