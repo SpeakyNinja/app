@@ -107,7 +107,7 @@
                 this.moveAt(x, y);
                 this.updateCardStatus(y);
                 e.preventDefault();
-                e.stopImmediatePropagation();  
+                e.stopPropagation();  
             },
 
             getCursorCoords(e) {
