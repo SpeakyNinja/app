@@ -329,6 +329,7 @@
                     font-family: RobotoLight;
                     font-size: clamp(18px, 4vw, 20px);
                     color: #525465;
+                    text-align: center;
                 }
 
                 &.active {
@@ -396,89 +397,21 @@
     @media(max-width: 550px) {
         .add-words {
             .words-wrapper {
-                position: relative;
                 width: 80vw;
                 height: 40vw;
-                position: relative;
+                position: fixed;
+                bottom: 50px;
+                left: 50%;
+                margin-left: -40vw;
 
                 &:before, &:after {
-                    content: '';
                     width: 80vw;
                     height: 40vw;
-                    border-radius: 20px;
-                    background-color: white;
-                    transform: rotate(4deg);
-                    z-index: 1;
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    box-shadow: 0 2px 8px 0px rgba(0, 0, 0, 0.2);
-                }
-
-                &:after {
-                    transform: rotate(-2deg);
                 }
 
                 .card {
                     width: 80vw;
                     height: 40vw;
-                    border-radius: 20px;
-                    background-color: white;
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: center;
-                    align-items: center;
-                    gap: 10px;
-                    box-shadow: 0 2px 8px 0px rgba(0, 0, 0, 0.2);
-                    z-index: 2;
-                    cursor: pointer;
-                    user-select: none;
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-
-                    .word {
-                        font-family: RobotoLight;
-                        font-size: clamp(16px, 5.5vw, 50px);
-                    }
-
-                    .translate {
-                        font-family: RobotoLight;
-                        font-size: clamp(18px, 4vw, 20px);
-                        color: #525465;
-                    }
-
-                    &.active {
-                        z-index: 1000;
-                        position: fixed;
-                    }
-
-                    &.i-know {
-                        background-color: #c8e8f7;
-
-                        .i-know-lable {
-                            display: block;
-                        }
-                    }
-
-                    &.is-to-learn {
-                        background-color: #ccf7c8;
-
-                        .learn-lable {
-                            display: block;
-                        }
-                    }
-
-                    .i-know-lable, .learn-lable {
-                        display: none;
-                        position: absolute;
-                        top: 20px;
-                        left: 0;
-                        width: 100%;
-                        text-align: center;
-                        font-family: RobotoLight;
-                        font-size: 16px;
-                    }
                 }
             }
         }
