@@ -25,9 +25,9 @@
 
         <div class="items">
             <div class="item" v-for="item in statService.items">
-                <div class="m-bold">{{ item.en }}</div>
-                <div>-</div>
-                <div class="translate">{{ item.ru }}</div>
+                <div class="text">
+                    <span class="m-bold">{{ item.en }}</span> - {{ item.ru }}
+                </div>
                 <Memorization :mem="item.memorization" />
             </div>
         </div>
@@ -41,6 +41,7 @@
 
 <script>
     import { inject } from 'vue';
+    import { nextTick } from "vue";
     import Memorization from '@/components/Memorization.vue'
     import StatService from '@/services/StatService.js';
 
@@ -82,6 +83,8 @@
                 this.preloader.show = true;
                 await this.statService.fetch();
                 this.isReady = true;
+                await nextTick();
+                window.scrollBy(0, 171);
             } catch(res) {
                 if(res.code == 'training-not-found') {
                     this.$router.push('/training');
@@ -100,8 +103,10 @@
 
     .statistics {
         flex-grow: 2;
-        padding-top: 250px;
-        
+        padding-top: 180px;
+        padding-bottom: 111px;
+        width: 100%;
+
         .top-fixed {
             position: fixed;
             top: 0;
@@ -209,7 +214,6 @@
         .items {
             display: flex;
             flex-direction: column;
-            gap: 20px;
             padding: 0 30px;
 
             .item {
@@ -218,9 +222,13 @@
                 gap: 10px;
                 color: white;
                 font-size: 22px;
+                height: 10vh;
 
-                .translate {
+                .text {
                     flex-grow: 2;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
                 }
             }
         }
@@ -230,9 +238,27 @@
             padding: 20px;
             display: flex;
             justify-content: center;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            border-top: 1px solid rgba(255,255,255,0.2);
+
+            &:before {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: 1;
+                content: "";
+                background-color: rgba(255, 255, 255, .1);
+                backdrop-filter: blur(6px);
+            }
 
             .btn {
                 max-width: 400px;
+                z-index: 2;
             }
         }
     }

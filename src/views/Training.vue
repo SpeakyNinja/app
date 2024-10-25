@@ -199,7 +199,7 @@
         .hints-wrapper {
             flex-grow: 2;
             padding: 0 20px;
-            padding-top: 160px;
+            padding-top: 99px;
             padding-bottom: 224px;
             background-color: #30313f;
 

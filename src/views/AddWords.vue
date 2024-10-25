@@ -57,6 +57,7 @@
     import IcoArrow from '@/components/icons/IcoArrow.vue';
     import IcoNeuron from '@/components/icons/IcoNeuron.vue';
     import AddWordService from '@/services/AddWordService.js';
+    import { nextTick } from "vue";
 
     export default {
         
@@ -106,8 +107,6 @@
                 const { x, y } = this.getCursorCoords(e);
                 this.moveAt(x, y);
                 this.updateCardStatus(y);
-                e.preventDefault();
-                e.stopPropagation();  
             },
 
             getCursorCoords(e) {
@@ -223,6 +222,11 @@
                 await this.addWordService.fetchWord();
                 this.updateProgress();
                 this.isReady = true;
+                
+                await this.$nextTick();
+                for(let i = 0; i < this.addWordService.data.scmCount; i++)  {
+                    this.$refs.brain.addWord('active');
+                }
             } catch(res) {
                 this.errorHandler(res);
             } finally {
