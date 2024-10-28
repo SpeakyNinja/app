@@ -35,6 +35,9 @@ export default class AbstractService {
     csrfMismatchHandler(e) {
         if(e?.response?.status == 419 && e?.response?.data?.message == 'CSRF token mismatch.') {
             window.location.reload();
+        } else if(e?.response?.status == 401) {
+            localStorage.removeItem('access_token');
+            window.location.reload();
         } else {
             throw e;
         }
