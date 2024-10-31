@@ -99,13 +99,14 @@
             },
 
             stopDrag(e) {
-                this.animateChoose(e);
+                this.animateChoose();
                 document.removeEventListener('mousemove', this.mouseMove);
                 document.removeEventListener('touchmove', this.mouseMove);
             },
 
             mouseMove(e) {
                 const { x, y } = this.getCursorCoords(e);
+                this.lastCoords = {x: x, y: y};
                 this.moveAt(x, y);
                 this.updateCardStatus(y);
             },
@@ -141,9 +142,8 @@
                 this.isToLearn = false;
             },
 
-            animateChoose(e) {
-                const { x, y } = this.getCursorCoords(e);
-                let top = y - this.start.y + 'px';
+            animateChoose() {
+                let top = this.lastCoords.y - this.start.y + 'px';
                 let status = 'pending';
                 if(this.isIknow) {
                     this.isScaling = true;
