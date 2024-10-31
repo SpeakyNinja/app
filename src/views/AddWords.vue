@@ -10,11 +10,11 @@
             </div> -->
         </div>
 
-        <div>
-            <div class="scores-wrapper mb-2">
+        <div class="mt-5">
+            <!-- <div class="scores-wrapper mb-2">
                 <IcoNeuron height="30" fill="#ebebed" />
                 <div class="scores">70 000</div>
-            </div>
+            </div> -->
 
             <Brain 
                 ref="brain" 
@@ -32,7 +32,8 @@
                     active: isActive,
                     'i-know': isIknow, 
                     'is-to-learn': isToLearn, 
-                    'scale-down-center': isScaling,
+                    'slide-out-blurred-top': (isScaling && isToLearn),
+                    'slide-out-blurred-bottom': (isScaling && isIknow),
                     'm-hidden': isCardHidden
                 }" 
                 @mousedown="startDrag"
@@ -97,8 +98,8 @@
                 document.addEventListener('touchmove', this.mouseMove);
             },
 
-            stopDrag() {
-                this.animateChoose();
+            stopDrag(e) {
+                this.animateChoose(e);
                 document.removeEventListener('mousemove', this.mouseMove);
                 document.removeEventListener('touchmove', this.mouseMove);
             },
@@ -140,16 +141,15 @@
                 this.isToLearn = false;
             },
 
-            animateChoose() {
-                let top = 0;
+            animateChoose(e) {
+                const { x, y } = this.getCursorCoords(e);
+                let top = y - this.start.y + 'px';
                 let status = 'pending';
                 if(this.isIknow) {
                     this.isScaling = true;
-                    top = '200px';
                     status = 'ready';
                 } else if(this.isToLearn) {
                     this.isScaling = true;
-                    top = '-300px';
                     status = 'active';
                 }
 
@@ -328,7 +328,7 @@
 
                 .word {
                     font-family: RobotoLight;
-                    font-size: clamp(16px, 5.5vw, 50px);
+                    font-size: clamp(16px, 7.5vw, 50px);
                 }
 
                 .translate {
@@ -372,31 +372,14 @@
             }
         }
 
-        .scale-down-center {
-            -webkit-animation: scale-down-center 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
-                    animation: scale-down-center 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+        .slide-out-blurred-top {
+            -webkit-animation: slide-out-blurred-top 0.45s cubic-bezier(0.755, 0.050, 0.855, 0.060) both;
+                    animation: slide-out-blurred-top 0.45s cubic-bezier(0.755, 0.050, 0.855, 0.060) both;
         }
-    }
 
-    @-webkit-keyframes scale-down-center {
-        0% {
-            -webkit-transform: scale(1);
-            transform: scale(1);
-        }
-        100% {
-            -webkit-transform: scale(0.2);
-            transform: scale(0.2);
-        }
-    }
-
-    @keyframes scale-down-center {
-        0% {
-            -webkit-transform: scale(1);
-            transform: scale(1);
-        }
-        100% {
-            -webkit-transform: scale(0.2);
-            transform: scale(0.2);
+        .slide-out-blurred-bottom {
+            -webkit-animation: slide-out-blurred-bottom 0.45s cubic-bezier(0.755, 0.050, 0.855, 0.060) both;
+                    animation: slide-out-blurred-bottom 0.45s cubic-bezier(0.755, 0.050, 0.855, 0.060) both;
         }
     }
 
@@ -422,6 +405,89 @@
                     height: 40vw;
                 }
             }
+        }
+    }
+
+    @-webkit-keyframes slide-out-blurred-top {
+        0% {
+            -webkit-transform: translateY(0) scaleY(1) scaleX(1);
+            transform: translateY(0) scaleY(1) scaleX(1);
+            -webkit-transform-origin: 50% 0%;
+            transform-origin: 50% 0%;
+            -webkit-filter: blur(0);
+            filter: blur(0);
+            opacity: 1;
+        }
+        100% {
+            -webkit-transform: translateY(-1000px) scaleY(2) scaleX(0.2);
+            transform: translateY(-1000px) scaleY(2) scaleX(0.2);
+            -webkit-transform-origin: 50% 0%;
+            transform-origin: 50% 0%;
+            -webkit-filter: blur(40px);
+            filter: blur(40px);
+            opacity: 0;
+        }
+    }
+    @keyframes slide-out-blurred-top {
+        0% {
+            -webkit-transform: translateY(0) scaleY(1) scaleX(1);
+            transform: translateY(0) scaleY(1) scaleX(1);
+            -webkit-transform-origin: 50% 0%;
+            transform-origin: 50% 0%;
+            -webkit-filter: blur(0);
+            filter: blur(0);
+            opacity: 1;
+        }
+        100% {
+            -webkit-transform: translateY(-1000px) scaleY(2) scaleX(0.2);
+            transform: translateY(-1000px) scaleY(2) scaleX(0.2);
+            -webkit-transform-origin: 50% 0%;
+            transform-origin: 50% 0%;
+            -webkit-filter: blur(40px);
+            filter: blur(40px);
+            opacity: 0;
+        }
+    }
+
+    @-webkit-keyframes slide-out-blurred-bottom {
+        0% {
+            -webkit-transform: translateY(0) scaleY(1) scaleX(1);
+            transform: translateY(0) scaleY(1) scaleX(1);
+            -webkit-transform-origin: 50% 50%;
+            transform-origin: 50% 50%;
+            -webkit-filter: blur(0);
+            filter: blur(0);
+            opacity: 1;
+        }
+        100% {
+            -webkit-transform: translateY(1000px) scaleY(2) scaleX(0.2);
+            transform: translateY(1000px) scaleY(2) scaleX(0.2);
+            -webkit-transform-origin: 50% 100%;
+            transform-origin: 50% 100%;
+            -webkit-filter: blur(40px);
+            filter: blur(40px);
+            opacity: 0;
+        }
+    }
+    @keyframes slide-out-blurred-bottom {
+        0% {
+            -webkit-transform: translateY(0) scaleY(1) scaleX(1);
+            transform: translateY(0) scaleY(1) scaleX(1);
+            -webkit-transform-origin: 50% 50%;
+            transform-origin: 50% 50%;
+            -webkit-filter: blur(0);
+            filter: blur(0);
+            opacity: 1;
+        }
+
+        100% {
+            -webkit-transform: translateY(1000px) scaleY(2) scaleX(0.2);
+            transform: translateY(1000px) scaleY(2) scaleX(0.2);
+            -webkit-transform-origin: 50% 100%;
+            transform-origin: 50% 100%;
+            -webkit-filter: blur(40px);
+            filter: blur(40px);
+            opacity: 0;
         }
     }
 

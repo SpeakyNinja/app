@@ -26,6 +26,12 @@ export default class Student extends AbstractModel {
         });
     }
 
+    logout() {
+        return this.request('/logout', {}, r => {
+            localStorage.removeItem("access_token");
+        });
+    }
+
     autoRegistration() {
         return this.request('/auto-registration', {}, r => {
             this.setToken(r.access_token);

@@ -8,11 +8,8 @@
                 
                 <ProgressBar :settings="progress" />
                 
-                <!-- <div class="dotted-button">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div> -->
+                <TrainingMenu @isLearned="isLearned" />
+                
             </div>
 
             <!-- <div class="muted">[part]</div> -->
@@ -42,13 +39,15 @@
     import { inject } from 'vue';
     import ProgressBar from '@/components/ProgressBar.vue'
     import Memorization from '@/components/Memorization.vue'
+    import TrainingMenu from '@/components/TrainingMenu.vue'
     import Trainings from '@/collections/Trainings.js';
 
     export default {
 
         components: {
             ProgressBar,
-            Memorization
+            Memorization,
+            TrainingMenu
         },
 
         data() {
@@ -97,6 +96,12 @@
             updateProgress() {
                 const p = this.trainings.getProgressInPercents();
                 this.progress = {width: '250px', widthFilled: `${p}%`};
+            },
+
+            isLearned() {
+                const training = this.trainings.getCurrent();
+                training.isLearned = true;
+                this.nextStep(training.text);
             }
         },
 
@@ -149,33 +154,6 @@
                 align-items: center;
                 gap: 20px;
                 z-index: 2;
-            }
-
-            .dotted-button {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                gap: 5px;
-                width: 40px;
-                height: 40px;
-                border-radius: 50%;
-                border: 1px solid #525465;
-                cursor: pointer;
-
-                span {
-                    width: 5px;
-                    height: 5px;
-                    border-radius: 50%;
-                    background-color: #525465;
-                }
-
-                &:hover {
-                    border: 1px solid #9091a1;
-
-                    span {
-                        background-color: #9091a1;
-                    }
-                }
             }
 
             .muted {

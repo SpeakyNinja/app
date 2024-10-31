@@ -47,7 +47,8 @@ export default class Trainings extends AbstractCollection {
             return {
                 meaning_id: item.meaning_id,
                 trained_at: item.trained_at,
-                errors: item.errors
+                errors: item.errors,
+                is_learned: item.isLearned
             };
         });
 
