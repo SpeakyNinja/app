@@ -195,9 +195,9 @@
                 if(res.code == 'scm-not-found') {
                     this.$router.push('/test');
                 } else if(res.code == 'dict-is-full') {
-                    this.nextStep();
+                    this.$router.push('/statistics');
                 } else if(res.code == 'meaning-not-found') {
-                    this.nextStep();
+                    this.$router.push('/statistics');
                 } else {
                     this.modal.show(res);
                 }

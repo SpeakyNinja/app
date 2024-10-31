@@ -2,13 +2,13 @@
     <div class="test main-bg" v-if="isReady">
 
         <div class="word-wrapper">
-            <div class="word">{{testService.question.word}}</div>
+            <div class="word">{{testService?.question?.word}}</div>
 
             <Timer ref="timer" @isFinish="submit" />
         </div>
 
         <div class="dialog-controls">
-            <div class="item" @click="submit(answer)" v-for="answer in testService.question.answers">
+            <div class="item" @click="submit(answer)" v-for="answer in testService?.question?.answers">
                 {{ answer }}
             </div>
             <div class="item soft" @click="submit()">
