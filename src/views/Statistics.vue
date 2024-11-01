@@ -6,17 +6,16 @@
                 
                 <div 
                     class="m-size20 accuracy" 
-                    :class="{low : isLowAccuracy() , mid : isMidAccuracy()}"
+                    :class="accuracyCssClass"
                 >
                     Точность ответов
                 </div>
 
                 <div 
-                    class="m-bold mt-2 percents" 
-                    :class="{low : isLowAccuracy() , mid : isMidAccuracy()}"
+                    class="percents" 
+                    :class="accuracyCssClass"
                 >
-                    {{ statService.getAccuracy() }}
-                    <span class="m-size46 m-light">%</span>
+                    {{ statService.getAccuracy() }}<span class="m-size46 m-light">%</span>
                 </div>
 
                 <!-- <div class="mt-4">10 тренировок: 98,5%</div> -->
@@ -26,7 +25,7 @@
         <div class="items">
             <div class="item" v-for="item in statService.items">
                 <div class="text">
-                    <span class="m-bold">{{ item.en }}</span> - {{ item.ru }}
+                    <span class="m-bold">{{ item.en }}</span><span class="m-light"> - {{ item.ru }}</span>
                 </div>
                 <Memorization :mem="item.memorization" />
             </div>
@@ -58,14 +57,20 @@
         },
 
         methods: {
-            isMidAccuracy() {
+            makeAccuracyCssClass() {
                 const accuracy = this.statService.getAccuracy();
-                return accuracy >=50 && accuracy < 75;
-            },
+                let level = 5;
+                if(accuracy == 100) {
+                    level = 1;
+                } else if(accuracy >= 95) {
+                    level = 2;
+                } else if(accuracy >= 90) {
+                    level = 3;
+                } else if(accuracy >= 85) {
+                    level = 4;
+                }
 
-            isLowAccuracy() {
-                const accuracy = this.statService.getAccuracy();
-                return accuracy < 50;
+                this.accuracyCssClass = `accuracy-${level}`;
             },
 
             toTraining() {
@@ -82,6 +87,7 @@
             try {
                 this.preloader.show = true;
                 await this.statService.fetch();
+                this.makeAccuracyCssClass();
                 this.isReady = true;
                 await nextTick();
                 window.scrollBy(0, 171);
@@ -103,7 +109,7 @@
 
     .statistics {
         flex-grow: 2;
-        padding-top: 180px;
+        padding-top: 215px;
         padding-bottom: 111px;
         width: 100%;
 
@@ -120,67 +126,96 @@
                 display: flex;
                 flex-direction: column;
                 align-items: center;
-                padding: 30px 10px;
+                padding: 55px 10px;
                 color: white;
                 border-bottom: 1px solid rgba(255,255,255,0.2);
 
                 .accuracy {
-                    text-shadow: 
-                        0px 0px 80px rgba(34,240,0,1), 
-                        0px 0px 20px rgba(34,240,0,0.5), 
-                        0px 0px 10px rgba(34,240,0,0.25),
-                        0px 0px 5px rgba(255,255,255,0.35);
-
-                    &.low {
+                    &.accuracy-1 {
                         text-shadow: 
-                            0px 0px 80px rgba(240,22,0,1), 
-                            0px 0px 20px rgba(240,22,0,0.5), 
-                            0px 0px 10px rgba(240,22,0,0.25),
+                            0px 0px 80px rgba(9,190,255,1), 
+                            0px 0px 20px rgba(9,190,255,0.5), 
+                            0px 0px 10px rgba(9,190,255,0.25),
                             0px 0px 5px rgba(255,255,255,0.35);
                     }
 
-                    &.mid {
+                    &.accuracy-2 {
+                        text-shadow: 
+                            0px 0px 80px rgba(34,240,0,1), 
+                            0px 0px 20px rgba(34,240,0,0.5), 
+                            0px 0px 10px rgba(34,240,0,0.25),
+                            0px 0px 5px rgba(255,255,255,0.35);
+                    }
+
+                    &.accuracy-3 {
                         text-shadow: 
                             0px 0px 80px rgba(240,222,0,1), 
                             0px 0px 20px rgba(240,222,0,0.5), 
                             0px 0px 10px rgba(240,222,0,0.25),
                             0px 0px 5px rgba(255,255,255,0.35);
                     }
+
+                    &.accuracy-4 {
+                        text-shadow: 
+                            0px 0px 80px rgba(255,97,22,1), 
+                            0px 0px 20px rgba(255,97,22,0.5), 
+                            0px 0px 10px rgba(255,97,22,0.25),
+                            0px 0px 5px rgba(255,255,255,0.35);
+                    }
+
+                    &.accuracy-5 {
+                        text-shadow: 
+                            0px 0px 80px rgba(240,22,0,1), 
+                            0px 0px 20px rgba(240,22,0,0.5), 
+                            0px 0px 10px rgba(240,22,0,0.25),
+                            0px 0px 5px rgba(255,255,255,0.35);
+                    }
                 }
 
                 .percents {
                     font-size: 56px;
-                    text-shadow: 
-                        0px 0px 80px rgba(34,240,0,1), 
-                        0px 0px 50px rgba(34,240,0,1), 
-                        0px 0px 30px rgba(34,240,0,0.25), 
-                        0px 0px 20px rgba(255,255,255,0.85);
+                    font-family: RobotoBold;
+                    padding-left: 40px;
+                    display: flex;
+                    gap: 5px;
+                    align-items: flex-end;
+                    line-height: 0.9;
+                    margin-top: 30px;
 
-                    span {
+                    &.accuracy-1 {
                         text-shadow: 
-                            0px 0px 50px rgba(34,240,0,1), 
-                            0px 0px 20px rgba(34,240,0,1), 
-                            0px 0px 10px rgba(34,240,0,0.25),
-                            0px 0px 5px rgba(255,255,255,0.85);
-                    }
-
-                    &.low {
-                        text-shadow: 
-                            0px 0px 80px rgba(240,22,0,1), 
-                            0px 0px 50px rgba(240,22,0,1), 
-                            0px 0px 30px rgba(240,22,0,0.25), 
+                            0px 0px 80px rgba(9,190,255,1), 
+                            0px 0px 50px rgba(9,190,255,1), 
+                            0px 0px 30px rgba(9,190,255,0.25), 
                             0px 0px 20px rgba(255,255,255,0.85);
-
+                        
                         span {
                             text-shadow: 
-                                0px 0px 50px rgba(240,22,0,1), 
-                                0px 0px 20px rgba(240,22,0,1), 
-                                0px 0px 10px rgba(240,22,0,0.25),
+                                0px 0px 50px rgba(9,190,255,1), 
+                                0px 0px 20px rgba(9,190,255,1), 
+                                0px 0px 10px rgba(9,190,255,0.25),
                                 0px 0px 5px rgba(255,255,255,0.85);
                         }
                     }
 
-                    &.mid {
+
+                    &.accuracy-2 {
+                        text-shadow: 
+                            0px 0px 80px rgba(34,240,0,1), 
+                            0px 0px 50px rgba(34,240,0,1), 
+                            0px 0px 30px rgba(34,240,0,0.25), 
+                            0px 0px 20px rgba(255,255,255,0.85);
+                        
+                        span {
+                            text-shadow: 
+                                0px 0px 50px rgba(34,240,0,1), 
+                                0px 0px 20px rgba(34,240,0,1), 
+                                0px 0px 10px rgba(34,240,0,0.25),
+                                0px 0px 5px rgba(255,255,255,0.85);
+                        }
+                    }
+
+                    &.accuracy-3 {
                         text-shadow: 
                             0px 0px 80px rgba(240,222,0,1), 
                             0px 0px 50px rgba(240,222,0,1), 
@@ -192,6 +227,38 @@
                                 0px 0px 50px rgba(240,222,0,1), 
                                 0px 0px 20px rgba(240,222,0,1), 
                                 0px 0px 10px rgba(240,222,0,0.25),
+                                0px 0px 5px rgba(255,255,255,0.85);
+                        }
+                    }
+
+                    &.accuracy-4 {
+                        text-shadow: 
+                            0px 0px 80px rgba(255,97,22,1), 
+                            0px 0px 50px rgba(255,97,22,1), 
+                            0px 0px 30px rgba(255,97,22,0.25), 
+                            0px 0px 20px rgba(255,255,255,0.85);
+
+                        span {
+                            text-shadow: 
+                                0px 0px 50px rgba(255,97,22,1), 
+                                0px 0px 20px rgba(255,97,22,1), 
+                                0px 0px 10px rgba(255,97,22,0.25),
+                                0px 0px 5px rgba(255,255,255,0.85);
+                        }
+                    }
+
+                    &.accuracy-5 {
+                        text-shadow: 
+                            0px 0px 80px rgba(240,22,0,1), 
+                            0px 0px 50px rgba(240,22,0,1), 
+                            0px 0px 30px rgba(240,22,0,0.25), 
+                            0px 0px 20px rgba(255,255,255,0.85);
+
+                        span {
+                            text-shadow: 
+                                0px 0px 50px rgba(240,22,0,1), 
+                                0px 0px 20px rgba(240,22,0,1), 
+                                0px 0px 10px rgba(240,22,0,0.25),
                                 0px 0px 5px rgba(255,255,255,0.85);
                         }
                     }
@@ -214,7 +281,7 @@
         .items {
             display: flex;
             flex-direction: column;
-            padding: 0 30px;
+            padding: 0 40px;
 
             .item {
                 display: flex;

@@ -6,6 +6,15 @@ export default class StatService extends AbstractService {
     fetch() {
         return this.request('/training/stat', {}, r => {
             this.items = r.stat;
+            this.items.sort((a, b) => {
+                if(a.memorization < b.memorization) {
+                    return 1;
+                }
+                if(a.memorization > b.memorization) {
+                    return -1;
+                }
+                return 0;
+            });
         });
     }
 

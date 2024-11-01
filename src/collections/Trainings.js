@@ -1,10 +1,12 @@
 import AbstractCollection from '@/collections/AbstractCollection.js';
+import ToolsService from '@/services/ToolsService.js';
 import Training from '@/models/Training.js';
 import moment from 'moment';
 
 export default class Trainings extends AbstractCollection {
     constructor(items = []) {
         super(items);
+        this.tools = new ToolsService();
     }
 
     getObject(typeId) {
@@ -14,6 +16,7 @@ export default class Trainings extends AbstractCollection {
     fetch() {
         return this.request('/training/get', {}, r => {
             this.reset(r.data);
+            this.shuffle();
         });
     }
 
@@ -77,6 +80,13 @@ export default class Trainings extends AbstractCollection {
             currentIndex++;
         }
 
-        return currentIndex * 100 / this.models.length;
+        return Math.round( currentIndex * 100 / (this.models.length - 1) );
+    }
+
+    shuffle() {
+        this.models = this.tools.shuffle(this.models);
+        this.models.forEach(item => {
+            item.hints = this.tools.shuffle(item.hints);
+        });  
     }
 }

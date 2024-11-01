@@ -18,7 +18,7 @@
         <div class="hints-wrapper">
             <div class="hints">
                 <div v-for="hint in trainings.getCurrent().hints" class="hint">
-                    <p v-html="hint"></p>
+                    <p class="m-light" v-html="hint"></p>
                 </div>
             </div>
         </div>
@@ -176,7 +176,7 @@
 
         .hints-wrapper {
             flex-grow: 2;
-            padding: 0 20px;
+            padding: 0 40px;
             padding-top: 99px;
             padding-bottom: 224px;
             background-color: #30313f;

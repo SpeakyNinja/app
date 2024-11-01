@@ -1,9 +1,9 @@
 <template>
     <div class="preloader" v-if="isEnabled">
         <div class="mask"></div>
-        <div class="spinner">
+        <!-- <div class="spinner">
             <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
-        </div>
+        </div> -->
     </div>
 </template>
 

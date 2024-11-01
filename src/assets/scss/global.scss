@@ -253,3 +253,16 @@ b {
         font-size: $value;
     }
 }
+
+.training {
+
+    .hint {
+        white-space: pre-wrap;
+
+        p {
+            b {
+                color: #b5ffb1;
+            }
+        }
+    }
+}
