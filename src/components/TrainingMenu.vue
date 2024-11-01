@@ -8,7 +8,7 @@
 
         <div class="menu" :class="{'active' : isActive}">
             <div class="item" @click="isLearned">Выучил это слово</div>
-            <div class="item" @click="logout">Выйти</div>
+            <div class="item" @click="logout">Разлогиниться</div>
         </div>
     </div>
 </template>
