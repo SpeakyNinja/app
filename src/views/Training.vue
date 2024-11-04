@@ -160,7 +160,7 @@
                 display: flex;
                 align-items: center;
                 gap: 20px;
-                z-index: 2;
+                z-index: 3;
             }
 
             .muted {

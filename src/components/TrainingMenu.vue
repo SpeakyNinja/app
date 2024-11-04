@@ -1,5 +1,5 @@
 <template>
-    <div class="menu">
+    <div class="menu no-select">
         <div class="dotted-button js-button" @click="showMenu">
             <span class="js-button"></span>
             <span class="js-button"></span>
