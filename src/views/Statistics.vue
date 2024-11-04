@@ -15,7 +15,7 @@
                     class="percents" 
                     :class="accuracyCssClass"
                 >
-                    {{ statService.getAccuracy() }}<span class="m-size46 m-light">%</span>
+                    {{ statService.getAccuracy() }}<span class="sign">%</span>
                 </div>
 
                 <!-- <div class="mt-4">10 тренировок: 98,5%</div> -->
@@ -25,9 +25,9 @@
         <div class="items">
             <div class="item" v-for="item in statService.items">
                 <div class="text">
-                    <span class="m-bold">{{ item.en }}</span><span class="m-light"> - {{ item.ru }}</span>
+                    <span class="en">{{ item.en }}</span><span class="m-light"> — {{ item.ru }}</span>
                 </div>
-                <Memorization :mem="item.memorization" />
+                <Memorization :mem="item.memorization" fill="transparent" />
             </div>
         </div>
 
@@ -173,14 +173,19 @@
                 }
 
                 .percents {
-                    font-size: 56px;
-                    font-family: RobotoBold;
+                    font-size: 68px;
+                    font-family: RobotoBlack;
                     padding-left: 40px;
                     display: flex;
                     gap: 5px;
                     align-items: flex-end;
                     line-height: 0.9;
                     margin-top: 30px;
+
+                    .sign {
+                        font-size: 68px;
+                        font-family: RobotoLight;
+                    }
 
                     &.accuracy-1 {
                         text-shadow: 
@@ -273,8 +278,8 @@
                 height: 100%;
                 z-index: 1;
                 content: "";
-                background-color: rgba(255, 255, 255, .1);
-                backdrop-filter: blur(6px);
+                background-color: rgba(37, 38, 53, .5);
+                backdrop-filter: blur(8px);
             }
         }
 
@@ -296,6 +301,20 @@
                     overflow: hidden;
                     text-overflow: ellipsis;
                     white-space: nowrap;
+                    color: #98989f;
+
+                    .en {
+                        font-size: 20px;
+                        font-family: RobotoBold;
+                        color: #eaeaeb;
+
+                        display: inline-block;
+                        text-transform: lowercase;
+
+                        &:first-letter {
+                            text-transform: uppercase;
+                        }
+                    }
                 }
             }
         }
@@ -319,12 +338,12 @@
                 height: 100%;
                 z-index: 1;
                 content: "";
-                background-color: rgba(255, 255, 255, .1);
-                backdrop-filter: blur(6px);
+                background-color: rgba(37, 38, 53, .5);
+                backdrop-filter: blur(8px);
             }
 
             .btn {
-                max-width: 400px;
+                max-width: 250px;
                 z-index: 2;
             }
         }

@@ -5,6 +5,7 @@
         :strokeWidth="strokeWidth"
         :stroke="map[this.mem]?.stroke"
         :filledStroke="map[this.mem]?.filledStroke"
+        :fill="fill"
     />
 </template>
 
@@ -35,6 +36,11 @@
                 type: Number,
                 required: false,
                 default: 12
+            },
+            fill: {
+                type: String,
+                required: false,
+                default: 'transparent'
             }
         },
 

@@ -255,13 +255,13 @@
     }
 
     .fade-out-top {
-        -webkit-animation: fade-out-top 0.7s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
-                animation: fade-out-top 0.7s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+        -webkit-animation: fade-out-top 0.35s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+                animation: fade-out-top 0.35s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
     }
 
     .fade-out-bottom {
-        -webkit-animation: fade-out-bottom 0.7s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
-                animation: fade-out-bottom 0.7s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+        -webkit-animation: fade-out-bottom 0.35s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+                animation: fade-out-bottom 0.35s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
     }
 
     @-webkit-keyframes fade-out-top {

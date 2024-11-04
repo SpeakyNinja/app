@@ -12,7 +12,7 @@
                 
             </div>
 
-            <!-- <div class="muted">[part]</div> -->
+            <div class="muted m-light m-size20 transcription">{{ trainings.getCurrent().word }}</div>
         </div>
 
         <div class="hints-wrapper">
@@ -25,10 +25,11 @@
 
         <div class="dialog-controls">
             <div 
-                class="item" 
+                class="item no-select"
                 v-for="answer in trainings.getCurrent().answers" 
                 @click="nextStep(answer)"
             >
+                <div class="highlight" v-if="highlitedAnswer == answer"></div>
                 {{ answer }}
             </div>
         </div> 
@@ -53,12 +54,13 @@
         data() {
             return {
                 progress: {},
-                isReady: false
+                isReady: false,
+                highlitedAnswer: ''
             }
         },
 
         methods: {
-            async nextStep(answer) {
+            nextStep(answer) {
                 if(!this.trainings.isCorrectAnswer(answer)) {
                     this.trainings.countError();
                     this.trainings.deleteAnswer(answer);
@@ -66,21 +68,25 @@
                     return false;
                 }
 
-                this.trainings.setAnswer();
-                if(this.trainings.isFinish()) {
-                    try {
-                        this.preloader.show = true;
-                        const r = await this.trainings.submitAnswers();
-                        this.$router.push('/statistics');
-                    } catch(res) {
-                        this.errorHandler(res);
-                    } finally {
-                        this.preloader.show = false;
+                this.highlitedAnswer = answer;
+                setTimeout(async () => {
+                    this.trainings.setAnswer();
+                    if(this.trainings.isFinish()) {
+                        try {
+                            this.preloader.show = true;
+                            const r = await this.trainings.submitAnswers();
+                            this.$router.push('/statistics');
+                        } catch(res) {
+                            this.errorHandler(res);
+                        } finally {
+                            this.preloader.show = false;
+                            this.highlitedAnswer = '';
+                        }
+                    } else {
+                        this.updateProgress();
+                        this.$forceUpdate();
                     }
-                } else {
-                    this.updateProgress();
-                    this.$forceUpdate();
-                }
+                }, 400);
             },
 
             errorHandler(res) {
@@ -94,8 +100,9 @@
             },
 
             updateProgress() {
+                const width = document.body.clientWidth > 430 ? 250 : 200;
                 const p = this.trainings.getProgressInPercents();
-                this.progress = {width: '250px', widthFilled: `${p}%`};
+                this.progress = {width: `${width}px`, widthFilled: `${p}%`};
             },
 
             isLearned() {
@@ -145,8 +152,8 @@
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            gap: 30px;
-
+            gap: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
             padding: 30px 0;
 
             .top {
@@ -169,15 +176,19 @@
                 height: 100%;
                 z-index: 1;
                 content: "";
-                background-color: rgba(48, 49, 63, .75);
-                backdrop-filter: blur(6px);
+                background-color: rgba(37, 38, 53, .5);
+                backdrop-filter: blur(8px);
+            }
+
+            .transcription {
+                letter-spacing: 1px;
             }
         }
 
         .hints-wrapper {
             flex-grow: 2;
             padding: 0 40px;
-            padding-top: 99px;
+            padding-top: 165px;
             padding-bottom: 224px;
             background-color: #30313f;
 
@@ -186,13 +197,15 @@
                 flex-direction: column;
                 justify-content: center;
                 align-items: flex-start;
-                gap: 30px;
+                gap: 40px;
 
                 .hint {
 
                     p {
-                        color: #d5d5dd;
+                        color: #acadb2;
                         font-size: 20px;
+                        line-height: 1.4;
+                        letter-spacing: 1px;
                     }
                 }
             }
@@ -203,13 +216,30 @@
             position: fixed;
             bottom: 0;
             left: 0;
+            border-top: 1px solid rgba(255,255,255,0.2);
 
             .item {
                 z-index: 2;
                 width: 450px;
+                letter-spacing: 1px;
+                position: relative;
+                overflow: hidden;
 
                 &.soft {
                     color: #a94c4c;
+                }
+
+                .highlight {
+                    content: '';
+                    position: absolute;
+                    left: 15%;
+                    top: 40%;
+                    z-index: -1;
+                    width: 70%;
+                    height: 20%;
+                    background-color: rgba(20, 255, 0, .75);
+                    filter: blur(18px);
+                    border-radius: 50px;
                 }
             }
 
@@ -221,8 +251,8 @@
                 height: 100%;
                 z-index: 1;
                 content: "";
-                background-color: rgba(48, 49, 63, .75);
-                backdrop-filter: blur(6px);
+                background-color: rgba(37, 38, 53, .5);
+                backdrop-filter: blur(8px);
             }
         }
     }

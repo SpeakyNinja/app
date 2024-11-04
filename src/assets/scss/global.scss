@@ -139,6 +139,7 @@ b {
         max-width: 500px;
         display: flex;
         justify-content: center;
+        text-align: center;
         padding: 20px 50px;
         cursor: pointer;
         border-top: 1px solid #ebebed;
@@ -146,8 +147,8 @@ b {
         border-image-slice: 1;
         flex-grow: 2;
 
-        &:last-child {
-            border-bottom: 1px solid #ebebed;
+        &:first-child {
+            border-top: none;
         }
     }
 }
@@ -210,6 +211,16 @@ b {
     display: none!important;
 }
 
+.no-select {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
 @for $i from 0 through 10 {
     $value: 10px * $i;
 
@@ -261,7 +272,8 @@ b {
 
         p {
             b {
-                color: #b5ffb1;
+                // color: #b5ffb1;
+                color: white;
             }
         }
     }
