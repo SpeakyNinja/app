@@ -109,7 +109,7 @@
 
     .statistics {
         flex-grow: 2;
-        padding-top: 215px;
+        padding-top: 226px;
         padding-bottom: 111px;
         width: 100%;
 
