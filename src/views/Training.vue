@@ -4,7 +4,7 @@
         <div class="top-fixed">
             <div class="top">
                 
-                <Memorization :mem="trainings.getCurrent().memorization" />
+                <Memorization :mem="trainings.getCurrent()?.memorization" />
                 
                 <ProgressBar :settings="progress" />
                 
@@ -12,12 +12,12 @@
                 
             </div>
 
-            <div class="muted m-light m-size20 transcription">{{ trainings.getCurrent().word }}</div>
+            <div class="muted m-light m-size20 transcription">{{ trainings.getCurrent()?.word }}</div>
         </div>
 
         <div class="hints-wrapper">
             <div class="hints">
-                <div v-for="hint in trainings.getCurrent().hints" class="hint">
+                <div v-for="hint in trainings.getCurrent()?.hints" class="hint">
                     <p class="m-light" v-html="hint"></p>
                 </div>
             </div>
@@ -26,7 +26,7 @@
         <div class="dialog-controls">
             <div 
                 class="item no-select"
-                v-for="answer in trainings.getCurrent().answers" 
+                v-for="answer in trainings.getCurrent()?.answers" 
                 @click="nextStep(answer)"
             >
                 <div class="highlight" v-if="highlitedAnswer == answer"></div>
