@@ -7,4 +7,14 @@ export default class ToolsService {
 
         return items;
     }
+
+    playAudio(voice) {
+    	if(voice) {
+            try {
+            	const audio = new Audio(`data:audio/mpeg;base64,${voice}`);
+                audio.play();
+            } catch(e) {
+            }
+        }
+    }
 }

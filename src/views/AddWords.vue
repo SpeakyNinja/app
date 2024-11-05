@@ -37,6 +37,7 @@
     import IcoNeuron from '@/components/icons/IcoNeuron.vue';
     import WordCards from '@/components/WordCards.vue';
     import AddWordService from '@/services/AddWordService.js';
+    import ToolsService from '@/services/ToolsService.js';
     import { nextTick } from "vue";
 
     export default {
@@ -71,6 +72,7 @@
                 try {
                     this.preloader.show = true;
                     const r = await this.addWordService.rateWord(status == 'active');
+                    this.toolsService.playAudio(this.addWordService.data.voice);
                     this.updateProgress();
                     this.$forceUpdate();
                     this.$refs.wordCards.restoreCard();
@@ -106,10 +108,13 @@
         async beforeMount() {
             this.modal = inject('modal');
             this.preloader = inject('preloader');
+            
+            this.toolsService = new ToolsService();
             this.addWordService = new AddWordService();
             try {
                 this.preloader.show = true;
                 await this.addWordService.fetchWord();
+                this.toolsService.playAudio(this.addWordService.data.voice);
                 this.countSteps = this.addWordService.data.leftWords;
                 this.updateProgress();
                 this.isReady = true;

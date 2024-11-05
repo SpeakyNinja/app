@@ -42,6 +42,7 @@
     import Memorization from '@/components/Memorization.vue'
     import TrainingMenu from '@/components/TrainingMenu.vue'
     import Trainings from '@/collections/Trainings.js';
+    import ToolsService from '@/services/ToolsService.js';
 
     export default {
 
@@ -85,6 +86,7 @@
                     } else {
                         this.updateProgress();
                         this.$forceUpdate();
+                        this.playAudio();
                     }
                 }, 400);
             },
@@ -109,6 +111,11 @@
                 const training = this.trainings.getCurrent();
                 training.isLearned = true;
                 this.nextStep(training.text);
+            },
+
+            playAudio() {
+                const training = this.trainings.getCurrent();
+                this.toolsService.playAudio(training.voice);
             }
         },
 
@@ -116,11 +123,13 @@
             this.modal = inject('modal');
             this.preloader = inject('preloader');
 
+            this.toolsService = new ToolsService();
             this.trainings = new Trainings();
 
             try {
                 this.preloader.show = true;
                 await this.trainings.fetch();
+                this.playAudio();
                 this.updateProgress();
                 this.isReady = true;
             } catch(res) {

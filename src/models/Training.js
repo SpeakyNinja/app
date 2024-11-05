@@ -9,6 +9,7 @@ export default class Training extends AbstractModel {
     text;
     errors = 0;
     isLearned = false;
+    voice = null;
 
     deleteAnswer(answer) {
         for(let i in this.answers) {
