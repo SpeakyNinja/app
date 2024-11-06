@@ -12,7 +12,9 @@
                 
             </div>
 
-            <div class="muted m-light m-size20 transcription">{{ trainings.getCurrent()?.word }}</div>
+            <div class="muted m-light m-size20 m-pointer transcription" @click="playAudio">
+                {{ trainings.getCurrent()?.word }}
+            </div>
         </div>
 
         <div class="hints-wrapper">
@@ -113,15 +115,17 @@
                 this.nextStep(training.text);
             },
 
-            playAudio() {
+            async playAudio() {
                 const training = this.trainings.getCurrent();
-                this.toolsService.playAudio(training.voice);
+                const voice = await training.getNextVoice(this.student.getId());
+                this.toolsService.playAudio(voice);
             }
         },
 
         async beforeMount() {
             this.modal = inject('modal');
             this.preloader = inject('preloader');
+            this.student = inject('student');
 
             this.toolsService = new ToolsService();
             this.trainings = new Trainings();

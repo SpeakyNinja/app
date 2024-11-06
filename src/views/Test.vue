@@ -22,6 +22,7 @@
     import { inject } from 'vue';
     import Timer from '@/components/Timer.vue'
     import TestService from '@/services/TestService.js'
+    import ToolsService from '@/services/ToolsService.js';
 
     export default {
         name: "Test",
@@ -46,6 +47,7 @@
                     if(this.testService.question) {
                         this.$refs.timer.reset();
                         this.$forceUpdate();
+                        this.toolsService.playAudio(this.testService.voice);
                     } else {
                         this.$refs.timer.stop();
                         this.$router.push('/add-words');
@@ -62,10 +64,12 @@
             this.modal = inject('modal');
             this.preloader = inject('preloader');
             this.testService = new TestService();
+            this.toolsService = new ToolsService();
             
             try {
                 this.preloader.show = true;
                 await this.testService.fetchQuestion();
+                this.toolsService.playAudio(this.testService.voice);
                 if(!this.testService.question) {
                     this.$router.push('/add-words');
                 }

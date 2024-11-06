@@ -72,7 +72,7 @@
                 try {
                     this.preloader.show = true;
                     const r = await this.addWordService.rateWord(status == 'active');
-                    this.toolsService.playAudio(this.addWordService.data.voice);
+                    this.toolsService.playAudio(this.addWordService.voice());
                     this.updateProgress();
                     this.$forceUpdate();
                     this.$refs.wordCards.restoreCard();
@@ -114,7 +114,7 @@
             try {
                 this.preloader.show = true;
                 await this.addWordService.fetchWord();
-                this.toolsService.playAudio(this.addWordService.data.voice);
+                this.toolsService.playAudio(this.addWordService.voice());
                 this.countSteps = this.addWordService.data.leftWords;
                 this.updateProgress();
                 this.isReady = true;
