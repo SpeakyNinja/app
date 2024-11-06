@@ -4,6 +4,8 @@ import Training from '@/models/Training.js';
 import moment from 'moment';
 
 export default class Trainings extends AbstractCollection {
+    serverTimeDelta = 0;
+
     constructor(items = []) {
         super(items);
         this.tools = new ToolsService();
@@ -15,6 +17,7 @@ export default class Trainings extends AbstractCollection {
 
     fetch() {
         return this.request('/training/get', {}, r => {
+            this.serverTimeDelta = moment().unix() - r.now;
             this.reset(r.data);
             this.shuffle();
         });
@@ -37,7 +40,7 @@ export default class Trainings extends AbstractCollection {
 
     setAnswer() {
         const training = this.getCurrent();
-        training.trained_at = moment().utc().format();
+        training.trained_at = moment().unix() + this.serverTimeDelta;
     }
 
     countError() {

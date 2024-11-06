@@ -4,7 +4,7 @@
         <div class="top-fixed">
             <div class="top">
                 
-                <Memorization :mem="trainings.getCurrent()?.memorization" />
+                <Memorization :mem="trainings.getCurrent()?.memorization || 0" />
                 
                 <ProgressBar :settings="progress" />
                 
