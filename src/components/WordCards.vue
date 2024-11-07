@@ -27,6 +27,7 @@
 <script>
     import AddWordService from '@/services/AddWordService.js';
     import ToolsService from '@/services/ToolsService.js';
+    import { inject } from 'vue';
 
     export default {
         components: {
@@ -151,14 +152,19 @@
 
             playVoice() {
                 if(Date.now() - this.stardDragTime < 150) {
+                    this.preloader.show = true;
                     const voices = this.addWordService.data?.voices;
                     const voice = this.toolsService.getNextItem(voices);
                     this.toolsService.playAudio(voice?.base64);
+                    setTimeout(() => {
+                        this.preloader.show = false;
+                    }, 1500);
                 }
             }
         },
 
         beforeMount() {
+            this.preloader = inject('preloader');
             this.toolsService = new ToolsService();
             this.toolsService.nextItemIndex = 0;
         }
