@@ -2,7 +2,7 @@
     <div class="test main-bg" v-if="isReady">
 
         <div class="word-wrapper">
-            <div class="word">{{testService?.question?.word}}</div>
+            <div class="word" @click="playAudio()">{{testService?.question?.word}}</div>
 
             <Timer ref="timer" @isFinish="submit" />
         </div>
@@ -47,7 +47,7 @@
                     if(this.testService.question) {
                         this.$refs.timer.reset();
                         this.$forceUpdate();
-                        this.toolsService.playAudio(this.testService.voice);
+                        this.playAudio();
                     } else {
                         this.$refs.timer.stop();
                         this.$router.push('/add-words');
@@ -57,6 +57,10 @@
                 } finally {
                     this.preloader.show = false;
                 }
+            },
+
+            playAudio() {
+                this.toolsService.playAudio(this.testService.voice);
             }
         },
 
@@ -69,8 +73,9 @@
             try {
                 this.preloader.show = true;
                 await this.testService.fetchQuestion();
-                this.toolsService.playAudio(this.testService.voice);
-                if(!this.testService.question) {
+                if(this.testService.question) {
+                    this.playAudio();
+                } else {
                     this.$router.push('/add-words');
                 }
             } catch(res) {

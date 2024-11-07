@@ -75,6 +75,8 @@
                 }
 
                 this.highlitedAnswer = answer;
+                this.playAudio();
+                this.preloader.show = true;
                 setTimeout(async () => {
                     this.stopTimer();
                     this.trainings.setAnswer(this.elapsedTime);
@@ -88,14 +90,16 @@
                         } finally {
                             this.preloader.show = false;
                             this.highlitedAnswer = '';
+                            this.preloader.show = false;
                         }
                     } else {
                         this.updateProgress();
                         this.$forceUpdate();
                         this.playAudio();
                         this.startTimer();
+                        this.preloader.show = false;
                     }
-                }, 400);
+                }, 1500);
             },
 
             errorHandler(res) {

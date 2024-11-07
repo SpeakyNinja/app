@@ -1,7 +1,7 @@
 <template>
     <div class="words-wrapper" ref="cardWrapper">
         <div 
-            class="card" 
+            class="card no-select" 
             :class="{
                 active: isActive,
                 'i-know': isIknow, 
@@ -26,6 +26,7 @@
 
 <script>
     import AddWordService from '@/services/AddWordService.js';
+    import ToolsService from '@/services/ToolsService.js';
 
     export default {
         components: {
@@ -44,12 +45,14 @@
                 isIknow: false,
                 isToLearn: false,
                 isScaling: false,
-                isCardHidden: false
+                isCardHidden: false,
+                stardDragTime: null
             }
         },
 
         methods: {
             startDrag(e) {
+                this.stardDragTime = Date.now();
                 this.isActive = true;
                 this.start = this.getCursorCoords(e);
                 this.moveAt(this.start.x, this.start.y);
@@ -58,6 +61,7 @@
             },
 
             stopDrag(e) {
+                this.playVoice();
                 this.animateChoose();
                 document.removeEventListener('mousemove', this.mouseMove);
                 document.removeEventListener('touchmove', this.mouseMove);
@@ -102,6 +106,10 @@
             },
 
             animateChoose() {
+                if(!this.lastCoords) {
+                    return false;
+                }
+
                 let timeout = 400;
                 let status = 'pending';
                 if(this.isIknow) {
@@ -127,7 +135,10 @@
                         this.restoreCard();
                     } else {
                         this.$emit('addWord', status);
+                        this.toolsService.nextItemIndex = 0;
                     }
+
+                    this.lastCoords = undefined;
                 }, timeout);
             },
 
@@ -137,6 +148,19 @@
                 this.isScaling = false;
                 this.isCardHidden = false;
             },
+
+            playVoice() {
+                if(Date.now() - this.stardDragTime < 150) {
+                    const voices = this.addWordService.data?.voices;
+                    const voice = this.toolsService.getNextItem(voices);
+                    this.toolsService.playAudio(voice?.base64);
+                }
+            }
+        },
+
+        beforeMount() {
+            this.toolsService = new ToolsService();
+            this.toolsService.nextItemIndex = 0;
         }
     }
 </script>

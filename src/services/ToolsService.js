@@ -17,4 +17,14 @@ export default class ToolsService {
             }
         }
     }
+
+    getNextItem(items) {
+        if(this.nextItemIndex === undefined || this.nextItemIndex == items.length - 1) {
+            this.nextItemIndex = 0;
+        } else {
+            this.nextItemIndex++;
+        }
+
+        return items[this.nextItemIndex];
+    }
 }
