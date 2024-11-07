@@ -12,7 +12,7 @@
                 
             </div>
 
-            <div class="muted m-light m-size20 m-pointer transcription" @click="playAudio">
+            <div class="muted m-light m-size20 m-pointer transcription no-select" @click="playAudio">
                 {{ trainings.getCurrent()?.word }}
             </div>
         </div>
