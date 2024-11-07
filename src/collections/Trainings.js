@@ -17,7 +17,7 @@ export default class Trainings extends AbstractCollection {
 
     fetch() {
         return this.request('/training/get', {}, r => {
-            this.serverTimeDelta = moment().unix() - r.now;
+            this.serverTimeDelta = Math.round(Date.now() / 1000) - r.now;
             this.reset(r.data);
             this.shuffle();
         });
@@ -40,7 +40,7 @@ export default class Trainings extends AbstractCollection {
 
     setAnswer() {
         const training = this.getCurrent();
-        training.trained_at = moment().unix() + this.serverTimeDelta;
+        training.trained_at = Math.round(Date.now() / 1000) + this.serverTimeDelta;
     }
 
     countError() {
