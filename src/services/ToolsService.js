@@ -11,8 +11,9 @@ export default class ToolsService {
     playAudio(voice) {
     	if(voice) {
             try {
-            	const audio = new Audio(`data:audio/mpeg;base64,${voice}`);
-                audio.play();
+                this.audio?.pause();
+            	this.audio = new Audio(`data:audio/mpeg;base64,${voice}`);
+                this.audio.play();
             } catch(e) {
             }
         }
