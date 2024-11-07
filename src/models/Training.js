@@ -6,7 +6,7 @@ export default class Training extends AbstractModel {
     hints;
     answers;
     memorization;
-    trained_at;
+    elapsed_time;
     text;
     errors = 0;
     isLearned = false;

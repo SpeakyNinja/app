@@ -45,6 +45,7 @@
     import TrainingMenu from '@/components/TrainingMenu.vue'
     import Trainings from '@/collections/Trainings.js';
     import ToolsService from '@/services/ToolsService.js';
+    import moment from 'moment';
 
     export default {
 
@@ -58,7 +59,9 @@
             return {
                 progress: {},
                 isReady: false,
-                highlitedAnswer: ''
+                highlitedAnswer: '',
+                startTime: null,
+                elapsedTime: null
             }
         },
 
@@ -73,7 +76,8 @@
 
                 this.highlitedAnswer = answer;
                 setTimeout(async () => {
-                    this.trainings.setAnswer();
+                    this.stopTimer();
+                    this.trainings.setAnswer(this.elapsedTime);
                     if(this.trainings.isFinish()) {
                         try {
                             this.preloader.show = true;
@@ -89,6 +93,7 @@
                         this.updateProgress();
                         this.$forceUpdate();
                         this.playAudio();
+                        this.startTimer();
                     }
                 }, 400);
             },
@@ -119,6 +124,16 @@
                 const training = this.trainings.getCurrent();
                 const voice = await training.getNextVoice(this.student.getId());
                 this.toolsService.playAudio(voice);
+            },
+
+            startTimer() {
+                this.startTime = moment();
+            },
+
+            stopTimer() {
+                if(this.startTime) {
+                    this.elapsedTime = moment().diff(this.startTime, 'seconds');
+                }
             }
         },
 
@@ -135,6 +150,7 @@
                 await this.trainings.fetch();
                 this.playAudio();
                 this.updateProgress();
+                this.startTimer();
                 this.isReady = true;
             } catch(res) {
                 this.errorHandler(res);

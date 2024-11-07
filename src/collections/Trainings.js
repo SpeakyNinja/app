@@ -1,11 +1,8 @@
 import AbstractCollection from '@/collections/AbstractCollection.js';
 import ToolsService from '@/services/ToolsService.js';
 import Training from '@/models/Training.js';
-import moment from 'moment';
 
 export default class Trainings extends AbstractCollection {
-    serverTimeDelta = 0;
-
     constructor(items = []) {
         super(items);
         this.tools = new ToolsService();
@@ -17,7 +14,6 @@ export default class Trainings extends AbstractCollection {
 
     fetch() {
         return this.request('/training/get', {}, r => {
-            this.serverTimeDelta = Math.round(Date.now() / 1000) - r.now;
             this.reset(r.data);
             this.shuffle();
         });
@@ -26,7 +22,7 @@ export default class Trainings extends AbstractCollection {
     getCurrent() {
         for(let i in this.models) {
             const training = this.models[i];
-            if(training.trained_at === undefined) {
+            if(training.elapsed_time === undefined) {
                 return training;
             }
         }
@@ -38,9 +34,9 @@ export default class Trainings extends AbstractCollection {
         return !this.getCurrent();
     }
 
-    setAnswer() {
+    setAnswer(elapsedTime) {
         const training = this.getCurrent();
-        training.trained_at = Math.round(Date.now() / 1000) + this.serverTimeDelta;
+        training.elapsed_time = elapsedTime;
     }
 
     countError() {
@@ -52,13 +48,13 @@ export default class Trainings extends AbstractCollection {
         const trainings = this.models.map(item => {
             return {
                 meaning_id: item.meaning_id,
-                trained_at: item.trained_at,
+                elapsed_time: item.elapsed_time,
                 errors: item.errors,
                 is_learned: item.isLearned
             };
         });
 
-        return this.request('/training/set', {trainings: trainings}, r => {
+        return this.request('/training/set', {trainings: trainings.reverse()}, r => {
             this.data = r.data;
         });
     }
@@ -77,7 +73,7 @@ export default class Trainings extends AbstractCollection {
         let currentIndex = 0;
         for(let i in this.models) {
             const training = this.models[i];
-            if(training.trained_at === undefined) {
+            if(training.elapsed_time === undefined) {
                 break;
             }
             currentIndex++;
