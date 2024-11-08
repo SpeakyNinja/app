@@ -28,6 +28,7 @@
         <div class="dialog-controls">
             <div 
                 class="item no-select"
+                :class="{transparent : highlitedAnswer && highlitedAnswer != answer }"
                 v-for="answer in trainings.getCurrent()?.answers" 
                 @click="nextStep(answer)"
             >
@@ -93,12 +94,13 @@
                             this.preloader.show = false;
                         }
                     } else {
+                        this.highlitedAnswer = '';
                         this.updateProgress();
                         this.$forceUpdate();
 
-                        setTimeout(() => {
-                            this.playAudio();
-                        }, 2000);
+                        // setTimeout(() => {
+                        //     this.playAudio();
+                        // }, 2000);
                         
                         this.startTimer();
                         this.preloader.show = false;
@@ -156,9 +158,9 @@
             try {
                 this.preloader.show = true;
                 await this.trainings.fetch();
-                setTimeout(() => {
-                    this.playAudio();
-                }, 2000);
+                // setTimeout(() => {
+                //     this.playAudio();
+                // }, 2000);
                 this.updateProgress();
                 this.startTimer();
                 this.isReady = true;
@@ -266,6 +268,10 @@
 
                 &.soft {
                     color: #a94c4c;
+                }
+
+                &.transparent {
+                    color: transparent;
                 }
 
                 .highlight {
