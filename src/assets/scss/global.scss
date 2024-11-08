@@ -49,6 +49,7 @@ body {
     min-height: 100vh;
     margin: 0;
     color: black;
+    overscroll-behavior-y: contain;
 
     #app {
         flex: 1 0 auto;
