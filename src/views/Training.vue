@@ -95,7 +95,11 @@
                     } else {
                         this.updateProgress();
                         this.$forceUpdate();
-                        this.playAudio();
+
+                        setTimeout(() => {
+                            this.playAudio();
+                        }, 2000);
+                        
                         this.startTimer();
                         this.preloader.show = false;
                     }
@@ -152,7 +156,9 @@
             try {
                 this.preloader.show = true;
                 await this.trainings.fetch();
-                this.playAudio();
+                setTimeout(() => {
+                    this.playAudio();
+                }, 2000);
                 this.updateProgress();
                 this.startTimer();
                 this.isReady = true;
