@@ -284,6 +284,7 @@
                     height: 20%;
                     background-color: rgba(20, 255, 0, .75);
                     filter: blur(18px);
+                    transform: translate3d(0, 0, 0);
                     border-radius: 50px;
                 }
             }
