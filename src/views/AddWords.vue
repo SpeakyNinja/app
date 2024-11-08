@@ -140,6 +140,7 @@
         padding: 20px;
         padding-top: 60px;
         overflow: hidden;
+        overscroll-behavior-y: contain;
 
         .top {
             position: relative;

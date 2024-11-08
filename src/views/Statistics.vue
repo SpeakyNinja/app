@@ -278,7 +278,7 @@
                 height: 100%;
                 z-index: 1;
                 content: "";
-                background-color: rgba(37, 38, 53, .5);
+                background-color: rgba(10, 10, 12, .24);
                 backdrop-filter: blur(8px);
             }
         }
@@ -338,7 +338,7 @@
                 height: 100%;
                 z-index: 1;
                 content: "";
-                background-color: rgba(37, 38, 53, .5);
+                background-color: rgba(10, 10, 12, .24);
                 backdrop-filter: blur(8px);
             }
 
