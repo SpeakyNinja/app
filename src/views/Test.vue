@@ -1,13 +1,14 @@
 <template>
     <div class="test main-bg" v-if="isReady">
 
-        <div class="word-wrapper">
-            <div class="word" @click="playAudio()">{{testService?.question?.word}}</div>
+        <TestTimer 
+            ref="timer" 
+            @isFinish="submit" 
+            :word="testService?.question?.word"
+            @wordClick="playAudio"
+        />
 
-            <Timer ref="timer" @isFinish="submit" />
-        </div>
-
-        <div class="dialog-controls">
+        <div class="dialog-controls no-select">
             <div class="item" @click="submit(answer)" v-for="answer in testService?.question?.answers">
                 {{ answer }}
             </div>
@@ -20,15 +21,13 @@
 
 <script>
     import { inject } from 'vue';
-    import Timer from '@/components/Timer.vue'
+    import TestTimer from '@/components/TestTimer.vue'
     import TestService from '@/services/TestService.js'
     import ToolsService from '@/services/ToolsService.js';
 
     export default {
-        name: "Test",
-
         components: {
-            Timer
+            TestTimer
         },
 
         data() {
@@ -44,12 +43,12 @@
                 try {
                     this.preloader.show = true;
                     await this.testService.sendAnswer(text);
+                    this.$refs.timer.stop();
                     if(this.testService.question) {
-                        this.$refs.timer.reset();
                         this.$forceUpdate();
+                        this.$refs.timer.restart();
                         this.playAudio();
                     } else {
-                        this.$refs.timer.stop();
                         this.$router.push('/add-words');
                     }
                 } catch(res) {
@@ -100,20 +99,6 @@
         gap: 110px;
         padding: 20px;
         padding-bottom: 200px;
-
-        .word-wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 50px;
-
-            .word {
-                font-family: RobotoLight;
-                font-size: clamp(16px, 7vw, 90px);
-                letter-spacing: 2px;
-                color: #ebebed;
-            }
-        }
 
         .dialog-controls {
             width: 100%;

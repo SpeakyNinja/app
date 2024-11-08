@@ -134,8 +134,10 @@ b {
     display: flex;
     flex-direction: column;
     align-items: center;
+    border-top: 1px solid rgba(255,255,255,0.2);
 
     .item {
+        z-index: 2;
         color: #ebebed;
         max-width: 500px;
         display: flex;
@@ -151,6 +153,18 @@ b {
         &:first-child {
             border-top: none;
         }
+    }
+
+    &:before {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        content: "";
+        background-color: rgba(10, 10, 12, .24);
+        backdrop-filter: blur(8px);
     }
 }
 
