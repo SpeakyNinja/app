@@ -2,18 +2,18 @@
     <Transition name="modal">
         <div v-if="show" class="modal-mask">
             <div class="modal-container">
-                <div v-if="!options.hideClose" class="close" @click="$emit('close')">×</div>
+                <div v-if="!options.hideClose" class="close no-select" @click="$emit('close')">×</div>
                 <div class="modal-header">
                     {{ options.header }}
                 </div>
 
-                <div class="modal-body">
+                <div class="modal-body mt-3">
                     <slot name="body">
                         {{ options.body }}
                     </slot>
                 </div>
 
-                <div class="modal-footer mt-5">
+                <div class="modal-footer mt-3">
                     <slot name="footer">
                         <button 
                             class="btn mr-2" 
@@ -104,7 +104,6 @@
         }
 
         .modal-body {
-            margin: 20px;
             font-size: 18px;
             font-family: Roboto;
         }
@@ -130,7 +129,9 @@
         .modal-mask {
 
             .modal-container {
+                width: 90%;
                 min-width: 90%;
+                max-width: 90%;
             }
         }
     }

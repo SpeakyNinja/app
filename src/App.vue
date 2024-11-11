@@ -47,9 +47,18 @@
             }
         },
 
-        beforeMount() {
+        async beforeMount() {
             if(this.student.isGuest()) {
                 this.$router.push('/');
+            } else {
+                try {
+                    this.preloader.show = true;
+                    await this.student.fetchData();
+                } catch(res) {
+                    this.modal.show(res);
+                } finally {
+                    this.preloader.show = false;
+                }
             }
         },
 

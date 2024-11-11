@@ -132,7 +132,7 @@
 
             async playAudio() {
                 const training = this.trainings.getCurrent();
-                const voice = await training.getNextVoice(this.student.getId());
+                const voice = await training.getNextVoice(this.student.getData('id'));
                 this.toolsService.playAudio(voice);
             },
 

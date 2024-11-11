@@ -8,7 +8,6 @@
 
         <div class="menu" :class="{'active' : isActive}">
             <div class="item" @click="isLearned">Выучил это слово</div>
-            <div class="item" @click="logout">Разлогиниться</div>
             <div class="item" @click="toOptions">Настройки</div>
         </div>
     </div>
@@ -40,18 +39,6 @@
                 this.$emit('isLearned');
             },
 
-            async logout() {
-                try {
-                    this.preloader.show = true;
-                    await this.student.logout();
-                    this.$router.push('/');
-                } catch(res) {
-                    this.modal.show(res);
-                } finally {
-                    this.preloader.show = false;
-                }
-            },
-
             initListener() {
                 window.addEventListener("click", (e) => {
                     if(e.target.classList.contains('js-button')) {
@@ -62,8 +49,16 @@
                 }, {once : true});
             },
 
-            toOptions() {
-                this.$router.push('/options');
+            async toOptions() {
+                try {
+                    this.preloader.show = true;
+                    await this.student.fetchProgress();
+                    this.$router.push('/options');
+                } catch(res) {
+                    this.modal.show(res);
+                } finally {
+                    this.preloader.show = false;
+                }
             }
         },
 

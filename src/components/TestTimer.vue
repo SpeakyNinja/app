@@ -37,7 +37,6 @@
 
         props: {
             word: {
-                type: String,
                 required: true
             }
         },
