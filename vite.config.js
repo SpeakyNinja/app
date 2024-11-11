@@ -13,21 +13,28 @@ export default defineConfig({
             includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'],
             manifest: {
                 name: 'Speaky Ninja',
-                short_name: 'SpeakyNinja',
-                description: 'Слова запомнятся сами',
-                theme_color: '#ffffff',
+                short_name: 'Speaky Ninja',
+                description: 'Приложение для изучения английского по инновационной методике',
+                display: "fullscreen",
+                background_color: "#30313f",
+                theme_color: '#30313f',
                 icons: [
                     {
                         src: 'pwa-192x192.png',
                         sizes: '192x192',
-                        type: 'image/png'
+                        type: 'image/png',
+                        purpose: "maskable"
                     },
                     {
                         src: 'pwa-512x512.png',
                         sizes: '512x512',
-                        type: 'image/png'
+                        type: 'image/png',
+                        purpose: "maskable"
                     }
                 ]
+            },
+            devOptions: {
+                enabled: true,
             }
         })
     ],

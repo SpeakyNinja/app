@@ -14,7 +14,7 @@
             />
             <circle :class="{'animated' : isAnimated}"
                 fill="none"
-                stroke="#ebebed"
+                stroke="#8d8d8d"
                 :cx="progressSize / 2"
                 :cy="progressSize / 2"
                 :r="progressRadius"
@@ -48,7 +48,7 @@
                 progressRadius: 140,
                 progressStrokeWidth: 4,
                 progressPercent: 100,
-                animationTime: 20,
+                animationTime: 30,
                 isAnimated: true
             }
         },
