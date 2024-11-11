@@ -9,6 +9,7 @@
         <div class="menu" :class="{'active' : isActive}">
             <div class="item" @click="isLearned">Выучил это слово</div>
             <div class="item" @click="logout">Разлогиниться</div>
+            <div class="item" @click="toOptions">Настройки</div>
         </div>
     </div>
 </template>
@@ -59,6 +60,10 @@
                         this.isActive = false;
                     }
                 }, {once : true});
+            },
+
+            toOptions() {
+                this.$router.push('/options');
             }
         },
 

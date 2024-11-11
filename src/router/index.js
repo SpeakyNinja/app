@@ -7,6 +7,7 @@ import Test from '@/views/Test.vue';
 import AddWords from '@/views/AddWords.vue';
 import Training from '@/views/Training.vue';
 import Statistics from '@/views/Statistics.vue';
+import Options from '@/views/Options.vue';
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -32,6 +33,9 @@ const router = createRouter({
         }, {
             path: '/statistics',
             component: Statistics
+        }, {
+            path: '/options',
+            component: Options
         }
     ]
 })

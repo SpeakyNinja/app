@@ -58,6 +58,15 @@ body {
     }
 }
 
+a {
+    color: #ebebed;
+    text-decoration: none;
+
+    &:active, &:visited {
+        color: #ebebed;
+    }
+}
+
 b {
     font-family: RobotoBold;
     font-weight: normal;
