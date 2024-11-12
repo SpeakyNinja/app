@@ -10,7 +10,7 @@
             </div> -->
         </div>
 
-        <div class="mt-5">
+        <div>
             <!-- <div class="scores-wrapper mb-2">
                 <IcoNeuron height="30" fill="#ebebed" />
                 <div class="scores">70 000</div>
@@ -38,6 +38,7 @@
     import WordCards from '@/components/WordCards.vue';
     import AddWordService from '@/services/AddWordService.js';
     import ToolsService from '@/services/ToolsService.js';
+    import LocalStorage from '@/services/LocalStorageService.js';
     import { nextTick } from "vue";
 
     export default {
@@ -67,12 +68,12 @@
             },
 
             async addWord(status) {
-                const success = this.$refs.brain.addWord(status);
+                this.$refs.brain.addWord(status);
 
                 try {
                     this.preloader.show = true;
-                    const r = await this.addWordService.rateWord(status == 'active');
-                    this.toolsService.playAudio(this.addWordService.voice());
+                    // const r = await this.addWordService.rateWord(status == 'active');
+                    this.playAudio();
                     this.updateProgress();
                     this.$forceUpdate();
                     this.$refs.wordCards.restoreCard();
@@ -102,6 +103,12 @@
                 if(this.$refs.progressBar) {
                     this.$refs.progressBar.$forceUpdate();
                 }
+            },
+
+            playAudio() {
+                if(!LocalStorage.get('options', 'muteAddingVoice1')) {
+                    this.toolsService.playAudio(this.addWordService.voice());
+                }
             }
         },
 
@@ -114,7 +121,7 @@
             try {
                 this.preloader.show = true;
                 await this.addWordService.fetchWord();
-                this.toolsService.playAudio(this.addWordService.voice());
+                this.playAudio();
                 this.countSteps = this.addWordService.data.leftWords;
                 this.updateProgress();
                 this.isReady = true;
@@ -135,7 +142,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: flex-start;
+        justify-content: space-around;
         gap: 90px;
         padding: 20px;
         padding-top: 60px;
@@ -174,12 +181,6 @@
                 font-size: 22px;
                 color: #ebebed;
             }
-        }
-    }
-
-    @media(max-width: 550px) {
-        .add-words {
-            gap: 40px;
         }
     }
 

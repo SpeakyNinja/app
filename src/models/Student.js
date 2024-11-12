@@ -1,4 +1,5 @@
 import AbstractModel from '@/models/AbstractModel.js';
+import LocalStorage from '@/services/LocalStorageService.js';
 
 export default class Student extends AbstractModel {
     progress = null;
@@ -12,18 +13,18 @@ export default class Student extends AbstractModel {
 
         return this.request('/register', data, r => {
             this.setToken(r.access_token);
-            this.store('id', r.id);
-            this.store('email', r.email);
-            this.store('isAutoReg', false);
+            LocalStorage.store('student_data', 'id', r.id);
+            LocalStorage.store('student_data', 'email', r.email);
+            LocalStorage.store('student_data', 'isAutoReg', false);
         });
     }
 
     login() {
         return this.request('/login', { email: this.email, password: this.password }, r => {
             this.setToken(r.access_token);
-            this.store('id', r.id);
-            this.store('email', r.email);
-            this.store('isAutoReg', r.autoReg);
+            LocalStorage.store('student_data', 'id', r.id);
+            LocalStorage.store('student_data', 'email', r.email);
+            LocalStorage.store('student_data', 'isAutoReg', r.autoReg);
         });
     }
 
@@ -36,9 +37,9 @@ export default class Student extends AbstractModel {
     autoRegistration() {
         return this.request('/auto-registration', {}, r => {
             this.setToken(r.access_token);
-            this.store('id', r.id);
-            this.store('email', r.email);
-            this.store('isAutoReg', true);
+            LocalStorage.store('student_data', 'id', r.id);
+            LocalStorage.store('student_data', 'email', r.email);
+            LocalStorage.store('student_data', 'isAutoReg', true);
         });
     }
 
@@ -50,8 +51,8 @@ export default class Student extends AbstractModel {
 
         return this.request('/post-registration', data, r => {
             this.setToken(r.access_token);
-            this.store('email', email);
-            this.store('isAutoReg', false);
+            LocalStorage.store('student_data', 'email', email);
+            LocalStorage.store('student_data', 'isAutoReg', false);
         });
     }
 
@@ -63,8 +64,8 @@ export default class Student extends AbstractModel {
 
     fetchData() {
         return this.request('/get-student-data', {}, r => {
-            this.store('email', r.email);
-            this.store('isAutoReg', r.autoReg);
+            LocalStorage.store('student_data', 'email', r.email);
+            LocalStorage.store('student_data', 'isAutoReg', r.autoReg);
         });
     }
 
@@ -73,7 +74,7 @@ export default class Student extends AbstractModel {
     }
 
     isAutoReg() {
-        return !this.isGuest() && this.getData('isAutoReg');
+        return !this.isGuest() && LocalStorage.get("student_data", "isAutoReg");
     }
 
     getToken() {
@@ -84,25 +85,12 @@ export default class Student extends AbstractModel {
         localStorage.setItem("access_token", token);
     }
 
-    getData(key = null) {
-        let studentData = {};
-        
-        const data = localStorage.getItem("student_data");
-        if(data) {
-            studentData = JSON.parse(data);
-        }
-
-        return key ? studentData[key] : studentData;
-    }
-
-    store(key, value) {
-        const studentData = this.getData();
-        studentData[key] = value;
-        localStorage.setItem( "student_data", JSON.stringify(studentData) );
+    getId() {
+        return LocalStorage.get("student_data", "id")
     }
 
     clearData() {
-        localStorage.removeItem("access_token");
-        localStorage.removeItem("student_data");
+        LocalStorage.clear("access_token");
+        LocalStorage.clear("student_data");
     }
 }

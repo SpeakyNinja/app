@@ -68,15 +68,19 @@
                 return { x: xPos, y: yPos };
             },
 
-            drawHexagon(fillColor, outlineColor, position) {
+            drawHexagon(fillColor, outlineColor, position, radius = null) {
+                if(radius == null) {
+                    radius = this.hexRadius;
+                }
+                
                 const { x, y } = position;
                 
                 this.ctx.beginPath();
 
                 for(let i = 0; i < 6; i++) {
                     const angle = Math.PI / 3 * i;
-                    const vertexX = x + this.hexRadius * Math.cos(angle);
-                    const vertexY = y + this.hexRadius * Math.sin(angle);
+                    const vertexX = x + radius * Math.cos(angle);
+                    const vertexY = y + radius * Math.sin(angle);
 
                     if(i === 0) {
                         this.ctx.moveTo(vertexX, vertexY);
@@ -93,6 +97,16 @@
                 this.ctx.lineWidth = 2;
                 this.ctx.strokeStyle = outlineColor;
                 this.ctx.stroke();
+            },
+
+            drawHexagonWithAnimation(fillColor, outlineColor, position, radius) {
+                this.drawHexagon(fillColor, outlineColor, position, radius);
+                
+                if(radius <= this.hexRadius) {
+                    setTimeout(() => {
+                        this.drawHexagonWithAnimation(fillColor, outlineColor, position, radius + 1);
+                    }, 5);
+                }
             },
 
             drawBackground(hexagons) {
@@ -137,9 +151,14 @@
             },
 
             addWord(status) {
-                const success = this.brainService.addWord(status);
-                this.refresh();
-                return success;
+                const data = this.brainService.addWord(status);
+                // this.refresh();
+                if(data) {
+                    const position = this.getPosition(data.x, data.y);
+                    const hexs = this.brainService.getHexagons();
+                    const item = hexs[data.y][data.x];
+                    this.drawHexagonWithAnimation(item.fillColor, item.outlineColor, position, 1);
+                }
             },
 
             refresh() {

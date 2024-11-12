@@ -34,7 +34,7 @@
     box-sizing: border-box;
     font-size: 18px;
     font-family: Roboto, sans-serif;
-    letter-spacing: 0.1px;
+    letter-spacing: 1px;
 }
 
 html {
@@ -75,6 +75,7 @@ b {
 
 .main-bg {
     background-color: #30313f;
+    min-width: 300px;
 }
 
 .btn {
@@ -278,6 +279,14 @@ b {
 
     .pb-#{$i} {
         padding-bottom: $value !important;
+    }
+
+    .m-upper-first {
+        display: inline-block;
+
+        &:first-letter {
+            text-transform: uppercase;
+        }
     }
 }
 

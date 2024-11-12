@@ -1,12 +1,12 @@
 <template>
     <div class="test-timer">
 
-        <div class="word no-select" @click="wordClick">{{ word }}</div>
+        <div class="word no-select m-upper-first" @click="wordClick">{{ word }}</div>
         
         <svg :width="progressSize" :height="progressSize">
             <circle class="bg"
                 fill="transparent"
-                stroke="#4b4c56"
+                stroke="#2a2b37"
                 :cx="progressSize / 2"
                 :cy="progressSize / 2"
                 :r="progressRadius"
@@ -14,7 +14,7 @@
             />
             <circle :class="{'animated' : isAnimated}"
                 fill="none"
-                stroke="#8d8d8d"
+                stroke="#696a73"
                 :cx="progressSize / 2"
                 :cy="progressSize / 2"
                 :r="progressRadius"
@@ -45,7 +45,7 @@
             return {
                 progressSize: 300,
                 progressRadius: 140,
-                progressStrokeWidth: 4,
+                progressStrokeWidth: 2,
                 progressPercent: 100,
                 animationTime: 30,
                 isAnimated: true
@@ -129,7 +129,7 @@
 
             circle {
                 &.bg {
-                    filter: drop-shadow(0px 0px 5px rgba(235, 235, 237, 0.15));
+                    // filter: drop-shadow(0px 0px 5px rgba(235, 235, 237, 0.15));
                 }
 
                 &.animated {

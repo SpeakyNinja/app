@@ -25,17 +25,20 @@
             </div>
         </div>
 
-        <div class="dialog-controls">
-            <div 
-                class="item no-select"
-                :class="{transparent : highlitedAnswer && highlitedAnswer != answer }"
-                v-for="answer in trainings.getCurrent()?.answers" 
-                @click="nextStep(answer)"
-            >
-                <div class="highlight" v-if="highlitedAnswer == answer"></div>
-                {{ answer }}
-            </div>
-        </div> 
+        <ButtonsSticked :key="trainings.getCurrent()?.answers.length">
+            <template v-slot:items>
+                <div 
+                    class="item no-select"
+                    :class="{transparent : highlitedAnswer && highlitedAnswer != answer }"
+                    v-for="answer in trainings.getCurrent()?.answers" 
+                    @click="nextStep(answer)"
+                >
+                    <div class="highlight" v-if="highlitedAnswer == answer"></div>
+                    {{ answer }}
+                </div>
+            </template>
+        </ButtonsSticked>
+
     </div>
 </template>
 
@@ -44,8 +47,10 @@
     import ProgressBar from '@/components/ProgressBar.vue'
     import Memorization from '@/components/Memorization.vue'
     import TrainingMenu from '@/components/TrainingMenu.vue'
+    import ButtonsSticked from '@/components/ButtonsSticked.vue'
     import Trainings from '@/collections/Trainings.js';
     import ToolsService from '@/services/ToolsService.js';
+    import LocalStorage from '@/services/LocalStorageService.js';
     import moment from 'moment';
 
     export default {
@@ -53,7 +58,8 @@
         components: {
             ProgressBar,
             Memorization,
-            TrainingMenu
+            TrainingMenu,
+            ButtonsSticked
         },
 
         data() {
@@ -76,7 +82,7 @@
                 }
 
                 this.highlitedAnswer = answer;
-                this.playAudio();
+                this.playAudio('muteTrainingVoice2');
                 this.preloader.show = true;
                 setTimeout(async () => {
                     this.stopTimer();
@@ -99,13 +105,13 @@
                         this.$forceUpdate();
 
                         setTimeout(() => {
-                            this.playAudio();
+                            this.playAudio('muteTrainingVoice1');
                         }, 1000);
                         
                         this.startTimer();
                         this.preloader.show = false;
                     }
-                }, 1500);
+                }, 1000);
             },
 
             errorHandler(res) {
@@ -130,10 +136,12 @@
                 this.nextStep(training.text);
             },
 
-            async playAudio() {
-                const training = this.trainings.getCurrent();
-                const voice = await training.getNextVoice(this.student.getData('id'));
-                this.toolsService.playAudio(voice);
+            async playAudio(type) {
+                if(!LocalStorage.get('options', type)) {
+                    const training = this.trainings.getCurrent();
+                    const voice = await training.getNextVoice(this.student.getId());
+                    this.toolsService.playAudio(voice);
+                }
             },
 
             startTimer() {
@@ -159,7 +167,7 @@
                 this.preloader.show = true;
                 await this.trainings.fetch();
                 setTimeout(() => {
-                    this.playAudio();
+                    this.playAudio('muteTrainingVoice1');
                 }, 1000);
                 this.updateProgress();
                 this.startTimer();
@@ -249,56 +257,6 @@
                         letter-spacing: 1px;
                     }
                 }
-            }
-        }
-
-        .dialog-controls {
-            width: 100%;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            border-top: 1px solid rgba(255,255,255,0.2);
-
-            .item {
-                z-index: 2;
-                width: 450px;
-                letter-spacing: 1px;
-                position: relative;
-                overflow: hidden;
-
-                &.soft {
-                    color: #a94c4c;
-                }
-
-                &.transparent {
-                    color: transparent;
-                }
-
-                .highlight {
-                    content: '';
-                    position: absolute;
-                    left: 15%;
-                    top: 40%;
-                    z-index: -1;
-                    width: 70%;
-                    height: 20%;
-                    background-color: rgba(20, 255, 0, .75);
-                    filter: blur(18px);
-                    transform: translate3d(0, 0, 0);
-                    border-radius: 50px;
-                }
-            }
-
-            &:before {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                z-index: 1;
-                content: "";
-                background-color: rgba(10, 10, 12, .24);
-                backdrop-filter: blur(8px);
             }
         }
     }

@@ -1,74 +1,86 @@
 <template>
     <div class="options main-bg">
 
-        <div class="progress">
+        <div class="block" v-if="student.isAutoReg()">
+            <div class="row title">Регистрация</div>
+
             <div class="row">
-                <div class="m-size20">пройдено тренировок</div>
-                <div class="m-size40 m-black">{{ student?.progress?.trainingCount }}</div>
+                <div class="subtitle mb-1">E-mail</div>
+                <input class="input" type="text" v-model="reg.email">
             </div>
 
             <div class="row">
-                <div class="m-size20">слов выучено</div>
-                <div class="m-size40 m-black">{{ student?.progress?.learnedWordsCount }}</div>
+                <div class="subtitle mb-1">Пароль</div>
+                <input class="input" type="password" v-model="reg.password">
+                <div class="m-red mt-2" v-if="regError">{{ regError }}</div>
             </div>
 
             <div class="row">
-                <div class="m-size20">слов изучается</div>
-                <div class="m-size40 m-black">{{ student?.progress?.inProgressWordsCount }}</div>
+                <div class="btn green no-select" @click="submitRegistration">Зарегистрироваться</div>
             </div>
         </div>
-        
-        <div class="dialog-controls">
-            <div class="item no-select" @click="toTraining()">Тренировка</div>
-            <div class="item no-select" @click="registration()" v-if="student.isAutoReg()">Регистрация</div>
-            <div class="item no-select" @click="soundSettings()">Звук</div>
-            <div class="item no-select" @click="logout()">Разлогиниться</div>
+
+        <div class="block">
+            <div class="row title">Озвучивание тренировки</div>
+
+            <div class="row toggler-wrapper">
+                <div class="subtitle">При показе карточки</div>
+                <Toggler 
+                    @toggleHandler="toggle('muteTrainingVoice1')" 
+                    :defaultStatus="!storage.get('options', 'muteTrainingVoice1')" 
+                />
+            </div>
+
+            <div class="row toggler-wrapper">
+                <div class="subtitle">При правильном ответе</div>
+                <Toggler 
+                    @toggleHandler="toggle('muteTrainingVoice2')"
+                    :defaultStatus="!storage.get('options', 'muteTrainingVoice2')" 
+                />
+            </div>
         </div>
+
+        <div class="block">
+            <div class="row title">Озвучивание добора</div>
+
+            <div class="row toggler-wrapper">
+                <div class="subtitle">При показе карточки</div>
+                <Toggler 
+                    @toggleHandler="toggle('muteAddingVoice1')"
+                    :defaultStatus="!storage.get('options', 'muteAddingVoice1')" 
+                />
+            </div>
+        </div>
+
+        <ButtonsSticked>
+            <template v-slot:items>
+                <div class="item no-select" @click="toTraining()">Тренировка</div>
+                <div class="item no-select" @click="logout()">Разлогиниться</div>
+            </template>
+        </ButtonsSticked>
 
     </div>
-
-    <Modal 
-        :show="showRegistration" 
-        :options="registrationOptions"
-        @close="showRegistration = false"
-    >
-        <template v-slot:body>
-            <div class="form">
-                <div class="row">
-                    <div class="m-light ml-1 mb-1 m-size20">E-mail</div>
-                    <input class="input" type="text" v-model="reg.email">
-                </div>
-
-                <div class="row mt-3">
-                    <div class="m-light ml-1 mb-1 m-size20">Пароль</div>
-                    <input class="input" type="password" v-model="reg.password">
-                    <div class="m-red mt-2" v-if="regError">{{ regError }}</div>
-                </div>
-            </div>
-        </template>
-        <template v-slot:footer>
-            <div class="btn green mt-1 no-select" @click="submitRegistration">Зарегистрироваться</div>
-        </template>
-    </Modal>
 
 </template>
 
 <script>
     import { inject } from 'vue';
-    import Modal from '@/components/Modal.vue'
+    import ButtonsSticked from '@/components/ButtonsSticked.vue';
+    import Toggler from '@/components/Toggler.vue';
+    import LocalStorage from '@/services/LocalStorageService.js';
 
     export default {
 
         components: {
-            Modal
+            ButtonsSticked,
+            Toggler
         },
 
         data() {
             return {
-                showRegistration: false,
-                registrationOptions: {header: 'Регистрация'},
                 reg: {email: '', password: ''},
-                regError: ''
+                regError: '',
+                storage: LocalStorage
             }
         },
 
@@ -89,12 +101,7 @@
                 this.$router.push('/training');
             },
 
-            registration() {
-                this.showRegistration = true;
-            },
-
             async submitRegistration() {
-                
                 try {
                     this.preloader.show = true;
                     const r = await this.student.postRegistration(this.reg.email, this.reg.password);
@@ -106,8 +113,9 @@
                 }
             },
 
-            soundSettings() {
-
+            toggle(key) {
+                const val = !LocalStorage.get('options', key);
+                LocalStorage.store('options', key, val);
             }
         },
 
@@ -115,18 +123,6 @@
             this.modal = inject('modal');
             this.preloader = inject('preloader');
             this.student = inject('student');
-
-            if(!this.student.progress) {
-                try {
-                    this.preloader.show = true;
-                    await this.student.fetchProgress();
-                    this.$forceUpdate();
-                } catch(res) {
-                    this.modal.show(res);
-                } finally {
-                    this.preloader.show = false;
-                }
-            }
         }
     }
 </script>
@@ -140,50 +136,49 @@
         flex-direction: column;
         align-items: center;
         justify-content: flex-start;
-        gap: 30px;
+        gap: 50px;
+        padding: 30px 0 154px 0;
 
-        .progress {
-            text-align: center;
-            margin-top: 60px;
-            color: #959595;
+        .block {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            color: #ebebed;
+            width: 500px;
+            padding: 0 30px;
 
             .row {
-                margin-bottom: 20px;
-                display: flex;
-                flex-direction: column;
-                gap: 10px;
+                &.title {
+                    font-family: RobotoBold;
+                    font-size: 20px;
+                }
 
-                .m-black {
-                    color: #ebebed;
+                &.toggler-wrapper {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+
+                    .subtitle {
+                        overflow: hidden;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                    }
+                }
+
+                .subtitle {
+                    font-size: 20px;
+                    font-family: RobotoLight;
                 }
             }
+
         }
+    }
 
-        .dialog-controls {
-            width: 100%;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            border-top: 1px solid rgba(255,255,255,0.2);
+    @media(max-width: 500px) {
+        .options {
 
-            .item {
-                z-index: 2;
-                width: 450px;
-                letter-spacing: 1px;
-                position: relative;
-                overflow: hidden;
-            }
-
-            &:before {
-                position: absolute;
-                top: 0;
-                left: 0;
+            .block {
                 width: 100%;
-                height: 100%;
-                z-index: 1;
-                content: "";
-                background-color: rgba(10, 10, 12, .24);
-                backdrop-filter: blur(8px);
             }
         }
     }

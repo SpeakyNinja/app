@@ -1,6 +1,8 @@
 <template>
     <div class="test main-bg" v-if="isReady">
 
+        <ProgressBar :settings="progress" class="mt-5" />
+
         <TestTimer 
             ref="timer" 
             @isFinish="submit" 
@@ -8,30 +10,42 @@
             @wordClick="playAudio"
         />
 
-        <div class="dialog-controls no-select">
-            <div class="item" @click="submit(answer)" v-for="answer in testService?.question?.answers">
-                {{ answer }}
-            </div>
-            <div class="item soft" @click="submit()">
-                не знаю
-            </div>
-        </div> 
+        <ButtonsSticked :key="testService?.question?.meaning_id">
+            <template v-slot:items>
+                <div 
+                    class="item m-light m-upper-first no-select" 
+                    @click="submit(answer)" 
+                    v-for="answer in testService?.question?.answers"
+                >
+                    {{ answer }}
+                </div>
+                <div class="item soft top-border full-width m-light no-select" @click="submit()">
+                    не знаю
+                </div>
+            </template>
+        </ButtonsSticked>
+
     </div>
 </template>
 
 <script>
     import { inject } from 'vue';
     import TestTimer from '@/components/TestTimer.vue'
+    import ButtonsSticked from '@/components/ButtonsSticked.vue'
+    import ProgressBar from '@/components/ProgressBar.vue'
     import TestService from '@/services/TestService.js'
     import ToolsService from '@/services/ToolsService.js';
 
     export default {
         components: {
-            TestTimer
+            TestTimer,
+            ButtonsSticked,
+            ProgressBar
         },
 
         data() {
             return {
+                progress: {},
                 question: {},
                 answers: [],
                 isReady: false
@@ -42,7 +56,9 @@
             async submit(text = '') {
                 try {
                     this.preloader.show = true;
-                    await this.testService.sendAnswer(text);
+                    const r = await this.testService.sendAnswer(text);
+                    this.countAnswers++;
+                    this.updateProgress();
                     this.$refs.timer.stop();
                     if(this.testService.question) {
                         this.$forceUpdate();
@@ -58,6 +74,12 @@
                 }
             },
 
+            updateProgress() {
+                const width = document.body.clientWidth > 430 ? 320 : 280;
+                const p = Math.round( this.countAnswers * 100 / (this.maxWords - 1) );
+                this.progress = {width: `${width}px`, widthFilled: `${p}%`};
+            },
+
             playAudio() {
                 this.toolsService.playAudio(this.testService.voice);
             }
@@ -71,7 +93,10 @@
             
             try {
                 this.preloader.show = true;
-                await this.testService.fetchQuestion();
+                const r = await this.testService.fetchQuestion();
+                this.maxWords = r.max_words;
+                this.countAnswers = 0;
+                this.updateProgress();
                 if(this.testService.question) {
                     this.playAudio();
                 } else {
@@ -95,34 +120,10 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: center;
-        gap: 110px;
+        justify-content: flex-start;
+        gap: 80px;
         padding: 20px;
         padding-bottom: 200px;
-
-        .dialog-controls {
-            width: 100%;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-
-            .item {
-                width: 500px;
-
-                &.soft {
-                    color: #a94c4c;
-                }
-            }
-        }
-    }
-
-    @media(max-width: 500px) {
-        .test {
-            .dialog-controls {
-                min-width: unset;
-                width: 100%;
-            }
-        }
     }
 
 </style>

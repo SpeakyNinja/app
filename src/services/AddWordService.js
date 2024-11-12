@@ -10,7 +10,7 @@ export default class AddWordService extends AbstractService {
     constructor() {
         super();
         this.student = inject('student');
-        this.db = new IndexedDBService(this.student.getData('id'));
+        this.db = new IndexedDBService(this.student.getId());
     }
 
     fetchWord() {

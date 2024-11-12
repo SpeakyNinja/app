@@ -50,6 +50,8 @@ export default class Brain {
             for (let x in row) {
                 const item = row[x];
                 if (item.status === 'pending') {
+                    item.x = parseInt(x);
+                    item.y = parseInt(y);
                     pendingItems.push(item);
                 }
             }
@@ -59,10 +61,10 @@ export default class Brain {
             const randomIndex = Math.floor(Math.random() * pendingItems.length);
             const randomItem = pendingItems[randomIndex];
             randomItem.status = status;
-            return true;
+            return randomItem;
         }
 
-        return false;
+        return null;
     }
 
     makeHexagons() {

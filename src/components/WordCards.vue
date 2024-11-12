@@ -261,10 +261,6 @@
         .words-wrapper {
             width: 80vw;
             height: 40vw;
-            position: fixed;
-            bottom: 50px;
-            left: 50%;
-            margin-left: -40vw;
 
             &:before, &:after {
                 width: 80vw;
