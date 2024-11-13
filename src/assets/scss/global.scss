@@ -252,7 +252,10 @@ b {
     scrollbar-width: none;
 
     &::-webkit-scrollbar {
+        background: transparent;
         display: none;
+        width: 0;
+        -webkit-appearance: none;
     }
 }
 
