@@ -20,6 +20,7 @@
         
         <ButtonsSticked>
             <template v-slot:items>
+                <div class="item no-select" @click="toStat()">Статистика</div>
                 <div class="item no-select" @click="toTraining()">Тренировка</div>
                 <div class="item no-select" @click="toOptions()">Настройки</div>
             </template>
@@ -44,6 +45,10 @@
         },
 
         methods: {
+            toStat() {
+                this.$router.push('/statistics');
+            },
+
             toTraining() {
                 this.$router.push('/training');
             },

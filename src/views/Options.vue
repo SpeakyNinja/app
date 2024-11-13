@@ -1,5 +1,5 @@
 <template>
-    <div class="options main-bg">
+    <div class="options main-bg no-scrollbar">
 
         <div class="block" v-if="student.isAutoReg()">
             <div class="row title">Регистрация</div>
@@ -138,6 +138,7 @@
         justify-content: flex-start;
         gap: 50px;
         padding: 30px 0 154px 0;
+        height: 100vh;
 
         .block {
             display: flex;
