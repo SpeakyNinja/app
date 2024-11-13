@@ -1,5 +1,5 @@
 <template>
-    <div class="statistics main-bg" v-if="isReady">
+    <div class="statistics main-bg no-scrollbar" v-if="isReady">
         
         <div class="top-fixed">
             <div class="wrapper">
@@ -112,6 +112,7 @@
         padding-top: 226px;
         padding-bottom: 111px;
         width: 100%;
+        height: 100vh;
 
         .top-fixed {
             position: fixed;

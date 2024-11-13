@@ -1,5 +1,5 @@
 <template>
-    <div class="training main-bg" v-if="isReady">
+    <div class="training main-bg no-scrollbar" v-if="isReady">
         
         <div class="top-fixed">
             <div class="top">
@@ -28,6 +28,7 @@
         <ButtonsSticked :key="trainings.getCurrent()?.answers.length">
             <template v-slot:items>
                 <div 
+                    v-if="showAnswers"
                     class="item no-select"
                     :class="{transparent : highlitedAnswer && highlitedAnswer != answer }"
                     v-for="answer in trainings.getCurrent()?.answers" 
@@ -35,6 +36,10 @@
                 >
                     <div class="highlight" v-if="highlitedAnswer == answer"></div>
                     {{ answer }}
+                </div>
+
+                <div v-else class="look-variants item no-select m-pointer" @click="showAnswers = true">
+                    Посмотреть варианты
                 </div>
             </template>
         </ButtonsSticked>
@@ -68,7 +73,8 @@
                 isReady: false,
                 highlitedAnswer: '',
                 startTime: null,
-                elapsedTime: null
+                elapsedTime: null,
+                showAnswers: true
             }
         },
 
@@ -101,6 +107,7 @@
                         }
                     } else {
                         this.highlitedAnswer = '';
+                        this.updateShowAnswers();
                         this.updateProgress();
                         this.$forceUpdate();
 
@@ -152,6 +159,11 @@
                 if(this.startTime) {
                     this.elapsedTime = moment().diff(this.startTime, 'seconds');
                 }
+            },
+
+            updateShowAnswers() {
+                const training = this.trainings.getCurrent();
+                this.showAnswers = training.memorization < 3;
             }
         },
 
@@ -169,6 +181,7 @@
                 setTimeout(() => {
                     this.playAudio('muteTrainingVoice1');
                 }, 1000);
+                this.updateShowAnswers();
                 this.updateProgress();
                 this.startTimer();
                 this.isReady = true;
@@ -191,6 +204,7 @@
         align-items: center;
         justify-content: flex-start;
         gap: 30px;
+        height: 100vh;
 
         .top-fixed {
             position: fixed;
@@ -258,6 +272,13 @@
                     }
                 }
             }
+        }
+
+        .look-variants {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 185px;
         }
     }
 
