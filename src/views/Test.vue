@@ -13,7 +13,7 @@
         <ButtonsSticked :key="testService?.question?.meaning_id">
             <template v-slot:items>
                 <div 
-                    class="item m-light m-upper-first no-select" 
+                    class="item m-light no-select" 
                     @click="submit(answer)" 
                     v-for="answer in testService?.question?.answers"
                 >
