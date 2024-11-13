@@ -26,6 +26,8 @@
         </div>
 
         <WordCards ref="wordCards" :addWordService="addWordService" @addWord="addWord" />
+
+        <div></div>
     </div>
 </template>
 

@@ -6,7 +6,7 @@
         <svg :width="progressSize" :height="progressSize">
             <circle class="bg"
                 fill="transparent"
-                stroke="#2a2b37"
+                stroke="#272733"
                 :cx="progressSize / 2"
                 :cy="progressSize / 2"
                 :r="progressRadius"
@@ -47,7 +47,7 @@
                 progressRadius: 140,
                 progressStrokeWidth: 2,
                 progressPercent: 100,
-                animationTime: 30,
+                animationTime: 25,
                 isAnimated: true
             }
         },

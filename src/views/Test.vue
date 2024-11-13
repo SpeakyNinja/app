@@ -25,6 +25,7 @@
             </template>
         </ButtonsSticked>
 
+        <div></div>
     </div>
 </template>
 
@@ -120,10 +121,10 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: flex-start;
-        gap: 80px;
+        justify-content: space-between;
+        gap: 20px;
         padding: 20px;
-        padding-bottom: 200px;
+        padding-bottom: 248px;
     }
 
 </style>

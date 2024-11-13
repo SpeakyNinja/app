@@ -18,7 +18,7 @@
         >
             <div class="learn-lable">Учить</div>
             <div class="i-know-lable">Знаю</div>
-            <div class="word">{{ addWordService.data.word }}</div>
+            <div class="word m-upper-first">{{ addWordService.data.word }}</div>
             <div class="translate">{{ addWordService.data.translate }}</div>
         </div>
     </div>
