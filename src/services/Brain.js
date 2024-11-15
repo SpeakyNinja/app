@@ -96,17 +96,17 @@ export default class Brain {
                 { status: 'pending', sides: [0,4,5] },
                 { isEmpty: true }
             ], [
-                { isEmpty: true },
+                { status: 'pending' },
                 { status: 'pending', sides: [0] },
                 { status: 'pending', sides: [5] },
                 { status: 'pending', sides: [3] },
                 { status: 'pending', sides: [2] },
-                { isEmpty: true },
+                { status: 'pending' },
             ], [
                 { isEmpty: true },
                 { status: 'pending' },
                 { status: 'pending' },
-                { isEmpty: true },
+                { status: 'pending' },
                 { status: 'pending' },
                 { status: 'pending' },
                 { isEmpty: true }
@@ -121,7 +121,7 @@ export default class Brain {
                 { status: 'pending', sides: [2,3,4] },
                 { status: 'pending', sides: [0,4,5] },
                 { status: 'pending' },
-                { isEmpty: true },
+                { status: 'pending' },
                 { status: 'pending' },
                 { status: 'pending', sides: [2,3,4] },
                 { status: 'pending', sides: [0,4,5] }
@@ -136,7 +136,7 @@ export default class Brain {
                 { status: 'pending', sides: [2,3] },
                 { status: 'pending', sides: [1,2,3] },
                 { status: 'pending', sides: [2] },
-                { isEmpty: true },
+                { status: 'pending' },
                 { status: 'pending', sides: [0] },
                 { status: 'pending', sides: [0,1,5] },
                 { status: 'pending', sides: [0,5] }
@@ -151,7 +151,7 @@ export default class Brain {
                 { status: 'pending', sides: [1,2,3] },
                 { status: 'pending', sides: [1] },
                 { status: 'pending', sides: [3,4] },
-                { isEmpty: true },
+                { status: 'pending' },
                 { status: 'pending', sides: [4,5] },
                 { status: 'pending', sides: [1] },
                 { status: 'pending', sides: [0,1,5] }
@@ -163,13 +163,13 @@ export default class Brain {
                 { status: 'pending', sides: [0] },
                 { status: 'pending', sides: [1,2] },
             ], [
-                { isEmpty: true },
                 { status: 'pending' },
                 { status: 'pending' },
-                { isEmpty: true },
                 { status: 'pending' },
                 { status: 'pending' },
-                { isEmpty: true }
+                { status: 'pending' },
+                { status: 'pending' },
+                { status: 'pending' },
             ], [
                 { status: 'pending', sides: [2,3] },
                 { status: 'pending' },
@@ -181,7 +181,7 @@ export default class Brain {
                 { isEmpty: true },
                 { status: 'pending' },
                 { status: 'pending', sides: [3,4] },
-                { isEmpty: true },
+                { status: 'pending' },
                 { status: 'pending', sides: [4,5] },
                 { status: 'pending' },
                 { isEmpty: true }

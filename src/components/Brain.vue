@@ -157,7 +157,8 @@
                     const position = this.getPosition(data.x, data.y);
                     const hexs = this.brainService.getHexagons();
                     const item = hexs[data.y][data.x];
-                    this.drawHexagonWithAnimation(item.fillColor, item.outlineColor, position, 1);
+                    // this.drawHexagonWithAnimation(item.fillColor, item.outlineColor, position, 1);
+                    this.drawHexagon(item.fillColor, item.outlineColor, position);
                 }
             },
 
