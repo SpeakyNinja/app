@@ -42,9 +42,9 @@
             <template v-slot:items>
                 <div class="item m-light no-select" @click="addWord('ready')">знаю</div>
                 <div class="item m-light no-select" @click="addWord('active')">учить</div>
-                <div class="item soft top-border full-width m-light no-select" @click="addWord('ready')">
+                <!-- <div class="item soft top-border full-width m-light no-select" @click="addWord('ready')">
                     позже
-                </div>
+                </div> -->
             </template>
         </ButtonsSticked>
     </div>
@@ -164,7 +164,8 @@
         align-items: center;
         justify-content: space-between;
         gap: 10px;
-        padding: 60px 20px 186px 20px;
+        // padding: 60px 20px 186px 20px;
+        padding: 60px 20px 124px 20px;
         overflow: hidden;
         overscroll-behavior-y: contain;
 
