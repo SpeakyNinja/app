@@ -1,5 +1,5 @@
 <template>
-    <div class="statistics main-bg no-scrollbar" v-if="isReady">
+    <div class="statistics main-bg no-scrollbar" v-if="isReady" ref="self">
         
         <div class="top-fixed">
             <div class="wrapper">
@@ -90,7 +90,7 @@
                 this.makeAccuracyCssClass();
                 this.isReady = true;
                 await nextTick();
-                window.scrollBy(0, 171);
+                this.$refs.self.scrollBy(0, 226);
             } catch(res) {
                 if(res.code == 'training-not-found') {
                     this.$router.push('/training');

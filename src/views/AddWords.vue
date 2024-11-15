@@ -25,9 +25,28 @@
 
         </div>
 
-        <WordCards ref="wordCards" :addWordService="addWordService" @addWord="addWord" />
+        <div class="word-wrapper">
+            <div 
+                class="word no-select m-upper-first m-pointer" 
+                @click="toolsService.playAudio(addWordService.voice())"
+            >
+                {{ addWordService.data.word }}
+            </div>
+
+            <div class="translate no-select">{{ addWordService.data.translate }}</div>
+        </div>
 
         <div></div>
+
+        <ButtonsSticked :key="addWordService?.data?.meaning_id">
+            <template v-slot:items>
+                <div class="item m-light no-select" @click="addWord('ready')">знаю</div>
+                <div class="item m-light no-select" @click="addWord('active')">учить</div>
+                <div class="item soft top-border full-width m-light no-select" @click="addWord('ready')">
+                    позже
+                </div>
+            </template>
+        </ButtonsSticked>
     </div>
 </template>
 
@@ -37,7 +56,7 @@
     import ProgressBar from '@/components/ProgressBar.vue';
     import IcoArrow from '@/components/icons/IcoArrow.vue';
     import IcoNeuron from '@/components/icons/IcoNeuron.vue';
-    import WordCards from '@/components/WordCards.vue';
+    import ButtonsSticked from '@/components/ButtonsSticked.vue'
     import AddWordService from '@/services/AddWordService.js';
     import ToolsService from '@/services/ToolsService.js';
     import LocalStorage from '@/services/LocalStorageService.js';
@@ -50,7 +69,7 @@
             ProgressBar,
             IcoArrow,
             IcoNeuron,
-            WordCards
+            ButtonsSticked
         },
 
         data() {
@@ -78,7 +97,6 @@
                     this.playAudio();
                     this.updateProgress();
                     this.$forceUpdate();
-                    this.$refs.wordCards.restoreCard();
                 } catch(res) {
                     this.errorHandler(res);
                 } finally {
@@ -144,10 +162,9 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: space-around;
-        gap: 90px;
-        padding: 20px;
-        padding-top: 60px;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 60px 20px 186px 20px;
         overflow: hidden;
         overscroll-behavior-y: contain;
 
@@ -182,6 +199,26 @@
             .scores {
                 font-size: 22px;
                 color: #ebebed;
+            }
+        }
+
+        .word-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+
+            .word {
+                font-family: RobotoLight;
+                font-size: clamp(16px, 7.5vw, 50px);
+                color: white;
+            }
+
+            .translate {
+                font-family: RobotoLight;
+                font-size: clamp(18px, 4vw, 20px);
+                color: #bbbbbb;
+                text-align: center;
             }
         }
     }

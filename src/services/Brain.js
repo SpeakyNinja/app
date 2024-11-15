@@ -5,10 +5,13 @@ export default class Brain {
 
     constructor() {
         this.baseColor = '#525465';
+        this.activeOutlineColor = '#525465';
         this.fillColors = {
             active: '#e6e8fa',
-            ready: '#385ad7'
+            ready: '#3d3e4d'
         };
+
+
         this.makeHexagons();
     }
 
@@ -33,7 +36,7 @@ export default class Brain {
         let outlineColor = 'transparent';
         if(hex.status == 'active') {
             fillColor = this.fillColors.active;
-            outlineColor = this.baseColor;
+            outlineColor = this.activeOutlineColor;
         } else if(hex.status == 'ready') {
             fillColor = this.fillColors.ready;
             outlineColor = this.baseColor;

@@ -236,6 +236,14 @@ b {
     display: none!important;
 }
 
+.m-upper-first {
+    display: inline-block;
+
+    &:first-letter {
+        text-transform: uppercase;
+    }
+}
+
 .no-select {
     -webkit-tap-highlight-color: transparent;
     -webkit-touch-callout: none;
@@ -292,14 +300,6 @@ b {
 
     .pb-#{$i} {
         padding-bottom: $value !important;
-    }
-
-    .m-upper-first {
-        display: inline-block;
-
-        &:first-letter {
-            text-transform: uppercase;
-        }
     }
 }
 
