@@ -93,7 +93,7 @@
 
                 try {
                     this.preloader.show = true;
-                    const r = await this.addWordService.rateWord(status == 'active');
+                    // const r = await this.addWordService.rateWord(status == 'active');
                     this.playAudio();
                     this.updateProgress();
                     this.$forceUpdate();

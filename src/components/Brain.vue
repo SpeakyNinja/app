@@ -102,7 +102,7 @@
             drawHexagonWithAnimation(fillColor, outlineColor, position, radius) {
                 this.drawHexagon(fillColor, outlineColor, position, radius);
                 
-                if(radius <= this.hexRadius) {
+                if(radius < this.hexRadius) {
                     setTimeout(() => {
                         this.drawHexagonWithAnimation(fillColor, outlineColor, position, radius + 1);
                     }, 5);
@@ -157,8 +157,8 @@
                     const position = this.getPosition(data.x, data.y);
                     const hexs = this.brainService.getHexagons();
                     const item = hexs[data.y][data.x];
-                    // this.drawHexagonWithAnimation(item.fillColor, item.outlineColor, position, 1);
-                    this.drawHexagon(item.fillColor, item.outlineColor, position);
+                    this.drawHexagonWithAnimation(item.fillColor, item.outlineColor, position, 1);
+                    // this.drawHexagon(item.fillColor, item.outlineColor, position);
                 }
             },
 
