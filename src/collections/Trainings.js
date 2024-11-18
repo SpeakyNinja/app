@@ -1,6 +1,7 @@
 import AbstractCollection from '@/collections/AbstractCollection.js';
 import ToolsService from '@/services/ToolsService.js';
 import Training from '@/models/Training.js';
+import IndexedDBService from '@/services/IndexedDBService.js';
 
 export default class Trainings extends AbstractCollection {
     constructor(items = []) {
@@ -87,5 +88,34 @@ export default class Trainings extends AbstractCollection {
         this.models.forEach(item => {
             item.hints = this.tools.shuffle(item.hints);
         });  
+    }
+
+    async fetchMissingVoices(studentId) {
+        const meaningIds = [];
+        for(let i in this.models) {
+            const item = this.models[i];
+            const voice = await item.getNextVoice(studentId)
+            if(!voice) {
+                meaningIds.push(item.meaning_id);
+            }
+        }
+
+        if(!meaningIds.length) {
+            return false;
+        }
+
+        return this.request('/get-voices', {meaningIds: meaningIds}, r => {
+            const db = new IndexedDBService(studentId);
+            db.table = 'voices';
+            r.voices.forEach(async items => {
+                items.forEach(async item => {
+                    await db.save({
+                        id: item.id, 
+                        meaning_id: item.meaning_id, 
+                        value: item.base64
+                    });
+                });
+            });
+        });
     }
 }

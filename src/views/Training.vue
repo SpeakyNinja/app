@@ -13,7 +13,7 @@
             </div>
 
             <div class="muted m-light m-size20 m-pointer transcription no-select" @click="playAudio">
-                {{ trainings.getCurrent()?.word }}
+                {{ trainings.getCurrent()?.transcription || trainings.getCurrent()?.word }}
             </div>
         </div>
 
@@ -178,6 +178,7 @@
             try {
                 this.preloader.show = true;
                 await this.trainings.fetch();
+                await this.trainings.fetchMissingVoices(this.student.getId());
                 setTimeout(() => {
                     this.playAudio('muteTrainingVoice1');
                 }, 1000);

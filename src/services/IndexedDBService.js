@@ -29,8 +29,11 @@ export default class IndexedDBService {
         return request;
     }
 
+    // db.delete([2856, 37396]);
     async delete(key) {
         const db = await this.dbPromise;
-        await db.delete(this.table, key);
+        const tx = db.transaction(this.table, 'readwrite');
+        const store = tx.objectStore(this.table);
+        await store.delete(key);
     }
 }
