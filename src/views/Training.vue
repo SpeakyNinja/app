@@ -20,7 +20,7 @@
         <div class="hints-wrapper">
             <div class="hints">
                 <div v-for="hint in trainings.getCurrent()?.hints" class="hint">
-                    <p class="m-light" v-html="hint"></p>
+                    <p class="m-light no-select" v-html="hint"></p>
                 </div>
             </div>
         </div>

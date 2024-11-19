@@ -7,8 +7,8 @@ export default class Brain {
         this.baseColor = '#525465';
         this.activeOutlineColor = '#525465';
         this.fillColors = {
-            active: '#3d3e4d',
-            ready: '#e6e8fa'
+            in_progress: '#3d3e4d',
+            knows: '#e6e8fa'
         };
 
 
@@ -34,11 +34,11 @@ export default class Brain {
     mapHexData(hex) {
         let fillColor = 'transparent';
         let outlineColor = 'transparent';
-        if(hex.status == 'active') {
-            fillColor = this.fillColors.active;
+        if(hex.status == 'in_progress') {
+            fillColor = this.fillColors.in_progress;
             outlineColor = this.activeOutlineColor;
-        } else if(hex.status == 'ready') {
-            fillColor = this.fillColors.ready;
+        } else if(hex.status == 'knows') {
+            fillColor = this.fillColors.knows;
             outlineColor = this.baseColor;
         }
 

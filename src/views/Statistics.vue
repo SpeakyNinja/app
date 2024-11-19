@@ -1,5 +1,5 @@
 <template>
-    <div class="statistics main-bg no-scrollbar" v-if="isReady" ref="self">
+    <div class="statistics main-bg no-scrollbar no-select" v-if="isReady" ref="self">
         
         <div class="top-fixed">
             <div class="wrapper">

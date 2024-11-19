@@ -46,7 +46,7 @@
                 progressSize: 300,
                 progressRadius: 140,
                 progressStrokeWidth: 2,
-                progressPercent: 100,
+                progressPercent: 0.001,
                 animationTime: 25,
                 isAnimated: true
             }
@@ -65,7 +65,7 @@
 
             stop() {
                 clearInterval(this.autoSubmitPid);
-                this.progressPercent = 100;
+                this.progressPercent = 0.001;
                 this.isAnimated = false;
             },
 
@@ -74,7 +74,7 @@
                     await nextTick();
                     this.isAnimated = true;
                     await nextTick();
-                    this.progressPercent = 0.001;
+                    this.progressPercent = 100;
                 }, 50);
 
                 this.autoSubmitPid = setTimeout(() => {
@@ -84,7 +84,7 @@
 
             restart() {
                 this.isAnimated = false;
-                this.progressPercent = 100;
+                this.progressPercent = 0.001;
                 this.start();
             }
         },

@@ -1,5 +1,5 @@
 <template>
-    <div class="test main-bg" v-if="isReady">
+    <div class="test main-bg no-select" v-if="isReady">
 
         <ProgressBar :settings="progress" class="mt-5" />
 

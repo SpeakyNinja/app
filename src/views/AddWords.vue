@@ -40,11 +40,11 @@
 
         <ButtonsSticked :key="addWordService?.data?.meaning_id">
             <template v-slot:items>
-                <div class="item m-light no-select" @click="addWord('ready')">знаю</div>
-                <div class="item m-light no-select" @click="addWord('active')">учить</div>
-                <!-- <div class="item soft top-border full-width m-light no-select" @click="addWord('ready')">
+                <div class="item m-light no-select" @click="addWord('knows')">знаю</div>
+                <div class="item m-light no-select" @click="addWord('in_progress')">учить</div>
+                <div class="item soft top-border full-width m-light no-select" @click="addWord('deferred')">
                     позже
-                </div> -->
+                </div>
             </template>
         </ButtonsSticked>
     </div>
@@ -89,11 +89,13 @@
             },
 
             async addWord(status) {
-                this.$refs.brain.addWord(status);
+                if(status != 'deferred') {
+                    this.$refs.brain.addWord(status);
+                }
 
                 try {
                     this.preloader.show = true;
-                    const r = await this.addWordService.rateWord(status == 'active');
+                    const r = await this.addWordService.rateWord(status);
                     this.playAudio();
                     this.updateProgress();
                     this.$forceUpdate();
@@ -158,14 +160,14 @@
     @import '@/assets/scss/global.scss';
 
     .add-words {
-        flex: 1 0 auto;
+        flex-grow: 2;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: space-between;
         gap: 10px;
-        // padding: 60px 20px 186px 20px;
-        padding: 60px 20px 124px 20px;
+        padding: 60px 20px 186px 20px;
+        // padding: 60px 20px 124px 20px;
         overflow: hidden;
         overscroll-behavior-y: contain;
 
