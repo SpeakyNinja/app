@@ -6,7 +6,7 @@
         <svg :width="progressSize" :height="progressSize">
             <circle class="bg"
                 fill="transparent"
-                stroke="#272733"
+                stroke="#696a73"
                 :cx="progressSize / 2"
                 :cy="progressSize / 2"
                 :r="progressRadius"
@@ -14,11 +14,11 @@
             />
             <circle :class="{'animated' : isAnimated}"
                 fill="none"
-                stroke="#696a73"
+                stroke="#272733"
                 :cx="progressSize / 2"
                 :cy="progressSize / 2"
                 :r="progressRadius"
-                :stroke-width="progressStrokeWidth"
+                :stroke-width="progressStrokeWidth + 0.7"
                 :transform="`rotate(-90 ${progressSize / 2} ${progressSize / 2})`"
                 stroke-linecap="butt"
                 :stroke-dasharray="strokeDashArray()"

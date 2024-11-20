@@ -1,5 +1,5 @@
 <template>
-    <div class="training main-bg no-scrollbar" v-if="isReady">
+    <div class="training main-bg no-scrollbar" v-if="isReady" ref="training">
         
         <div class="top-fixed">
             <div class="top">
@@ -106,6 +106,7 @@
                             this.preloader.show = false;
                         }
                     } else {
+                        this.$refs.training.scrollTo(0, 0);
                         this.highlitedAnswer = '';
                         this.updateShowAnswers();
                         this.updateProgress();
