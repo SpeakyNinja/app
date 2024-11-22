@@ -1,26 +1,8 @@
 <template>
     <div class="statistics main-bg no-scrollbar no-select" v-if="isReady" ref="self">
         
-        <div class="top-fixed">
-            <div class="wrapper">
-                
-                <div 
-                    class="m-size20 accuracy" 
-                    :class="accuracyCssClass"
-                >
-                    Точность ответов
-                </div>
-
-                <div 
-                    class="percents" 
-                    :class="accuracyCssClass"
-                >
-                    {{ statService.getAccuracy() }}<span class="sign">%</span>
-                </div>
-
-                <!-- <div class="mt-4">10 тренировок: 98,5%</div> -->
-            </div>
-        </div>
+        <LayerPredict :statService="statService" v-if="currentLayer == 'predict'" />
+        <LayerAccuracy :statService="statService" v-if="currentLayer == 'accuracy'" />
 
         <div class="items">
             <div class="item" v-for="item in statService.items">
@@ -31,8 +13,11 @@
             </div>
         </div>
 
-        <div class="controls">
-            <div class="btn green" @click="toTraining()">Тренироваться</div>
+        <div class="pult">
+            <Arrows fill="white" class="m-pointer" @click="toggle(-1)" />
+            <div class="text" v-if="currentLayer == 'predict'">Прогноз</div>
+            <div class="text" v-if="currentLayer == 'accuracy'">Слова</div>
+            <Arrows fill="white" class="m-flip-horizontal m-pointer" @click="toggle(1)" />
         </div>
          
     </div>
@@ -42,39 +27,45 @@
     import { inject } from 'vue';
     import { nextTick } from "vue";
     import Memorization from '@/components/Memorization.vue'
+    import LayerAccuracy from '@/components/stat/LayerAccuracy.vue'
+    import LayerPredict from '@/components/stat/LayerPredict.vue'
+    import Arrows from '@/components/icons/Arrows.vue'
     import StatService from '@/services/StatService.js';
 
     export default {
 
         components: {
-            Memorization
+            Memorization,
+            Arrows,
+            LayerAccuracy,
+            LayerPredict
         },
 
         data() {
             return {
-                isReady: false
+                isReady: false,
+                currentLayer: 'accuracy',
+                layers: ['accuracy', 'predict']
             }
         },
 
         methods: {
-            makeAccuracyCssClass() {
-                const accuracy = this.statService.getAccuracy();
-                let level = 5;
-                if(accuracy == 100) {
-                    level = 1;
-                } else if(accuracy >= 95) {
-                    level = 2;
-                } else if(accuracy >= 90) {
-                    level = 3;
-                } else if(accuracy >= 85) {
-                    level = 4;
+            toggle(step) {
+                let currentIndex;
+
+                this.layers.forEach((layer, i) => {
+                    if(layer == this.currentLayer) {
+                        currentIndex = i;
+                    }
+                });
+
+                let index = currentIndex + step;
+
+                if(!this.layers[index]) {
+                    index = step > 0 ? 0 : this.layers.length - 1;
                 }
 
-                this.accuracyCssClass = `accuracy-${level}`;
-            },
-
-            toTraining() {
-                this.$router.push('/training');
+                this.currentLayer = this.layers[index];
             }
         },
 
@@ -87,7 +78,6 @@
             try {
                 this.preloader.show = true;
                 await this.statService.fetch();
-                this.makeAccuracyCssClass();
                 this.isReady = true;
                 await nextTick();
                 this.$refs.self.scrollBy(0, 226);
@@ -105,184 +95,13 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@/assets/scss/global.scss';
 
     .statistics {
         flex-grow: 2;
-        padding-top: 226px;
-        padding-bottom: 111px;
+        padding-top: 258px;
+        padding-bottom: 191px;
         width: 100%;
         height: 100vh;
-
-        .top-fixed {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 1;
-
-            .wrapper {
-                z-index: 2;
-                position: relative;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                padding: 55px 10px;
-                color: white;
-                border-bottom: 1px solid rgba(255,255,255,0.2);
-
-                .accuracy {
-                    &.accuracy-1 {
-                        text-shadow: 
-                            0px 0px 80px rgba(9,190,255,1), 
-                            0px 0px 20px rgba(9,190,255,0.5), 
-                            0px 0px 10px rgba(9,190,255,0.25),
-                            0px 0px 5px rgba(255,255,255,0.35);
-                    }
-
-                    &.accuracy-2 {
-                        text-shadow: 
-                            0px 0px 80px rgba(34,240,0,1), 
-                            0px 0px 20px rgba(34,240,0,0.5), 
-                            0px 0px 10px rgba(34,240,0,0.25),
-                            0px 0px 5px rgba(255,255,255,0.35);
-                    }
-
-                    &.accuracy-3 {
-                        text-shadow: 
-                            0px 0px 80px rgba(240,222,0,1), 
-                            0px 0px 20px rgba(240,222,0,0.5), 
-                            0px 0px 10px rgba(240,222,0,0.25),
-                            0px 0px 5px rgba(255,255,255,0.35);
-                    }
-
-                    &.accuracy-4 {
-                        text-shadow: 
-                            0px 0px 80px rgba(255,97,22,1), 
-                            0px 0px 20px rgba(255,97,22,0.5), 
-                            0px 0px 10px rgba(255,97,22,0.25),
-                            0px 0px 5px rgba(255,255,255,0.35);
-                    }
-
-                    &.accuracy-5 {
-                        text-shadow: 
-                            0px 0px 80px rgba(240,22,0,1), 
-                            0px 0px 20px rgba(240,22,0,0.5), 
-                            0px 0px 10px rgba(240,22,0,0.25),
-                            0px 0px 5px rgba(255,255,255,0.35);
-                    }
-                }
-
-                .percents {
-                    font-size: 68px;
-                    font-family: RobotoBlack;
-                    padding-left: 40px;
-                    display: flex;
-                    gap: 5px;
-                    align-items: flex-end;
-                    line-height: 0.9;
-                    margin-top: 30px;
-
-                    .sign {
-                        font-size: 68px;
-                        font-family: RobotoLight;
-                    }
-
-                    &.accuracy-1 {
-                        text-shadow: 
-                            0px 0px 80px rgba(9,190,255,1), 
-                            0px 0px 50px rgba(9,190,255,1), 
-                            0px 0px 30px rgba(9,190,255,0.25), 
-                            0px 0px 20px rgba(255,255,255,0.85);
-                        
-                        span {
-                            text-shadow: 
-                                0px 0px 50px rgba(9,190,255,1), 
-                                0px 0px 20px rgba(9,190,255,1), 
-                                0px 0px 10px rgba(9,190,255,0.25),
-                                0px 0px 5px rgba(255,255,255,0.85);
-                        }
-                    }
-
-
-                    &.accuracy-2 {
-                        text-shadow: 
-                            0px 0px 80px rgba(34,240,0,1), 
-                            0px 0px 50px rgba(34,240,0,1), 
-                            0px 0px 30px rgba(34,240,0,0.25), 
-                            0px 0px 20px rgba(255,255,255,0.85);
-                        
-                        span {
-                            text-shadow: 
-                                0px 0px 50px rgba(34,240,0,1), 
-                                0px 0px 20px rgba(34,240,0,1), 
-                                0px 0px 10px rgba(34,240,0,0.25),
-                                0px 0px 5px rgba(255,255,255,0.85);
-                        }
-                    }
-
-                    &.accuracy-3 {
-                        text-shadow: 
-                            0px 0px 80px rgba(240,222,0,1), 
-                            0px 0px 50px rgba(240,222,0,1), 
-                            0px 0px 30px rgba(240,222,0,0.25), 
-                            0px 0px 20px rgba(255,255,255,0.85);
-
-                        span {
-                            text-shadow: 
-                                0px 0px 50px rgba(240,222,0,1), 
-                                0px 0px 20px rgba(240,222,0,1), 
-                                0px 0px 10px rgba(240,222,0,0.25),
-                                0px 0px 5px rgba(255,255,255,0.85);
-                        }
-                    }
-
-                    &.accuracy-4 {
-                        text-shadow: 
-                            0px 0px 80px rgba(255,97,22,1), 
-                            0px 0px 50px rgba(255,97,22,1), 
-                            0px 0px 30px rgba(255,97,22,0.25), 
-                            0px 0px 20px rgba(255,255,255,0.85);
-
-                        span {
-                            text-shadow: 
-                                0px 0px 50px rgba(255,97,22,1), 
-                                0px 0px 20px rgba(255,97,22,1), 
-                                0px 0px 10px rgba(255,97,22,0.25),
-                                0px 0px 5px rgba(255,255,255,0.85);
-                        }
-                    }
-
-                    &.accuracy-5 {
-                        text-shadow: 
-                            0px 0px 80px rgba(240,22,0,1), 
-                            0px 0px 50px rgba(240,22,0,1), 
-                            0px 0px 30px rgba(240,22,0,0.25), 
-                            0px 0px 20px rgba(255,255,255,0.85);
-
-                        span {
-                            text-shadow: 
-                                0px 0px 50px rgba(240,22,0,1), 
-                                0px 0px 20px rgba(240,22,0,1), 
-                                0px 0px 10px rgba(240,22,0,0.25),
-                                0px 0px 5px rgba(255,255,255,0.85);
-                        }
-                    }
-                }
-            }
-
-            &:before {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                z-index: 1;
-                content: "";
-                background-color: rgba(10, 10, 12, .24);
-                backdrop-filter: blur(8px);
-            }
-        }
 
         .items {
             display: flex;
@@ -320,32 +139,29 @@
             }
         }
 
-        .controls {
-            margin-top: 10px;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
+        .pult {
             position: fixed;
             bottom: 0;
-            left: 0;
-            width: 100%;
-            border-top: 1px solid rgba(255,255,255,0.2);
+            left: -10%;
+            width: 120%;
+            background-color: rgba(0, 0, 0, 0.2);
+            z-index: 100;
+            color: white;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 24px;
+            border-top-left-radius: 100%;
+            border-top-right-radius: 100%;
+            border-top: 1px solid #7a7a7d;
+            font-family: RobotoLight;
+            padding: 0 20%;
 
-            &:before {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                z-index: 1;
-                content: "";
-                background-color: rgba(10, 10, 12, .24);
-                backdrop-filter: blur(8px);
-            }
-
-            .btn {
-                max-width: 250px;
-                z-index: 2;
+            .text {
+                margin-bottom: 20px;
+                flex-grow: 2;
+                text-align: center;
             }
         }
     }
