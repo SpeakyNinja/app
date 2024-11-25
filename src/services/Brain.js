@@ -8,7 +8,8 @@ export default class Brain {
         this.activeOutlineColor = '#525465';
         this.fillColors = {
             in_progress: '#3d3e4d',
-            knows: '#e6e8fa'
+            knows: '#e6e8fa',
+            green: '#76fa3d'
         };
 
 
@@ -40,6 +41,9 @@ export default class Brain {
         } else if(hex.status == 'knows') {
             fillColor = this.fillColors.knows;
             outlineColor = this.baseColor;
+        } else if(hex.status == 'green') {
+            outlineColor = this.baseColor;
+            fillColor = this.fillColors.green;
         }
 
         return {fillColor: fillColor, outlineColor: outlineColor, sides: hex.sides || []};
@@ -68,6 +72,16 @@ export default class Brain {
         }
 
         return null;
+    }
+
+    fillAll() {
+        this.hexagons.forEach(row => {
+            row.forEach(item => {
+                if(!item.isEmpty) {
+                    item.status = 'green';
+                }
+            });
+        });
     }
 
     makeHexagons() {

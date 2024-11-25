@@ -3,6 +3,8 @@
         
         <LayerPredict :statService="statService" v-if="currentLayer == 'predict'" />
         <LayerAccuracy :statService="statService" v-if="currentLayer == 'accuracy'" />
+        <LayerRegularity :statService="statService" v-if="currentLayer == 'regularity'" />
+        <LayerLevel :statService="statService" v-if="currentLayer == 'level'" />
 
         <div class="items">
             <div class="item" v-for="item in statService.items">
@@ -17,6 +19,8 @@
             <Arrows fill="white" class="m-pointer" @click="toggle(-1)" />
             <div class="text" v-if="currentLayer == 'predict'">Прогноз</div>
             <div class="text" v-if="currentLayer == 'accuracy'">Слова</div>
+            <div class="text" v-if="currentLayer == 'regularity'">Регулярность</div>
+            <div class="text" v-if="currentLayer == 'level'">Уровень</div>
             <Arrows fill="white" class="m-flip-horizontal m-pointer" @click="toggle(1)" />
         </div>
          
@@ -29,6 +33,8 @@
     import Memorization from '@/components/Memorization.vue'
     import LayerAccuracy from '@/components/stat/LayerAccuracy.vue'
     import LayerPredict from '@/components/stat/LayerPredict.vue'
+    import LayerRegularity from '@/components/stat/LayerRegularity.vue'
+    import LayerLevel from '@/components/stat/LayerLevel.vue'
     import Arrows from '@/components/icons/Arrows.vue'
     import StatService from '@/services/StatService.js';
 
@@ -38,14 +44,16 @@
             Memorization,
             Arrows,
             LayerAccuracy,
-            LayerPredict
+            LayerPredict,
+            LayerRegularity,
+            LayerLevel
         },
 
         data() {
             return {
                 isReady: false,
                 currentLayer: 'accuracy',
-                layers: ['accuracy', 'predict']
+                layers: ['accuracy', 'predict', 'regularity', 'level']
             }
         },
 

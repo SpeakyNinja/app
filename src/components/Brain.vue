@@ -28,6 +28,11 @@
                 type: Number,
                 required: false,
                 default: 18
+            },
+            filledDefault: {
+                type: Boolean,
+                required: false,
+                default: false
             }
         },
 
@@ -42,6 +47,11 @@
                 this.ctx.setTransform(1, 0, 0, 1, 0, 0);
                 this.ctx.fillStyle = 'white';
                 this.drawBackground(this.brainService.getHexagons());
+                
+                if(this.filledDefault) {
+                    this.brainService.fillAll();
+                }
+
                 this.drawHexagons(this.brainService.getHexagons());
             },
 
