@@ -6,7 +6,10 @@
         </div>
 
         <div class="middle">
-            <SpeedWidget :curValue="100" :maxValue="1800" />
+            <SpeedWidget 
+                :curValue="statService.predict.curValue" 
+                :maxValue="statService.predict.maxValue" 
+            />
         </div>
 
         <div class="bottom glass">

@@ -43,4 +43,24 @@ export default class ToolsService {
 
         return `accuracy-${level}`;
     }
+
+    plural(n, forms) { // forms = ['минута', 'минуты', 'минут']
+        n = Math.abs(n) % 100;
+        const n1 = n % 10;
+        let i = 2;
+
+        if(n > 9 && n < 21) {
+            return forms[i];
+        }
+        
+        if (n1 > 1 && n1 < 5) {
+            i = 1;
+        }
+
+        if (n1 == 1) {
+            i = 0;
+        }
+        
+        return forms[i];
+    }
 }

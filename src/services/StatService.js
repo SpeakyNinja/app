@@ -3,10 +3,12 @@ import AbstractService from "@/services/AbstractService.js";
 export default class StatService extends AbstractService {
     items;
     trainingsError;
+    predict;
 
     fetch() {
         return this.request('/training/stat', {}, r => {
             this.items = r.stat;
+            this.predict = r.predict;
             this.trainingsError = r.trainingsError;
 
             this.items.sort((a, b) => {

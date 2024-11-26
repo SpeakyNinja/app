@@ -34,11 +34,14 @@
         </div>
 
         <div class="text-wrapper">
-            <div class="number">
+            <div class="number" :class="accuracyClass">
                 <div class="sign">+</div>
-                <div class="num">270</div>
+                <div class="num">{{ curValue }}</div>
             </div>
-            <div class="text">слов/месяц</div>
+
+            <div class="text" :class="accuracySmallClass">
+                {{ tools.plural(curValue, ['слово', 'слова', 'слов']) }}/месяц
+            </div>
         </div>
     </div>
 
@@ -70,10 +73,12 @@
                 accuracyCssClass: '',
                 progressSize: 300,
                 radius: 120,
-                progress: 20,
+                progress: 0,
+                arrowAngle: 0,
                 strokeWidth: 45,
-                mainColor: '#ce7545',
-                backgroundColor: '#3a3744'
+                mainColor: '',
+                backgroundColor: '#3a3744',
+                accuracyClass: ''
             }
         },
 
@@ -82,11 +87,48 @@
                 const circumference = this.radius * Math.PI * 2;
                 const dash = (circumference * progress / 2) / 100;
                 return `${dash} ${circumference - dash}`;
+            },
+
+            makeCssClasses() {
+                if(this.curValue < 199) {
+                    this.mainColor = '#fb4545';
+                    this.accuracyClass = 'accuracy-5';
+                    this.accuracySmallClass = 'accuracy-5';
+                } else if(this.curValue < 399) {
+                    this.mainColor = '#fb823d';
+                    this.accuracyClass = 'accuracy-4';
+                    this.accuracySmallClass = 'accuracy-4';
+                } else if(this.curValue < 599) {
+                    this.mainColor = '#f7cc0f';
+                    this.accuracyClass = 'accuracy-3';
+                    this.accuracySmallClass = 'accuracy-3';
+                } else if(this.curValue < 899) {
+                    this.mainColor = '#96dd47';
+                    this.accuracyClass = 'accuracy-2';
+                    this.accuracySmallClass = 'accuracy-2';
+                } else {
+                    this.mainColor = '#7cdeff';
+                    this.accuracyClass = 'accuracy-1';
+                    this.accuracySmallClass = 'accuracy-1';
+                }
             }
         },
 
         beforeMount() {
             this.tools = new ToolsService();
+            
+            this.progress = Math.round(this.curValue * 100 / this.maxValue);
+            if(this.progress > 100) {
+                this.progress = 100;
+            }
+            
+            this.arrowAngle = Math.round(this.progress * 180 / 100);
+            if(this.arrowAngle > 180) {
+                this.arrowAngle = 180;
+            }
+            this.cssArrowRotate = `rotate(${this.arrowAngle}deg)`;
+
+            this.makeCssClasses();
         }
     }
 </script>
@@ -115,7 +157,8 @@
                 left: 0;
                 top: 85.5%;
                 width: 100%;
-                transform: rotate(36deg);
+                transform: v-bind(cssArrowRotate);
+                font-size: 0;
 
                 .arr1 {
                     width: 100px;
@@ -143,12 +186,6 @@
                 gap: 5px;
                 color: white;
 
-                text-shadow: 
-                    0px 0px 50px rgba(240,222,0,1), 
-                    0px 0px 20px rgba(240,222,0,1), 
-                    0px 0px 10px rgba(240,222,0,0.25),
-                    0px 0px 5px rgba(255,255,255,0.85);
-
                 .sign {
                     font-family: RobotoLight;
                     font-size: 40px;
@@ -169,12 +206,6 @@
                 color: white;
                 font-family: RobotoLight;
                 font-size: 16px;
-
-                text-shadow: 
-                    0px 0px 50px rgba(240,222,0,1), 
-                    0px 0px 20px rgba(240,222,0,1), 
-                    0px 0px 10px rgba(240,222,0,0.25),
-                    0px 0px 5px rgba(255,255,255,0.85);
             }
         }
     }
