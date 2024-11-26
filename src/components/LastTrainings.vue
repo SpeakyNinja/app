@@ -36,11 +36,16 @@
                 if(this.isAllPerfect()) {
                     list = this.statService.trainingsError;
                 } else if(this.isFirstNotPerfect()) {
+                    let hasNotPerfect = false;
                     for( let i = countTrainings - 2; i >= 0; i-- ) {
-                        if( this.statService.trainingsError[i].errors > 0 ) {
-                            break;
+                        if(this.statService.trainingsError[i].errors > 0) {
+                            hasNotPerfect = true;
                         }
-                        list.unshift( this.statService.trainingsError[i] );
+
+                        if( (this.statService.trainingsError[i].errors == 0 && !hasNotPerfect) || 
+                            (this.statService.trainingsError[i].errors > 0 && hasNotPerfect) ) {
+                            list.unshift( this.statService.trainingsError[i] );
+                        }
                     }
                 } else {
                     let isPerfectSeries = true;
@@ -57,9 +62,19 @@
                     }
                 }
 
-                for(let i = 0; i < 10; i++) {
+                for(let i = list.length - 1; i >= list.length - 10; i--) {
                     const trainingError = list[i];
                     const item = this.getItem(trainingError);
+                    this.items.unshift(item);
+                    
+                    if(i == 0) {
+                        break;
+                    }
+                }
+
+                const max = 10 - this.items.length;
+                for(let i = 0; i < max; i++) {
+                    const item = this.getItem();
                     this.items.push(item);
                 }
             },
