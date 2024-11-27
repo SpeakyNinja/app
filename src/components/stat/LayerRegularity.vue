@@ -2,16 +2,18 @@
     <div class="layer-regularity">
         
         <div class="top glass">
-            <div class="days accuracy-1">23</div>
-            <div class="accuracy-small-1">Дня подряд!</div>
+            <div class="days accuracy-1">{{ statService.getNonstopDays() }}</div>
+            <div class="accuracy-small-1">
+                {{ tools.plural(statService.getNonstopDays(), ['День', 'Дня', 'Дней']) }} подряд!
+            </div>
         </div>
         
         <div class="middle">
-            <RegularityWidget :accuracy="statService.getAccuracy()" />
+            <RegularityWidget :statService="statService" />
         </div>
 
         <div class="bottom glass">
-            <div class="">Ты входишь в топ 14% по&nbsp;регулярности занятий</div>
+            <div class="">Ты входишь в топ {{ getPercentRegularity() }}% по&nbsp;регулярности занятий</div>
         </div>
          
     </div>
@@ -20,6 +22,7 @@
 <script>
     import RegularityWidget from '@/components/RegularityWidget.vue'
     import StatService from '@/services/StatService.js';
+    import ToolsService from '@/services/ToolsService.js';
 
     export default {
 
@@ -42,7 +45,16 @@
         methods: {
             toTraining() {
                 this.$router.push('/training');
+            },
+
+            getPercentRegularity() {
+                const max = this.statService.getTotalMaxnonstopDays();
+                return max ? Math.round(this.statService.getNonstopDays() * 100 / max) : 100;
             }
+        },
+
+        beforeMount() {
+            this.tools = new ToolsService();
         }
     }
 </script>
@@ -92,7 +104,7 @@
             align-items: center;
             border-top: 1px solid #4c4d57;
             height: 200px;
-            padding-bottom: 70px;
+            padding: 0 20px 70px 20px;
 
             div {
                 z-index: 2;
