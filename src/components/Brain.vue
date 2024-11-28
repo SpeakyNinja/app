@@ -118,12 +118,11 @@
 
             drawHexagonWithAnimation(fillColor, outlineColor, position, radius) {
                 this.drawHexagon(fillColor, position, radius);
+                if(radius == this.hexRadius) {
+                    this.drawOutline(outlineColor, position);
+                }
                 
                 if(radius < this.hexRadius) {
-                    if(radius == this.hexRadius - 1) {
-                        this.drawOutline(outlineColor, position);
-                    }
-                    
                     setTimeout(() => {
                         this.drawHexagonWithAnimation(fillColor, outlineColor, position, radius + 1);
                     }, 5);
