@@ -2,21 +2,24 @@
     <div class="layer-regularity">
         
         <div class="top glass">
-            <div class="accuracy-1">21</div>
+            <div class="accuracy-1">1</div>
         </div>
 
-        <div class="middle">
-            <Brain 
-                ref="brain" 
-                :hexRadius="brainHexRadius"
-                :width="brainWidth"
-                :height="brainHeight"
-                :filledDefault="true"
-            />
+        <div class="middle no-scrollbar">
+            <div class="brains no-scrollbar" :class="brainsWrapperClass">
+                <template v-for="items in brainItems">
+                    <Brain 
+                        ref="brain" 
+                        :hexRadius="brainHexRadius"
+                        :width="brainWidth"
+                        :height="brainHeight"
+                        :items="items"
+                    />
+                </template>
+            </div>
         </div>
 
-        <div class="bottom glass">
-        </div>
+        <div class="bottom glass"></div>
          
     </div>
 </template>
@@ -34,7 +37,7 @@
         props: {
             statService: {
                 type: StatService,
-                required: true
+                required: true,
             }
         },
 
@@ -50,6 +53,11 @@
             toTraining() {
                 this.$router.push('/training');
             }
+        },
+
+        beforeMount() {
+            this.brainItems = this.statService.getLevelsForBrain();
+            this.brainsWrapperClass = this.statService.brainsCount() == 1 ? 'single' : '';
         }
     }
 </script>
@@ -74,6 +82,7 @@
             justify-content: center;
             border-bottom: 1px solid #4c4d57;
             height: 200px;
+            min-height: 200px;
 
             div {
                 font-size: 68px;
@@ -85,10 +94,29 @@
 
         .middle {
             background-color: #252530;
-            flex-grow: 2;
+            position: relative;
+
             display: flex;
             justify-content: center;
             align-items: center;
+            flex-grow: 2;
+
+            .brains {
+                width: 100%;
+                height: 100%;
+                min-height: 100%;
+                padding: 20px 0;
+                overflow-y: auto;
+
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+
+                &.single {
+                    justify-content: center;
+                }
+            }
         }
 
         .bottom {
@@ -97,6 +125,7 @@
             align-items: center;
             border-top: 1px solid #4c4d57;
             height: 150px;
+            min-height: 150px;
             padding-bottom: 70px;
         }
     }

@@ -29,10 +29,10 @@
                 required: false,
                 default: 18
             },
-            filledDefault: {
-                type: Boolean,
+            items: {
+                type: Array,
                 required: false,
-                default: false
+                default: []
             }
         },
 
@@ -48,8 +48,8 @@
                 this.ctx.fillStyle = 'white';
                 this.drawBackground(this.brainService.getHexagons());
                 
-                if(this.filledDefault) {
-                    this.brainService.fillAll();
+                if(this.items.length) {
+                    this.brainService.fillAll(this.items);
                 }
 
                 this.drawHexagons(this.brainService.getHexagons());
@@ -58,8 +58,9 @@
             drawHexagons(hexagons) {
                 hexagons.forEach((row, y) => {
                     row.forEach((item, x) => {
-                        const position = this.getPosition(x, y);
-                        this.drawHexagon(item.fillColor, item.outlineColor, position);
+                        const position = this.getPosition(row.length - 1 - x, y);
+                        this.drawHexagon(item.fillColor, position, null, item.radiusCoeff);
+                        this.drawOutline(item.outlineColor, position);
                     });
                 });
             },
@@ -78,11 +79,7 @@
                 return { x: xPos, y: yPos };
             },
 
-            drawHexagon(fillColor, outlineColor, position, radius = null) {
-                if(radius == null) {
-                    radius = this.hexRadius;
-                }
-                
+            preparePath(position, radius) {
                 const { x, y } = position;
                 
                 this.ctx.beginPath();
@@ -100,19 +97,33 @@
                 }
 
                 this.ctx.closePath();
+            },
 
+            drawHexagon(fillColor, position, radius = null, radiusCoeff = 1) {
+                if(radius == null) {
+                    radius = this.hexRadius * radiusCoeff;
+                }
+                
+                this.preparePath(position, radius);
                 this.ctx.fillStyle = fillColor;
                 this.ctx.fill();
+            },
 
+            drawOutline(outlineColor, position) {
+                this.preparePath(position, this.hexRadius);
                 this.ctx.lineWidth = 2;
                 this.ctx.strokeStyle = outlineColor;
                 this.ctx.stroke();
             },
 
             drawHexagonWithAnimation(fillColor, outlineColor, position, radius) {
-                this.drawHexagon(fillColor, outlineColor, position, radius);
+                this.drawHexagon(fillColor, position, radius);
                 
                 if(radius < this.hexRadius) {
+                    if(radius == this.hexRadius - 1) {
+                        this.drawOutline(outlineColor, position);
+                    }
+                    
                     setTimeout(() => {
                         this.drawHexagonWithAnimation(fillColor, outlineColor, position, radius + 1);
                     }, 5);
@@ -168,7 +179,7 @@
                     const hexs = this.brainService.getHexagons();
                     const item = hexs[data.y][data.x];
                     this.drawHexagonWithAnimation(item.fillColor, item.outlineColor, position, 1);
-                    // this.drawHexagon(item.fillColor, item.outlineColor, position);
+                    // this.drawHexagon(item.fillColor, position);
                 }
             },
 
