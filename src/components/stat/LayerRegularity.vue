@@ -49,7 +49,8 @@
 
             getPercentRegularity() {
                 const max = this.statService.getTotalMaxnonstopDays();
-                return max ? Math.round(this.statService.getNonstopDays() * 100 / max) : 100;
+                const percentRegularity = max ? Math.round(this.statService.getNonstopDays() * 100 / max) : 100;
+                return percentRegularity > 100 ? 100 : percentRegularity;
             }
         },
 
