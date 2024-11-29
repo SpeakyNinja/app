@@ -6,6 +6,7 @@ export default class StatService extends AbstractService {
     predict;
     regularity;
     levels;
+    currentLevel;
     chunkSize = 100;
 
     fetch() {
@@ -15,6 +16,7 @@ export default class StatService extends AbstractService {
             this.trainingsError = r.trainingsError;
             this.regularity = r.regularity;
             this.levels = r.levels;
+            this.currentLevel = r.currentLevel;
 
             this.items.sort((a, b) => {
                 if(a.memorization < b.memorization) {

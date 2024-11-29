@@ -38,7 +38,7 @@ export default class Brain {
             m7: 0.6,
             m8: 0.7,
             m9: 0.8,
-            m10: 0.9
+            m10: 0.85
         };
 
         this.makeHexagons();

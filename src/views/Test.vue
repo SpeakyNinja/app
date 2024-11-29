@@ -10,16 +10,18 @@
             @wordClick="playAudio"
         />
 
-        <ButtonsSticked :key="testService?.question?.meaning_id">
+        <ButtonsSticked :key="testService?.question?.meaning_id" ref="buttons" :options="buttonsOptions">
             <template v-slot:items>
                 <div 
                     class="item m-light no-select" 
                     @click="submit(answer)" 
                     v-for="answer in testService?.question?.answers"
                 >
+                    <div class="highlight" v-if="buttonsOptions.highlightedItem == answer"></div>
                     {{ answer }}
                 </div>
                 <div class="item soft top-border full-width m-light no-select" @click="submit()">
+                    <div class="highlight" v-if="buttonsOptions.highlightedItem == -1"></div>
                     не знаю
                 </div>
             </template>
@@ -49,18 +51,22 @@
                 progress: {},
                 question: {},
                 answers: [],
-                isReady: false
+                isReady: false,
+                buttonsOptions: { highlightedItem: null, maxHighlightInterval: 0.5 }
             }
         },
 
         methods: {
             async submit(text = '') {
+                this.$refs.buttons.highlightStart( (text || -1) );
+
                 try {
                     this.preloader.show = true;
                     const r = await this.testService.sendAnswer(text);
                     this.countAnswers++;
                     this.updateProgress();
                     this.$refs.timer.stop();
+                    this.$refs.buttons.highlightStop();
                     if(this.testService.question) {
                         this.$forceUpdate();
                         this.$refs.timer.restart();

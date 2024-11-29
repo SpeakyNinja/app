@@ -2,7 +2,7 @@
     <div class="layer-regularity">
         
         <div class="top glass">
-            <div class="accuracy-1">1</div>
+            <div class="accuracy-1">{{ statService.currentLevel }}</div>
         </div>
 
         <div class="middle no-scrollbar">

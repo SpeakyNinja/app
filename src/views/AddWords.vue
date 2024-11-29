@@ -38,13 +38,25 @@
 
         <div></div>
 
-        <ButtonsSticked :key="addWordService?.data?.meaning_id">
+        <ButtonsSticked :key="addWordService?.data?.meaning_id" ref="buttons" :options="buttonsOptions">
             <template v-slot:items>
-                <div class="item m-light no-select" @click="addWord('knows')">знаю</div>
-                <div class="item m-light no-select" @click="addWord('in_progress')">учить</div>
+                
+                <div class="item m-light no-select" @click="addWord('knows')">
+                    <div class="highlight" v-if="buttonsOptions.highlightedItem == 'knows'"></div>
+                    знаю
+                </div>
+
+                
+                <div class="item m-light no-select" @click="addWord('in_progress')">
+                    <div class="highlight" v-if="buttonsOptions.highlightedItem == 'in_progress'"></div>
+                    учить
+                </div>
+                
                 <div class="item soft top-border full-width m-light no-select" @click="addWord('deferred')">
+                    <div class="highlight" v-if="buttonsOptions.highlightedItem == 'deferred'"></div>
                     позже
                 </div>
+
             </template>
         </ButtonsSticked>
     </div>
@@ -79,7 +91,8 @@
                 isReady: false,
                 brainWidth: window.screen.width > 550 ? 368 : 283,
                 brainHeight: window.screen.width > 550 ? 316 : 245,
-                brainHexRadius: window.screen.width > 550 ? 18 : 14
+                brainHexRadius: window.screen.width > 550 ? 18 : 14,
+                buttonsOptions: { highlightedItem: null, maxHighlightInterval: 0.5 }
             }
         },
 
@@ -89,6 +102,8 @@
             },
 
             async addWord(status) {
+                this.$refs.buttons.highlightStart(status);
+
                 if(status != 'deferred') {
                     this.$refs.brain.addWord(status);
                 }
@@ -98,6 +113,7 @@
                     const r = await this.addWordService.rateWord(status);
                     this.playAudio();
                     this.updateProgress();
+                    this.$refs.buttons.highlightStop();
                     this.$forceUpdate();
                 } catch(res) {
                     this.errorHandler(res);
@@ -119,7 +135,7 @@
             },
 
             updateProgress() {
-                const p = (this.countSteps - this.addWordService.data.leftWords) * 100 / this.countSteps;
+                const p = (this.countSteps - this.addWordService.data.leftWords) * 100 / (this.countSteps - 1);
                 this.progress.widthFilled = `${p}%`;
 
                 if(this.$refs.progressBar) {
