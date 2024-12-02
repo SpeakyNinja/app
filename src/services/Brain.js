@@ -14,31 +14,33 @@ export default class Brain {
             m0: '#ff1c00',
             m1: '#ff1c00',
             m2: '#ff1c00',
-            m3: '#faff00',
+            m3: '#ff1c00',
             m4: '#faff00',
             m5: '#faff00',
             m6: '#faff00',
-            m7: '#87ff00',
+            m7: '#faff00',
             m8: '#87ff00',
             m9: '#87ff00',
             m10: '#87ff00',
             m11: '#87ff00',
-            m12: '#88f1ff',
-            m13: '#ffffff'
+            m12: '#87ff00',
+            m13: '#88f1ff',
+            m20: '#ffffff'
         };
 
         this.radiusCoeffs = {
-            m0: 0.1,
-            m1: 0.2,
-            m2: 0.3,
+            m0: 0,
+            m1: 0.1,
+            m2: 0.2,
             m3: 0.3,
-            m4: 0.4,
-            m5: 0.5,
-            m6: 0.6,
+            m4: 0.3,
+            m5: 0.4,
+            m6: 0.5,
             m7: 0.6,
-            m8: 0.7,
-            m9: 0.8,
-            m10: 0.85
+            m8: 0.6,
+            m9: 0.7,
+            m10: 0.8,
+            m11: 0.85
         };
 
         this.makeHexagons();
@@ -77,11 +79,13 @@ export default class Brain {
             outlineColor = this.baseColor;
         }
 
+        const radiusCoeff = this.radiusCoeffs[hex.status] !== undefined ? this.radiusCoeffs[hex.status] : 1;
+
         return {
             fillColor: fillColor, 
             outlineColor: outlineColor, 
             sides: hex.sides || [],
-            radiusCoeff: this.radiusCoeffs[hex.status] || 1
+            radiusCoeff: radiusCoeff
         };
     }
 

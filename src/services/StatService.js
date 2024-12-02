@@ -8,6 +8,7 @@ export default class StatService extends AbstractService {
     levels;
     currentLevel;
     chunkSize = 100;
+    max_count_trainings_per_day;
 
     fetch() {
         return this.request('/training/stat', {}, r => {
@@ -17,6 +18,8 @@ export default class StatService extends AbstractService {
             this.regularity = r.regularity;
             this.levels = r.levels;
             this.currentLevel = r.currentLevel;
+            this.max_count_trainings_per_day = r.max_count_trainings_per_day;
+            this.count_trainings_today = r.count_trainings_today;
 
             this.items.sort((a, b) => {
                 if(a.memorization < b.memorization) {
@@ -101,5 +104,20 @@ export default class StatService extends AbstractService {
         });
 
         return Math.ceil(cnt / this.chunkSize);
+    }
+
+    showPredictLayer() {
+        if(this.count_trainings_today >= this.max_count_trainings_per_day) {
+            return true;
+        }
+
+        let isAllPerfect = true;
+        this.trainingsError.forEach(item => {
+            if(item.errors > 0) {
+                isAllPerfect = false;
+            }
+        });
+
+        return this.trainingsError.length == 10 && isAllPerfect;
     }
 }

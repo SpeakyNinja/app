@@ -60,7 +60,8 @@
                     10: {stroke: '#4e6748', filledStroke: '#76fa3d', progress: 60},
                     11: {stroke: '#4e6748', filledStroke: '#76fa3d', progress: 80},
                     12: {stroke: '#4e6748', filledStroke: '#76fa3d', progress: 100},
-                    13: {stroke: '#34505f', filledStroke: '#3db8fa', progress: 100}
+                    13: {stroke: '#34505f', filledStroke: '#3db8fa', progress: 100},
+                    20: {stroke: '#34505f', filledStroke: '#ffffff', progress: 100},
                 }
             }
         },

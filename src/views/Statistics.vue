@@ -53,7 +53,7 @@
             return {
                 isReady: false,
                 currentLayer: 'accuracy',
-                layers: ['accuracy', 'predict', 'regularity', 'level']
+                layers: []
             }
         },
 
@@ -74,6 +74,15 @@
                 }
 
                 this.currentLayer = this.layers[index];
+            },
+
+            makeLayers() {
+                this.layers = ['accuracy', 'regularity', 'level'];
+
+                if(this.statService.showPredictLayer()) {
+                    this.layers.push('predict');
+                    this.currentLayer = 'predict';
+                }
             }
         },
 
@@ -86,6 +95,7 @@
             try {
                 this.preloader.show = true;
                 await this.statService.fetch();
+                this.makeLayers();
                 this.isReady = true;
                 await nextTick();
                 this.$refs.self.scrollBy(0, 226);
