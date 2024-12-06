@@ -18,9 +18,26 @@
         </div>
 
         <div class="hints-wrapper">
-            <div class="hints">
+            <div class="hints" v-if="!addHint">
                 <div v-for="hint in trainings.getCurrent()?.hints" class="hint">
                     <p class="m-light no-select" v-html="hint"></p>
+                </div>
+            </div>
+
+            <div class="btn no-select mt-2" @click="addHint = true" v-if="!addHint">Добавить подсказку</div>
+
+            <div class="add-hint-layer mt-1" v-else>
+                <div class="row">
+                    <div class="title mb-1 m-size20">Введите подсказку</div>
+                    <textarea class="input" rows="6" v-model="userHint"></textarea>
+                </div>
+
+                <div class="row mt-1">
+                    <div class="btn green no-select" @click="sendUserHint">Отправить</div>
+                </div>
+
+                <div class="row mt-1">
+                    <div class="btn no-select" @click="closeHintLayer">Отменить</div>
                 </div>
             </div>
         </div>
@@ -74,7 +91,9 @@
                 highlitedAnswer: '',
                 startTime: null,
                 elapsedTime: null,
-                showAnswers: true
+                showAnswers: true,
+                addHint: false,
+                userHint: null
             }
         },
 
@@ -101,7 +120,6 @@
                         } catch(res) {
                             this.errorHandler(res);
                         } finally {
-                            this.preloader.show = false;
                             this.highlitedAnswer = '';
                             this.preloader.show = false;
                         }
@@ -165,6 +183,29 @@
             updateShowAnswers() {
                 const training = this.trainings.getCurrent();
                 this.showAnswers = training.memorization < 3;
+            },
+
+            closeHintLayer() {
+                this.addHint = false;
+                this.userHint = null;
+            },
+
+            async sendUserHint() {
+                if(!this.userHint) {
+                    this.modal.show({message: 'Необходимо ввести подсказку'});
+                }
+
+                const training = this.trainings.getCurrent();
+                try {
+                    this.preloader.show = true;
+                    const r = await this.trainings.makeHint(training.meaning_id, this.userHint);
+                    this.closeHintLayer();
+                } catch(res) {
+                    this.errorHandler(res);
+                } finally {
+                    this.highlitedAnswer = '';
+                    this.preloader.show = false;
+                }
             }
         },
 
@@ -256,6 +297,7 @@
             padding-top: 165px;
             padding-bottom: 224px;
             background-color: #30313f;
+            width: 100%;
 
             .hints {
                 display: flex;
@@ -271,6 +313,24 @@
                         font-size: 20px;
                         line-height: 1.4;
                         letter-spacing: 1px;
+                    }
+                }
+            }
+
+            .add-hint {
+                color: #ebebed;
+            }
+
+            .add-hint-layer {
+                .row {
+                    .title {
+                        color: #acadb2;
+                    }
+
+                    textarea {
+                        height: unset;
+                        resize: none;
+                        padding: 10px;
                     }
                 }
             }

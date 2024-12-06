@@ -38,7 +38,7 @@
                 }
 
                 this.modal.modalOptions = {
-                    header: 'Извините',
+                    header: res.title || 'Извините',
                     body: res.message || 'Ошибка сервера'
                 };
                 this.modal.showModal = true;
