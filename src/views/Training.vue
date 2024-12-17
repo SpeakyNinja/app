@@ -8,7 +8,7 @@
                 
                 <ProgressBar :settings="progress" />
                 
-                <TrainingMenu @isLearned="isLearned" />
+                <TrainingMenu @isLearned="isLearned" @showFeedbackForm="showFeedbackForm" />
                 
             </div>
 
@@ -62,6 +62,14 @@
         </ButtonsSticked>
 
     </div>
+
+    <FeedbackForm 
+        ref="feedbackForm"
+        :show="showFeedback" 
+        @close="showFeedback = false" 
+        @callback="showFeedbackSuccessMessage"
+    />
+
 </template>
 
 <script>
@@ -70,6 +78,7 @@
     import Memorization from '@/components/Memorization.vue'
     import TrainingMenu from '@/components/TrainingMenu.vue'
     import ButtonsSticked from '@/components/ButtonsSticked.vue'
+    import FeedbackForm from '@/components/FeedbackForm.vue'
     import Trainings from '@/collections/Trainings.js';
     import ToolsService from '@/services/ToolsService.js';
     import LocalStorage from '@/services/LocalStorageService.js';
@@ -81,7 +90,8 @@
             ProgressBar,
             Memorization,
             TrainingMenu,
-            ButtonsSticked
+            ButtonsSticked,
+            FeedbackForm
         },
 
         data() {
@@ -93,7 +103,8 @@
                 elapsedTime: null,
                 showAnswers: true,
                 addHint: false,
-                userHint: null
+                userHint: null,
+                showFeedback: false
             }
         },
 
@@ -206,6 +217,17 @@
                     this.highlitedAnswer = '';
                     this.preloader.show = false;
                 }
+            },
+
+            showFeedbackForm() {
+                const training = this.trainings.getCurrent();
+                this.$refs.feedbackForm.meaningId = training.meaning_id;
+                this.$refs.feedbackForm.message = '';
+                this.showFeedback = true;
+            },
+
+            showFeedbackSuccessMessage() {
+                this.modal.show({message: 'Ваше сообщение отправлено', title: 'Спасибо'});
             }
         },
 

@@ -146,6 +146,15 @@ b {
     font-size: 20px;
 }
 
+textarea {
+    background-color: white;
+    border-radius: 10px;
+    outline: none;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    padding: 0 10px;
+    font-size: 20px;
+}
+
 .dialog-controls {
     display: flex;
     flex-direction: column;

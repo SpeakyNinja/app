@@ -7,31 +7,31 @@
                     {{ options.header }}
                 </div>
 
-                <div class="modal-body mt-3">
-                    <slot name="body">
+                <slot name="body">
+                    <div class="modal-body mt-3">
                         {{ options.body }}
-                    </slot>
-                </div>
+                    </div>
+                </slot>
 
-                <div class="modal-footer mt-3">
-                    <slot name="footer">
-                        <button 
-                            class="btn mr-2" 
-                            :class="getActionButtonCssClass()" 
-                            v-if="options.action" 
-                            @click="options.action()">
-                            {{ options.actionButtonText }}
-                        </button>
+                <slot name="footer">
+                    <div class="modal-footer mt-3">
+                            <button 
+                                class="btn mr-2" 
+                                :class="getActionButtonCssClass()" 
+                                v-if="options.action" 
+                                @click="options.action()">
+                                {{ options.actionButtonText }}
+                            </button>
 
-                        <button 
-                            v-if="!options.hideCloseInFooter"
-                            class="btn" 
-                            :class="getCancelButtonCssClass()" 
-                            @click="$emit('close')">
-                            {{ options.cancelButtonText || 'Закрыть' }}
-                        </button>
-                    </slot>
-                </div>
+                            <button 
+                                v-if="!options.hideCloseInFooter"
+                                class="btn" 
+                                :class="getCancelButtonCssClass()" 
+                                @click="$emit('close')">
+                                {{ options.cancelButtonText || 'Закрыть' }}
+                            </button>
+                    </div>
+                </slot>
             </div>
         </div>
     </Transition>
@@ -43,6 +43,8 @@
             show: Boolean,
             options: Object
         },
+
+        emits: ['close'],
 
         methods: {
             getActionButtonCssClass() {
@@ -76,7 +78,7 @@
         .modal-container {
             min-width: 460px;
             margin: 0px auto;
-            padding: 40px 30px;
+            padding: 20px;
             background-color: white;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
             transition: all 0.3s ease;
@@ -86,9 +88,9 @@
 
             .close {
                 position: absolute;
-                top: 24px;
-                right: 40px;
-                font-size: 36px;
+                top: 0;
+                right: 10px;
+                font-size: 34px;
                 cursor: pointer;
                 line-height: 0.5;
                 color: black;

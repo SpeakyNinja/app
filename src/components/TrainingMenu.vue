@@ -10,6 +10,7 @@
             <div class="item" @click="isLearned">Выучил это слово</div>
             <div class="item" @click="toOptions">Настройки</div>
             <div class="item" @click="toDashboard">Главный экран</div>
+            <div class="item" @click="$emit('showFeedbackForm')">Сообщить об ошибке</div>
         </div>
     </div>
 </template>
@@ -21,6 +22,8 @@
 
         props: {
         },
+
+        emits: ["showFeedbackForm"],
 
         data() {
             return {
