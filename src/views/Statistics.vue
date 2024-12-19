@@ -22,6 +22,11 @@
             <div class="text" v-if="currentLayer == 'regularity'">Регулярность</div>
             <div class="text" v-if="currentLayer == 'level'">Уровень</div>
             <Arrows fill="white" class="m-flip-horizontal m-pointer" @click="toggle(1)" />
+
+            <div class="big-buttons">
+                <div @click="toggle(-1)"></div>
+                <div @click="toggle(1)"></div>
+            </div>
         </div>
          
     </div>
@@ -175,11 +180,27 @@
             border-top: 1px solid #7a7a7d;
             font-family: RobotoLight;
             padding: 0 20%;
+            overflow: hidden;
 
             .text {
                 margin-bottom: 20px;
                 flex-grow: 2;
                 text-align: center;
+            }
+
+            .big-buttons {
+                width: 100%;
+                height: 100%;
+                display: flex;
+                justify-content: space-between;
+                position: absolute;
+                top: 0;
+                left: 0;
+
+                div {
+                    width: 40%;
+                    height: 100%;
+                }
             }
         }
     }

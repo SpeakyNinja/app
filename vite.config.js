@@ -20,15 +20,8 @@ export default defineConfig({
                 theme_color: '#30313f',
                 icons: [
                     {
-                        src: 'pwa-192x192.png',
-                        sizes: '192x192',
-                        type: 'image/png',
-                        purpose: "maskable"
-                    },
-                    {
-                        src: 'pwa-512x512.png',
-                        sizes: '512x512',
-                        type: 'image/png',
+                        src: 'pwa.svg',
+                        sizes: '72x72 96x96 120x120 128x128 144x144 152x152 180x180 192x192 256x256 512x512',
                         purpose: "maskable"
                     }
                 ]
