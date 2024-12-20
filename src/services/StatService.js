@@ -133,7 +133,7 @@ export default class StatService extends AbstractService {
     // Первое появление – Когда появились первые 5 зеленых блоков слов (8й уровень)  
     // После первой тренировки внутри дня 
     // Каждые 20 тренировок
-    showLevelLayer() { return true;
+    showLevelLayer() {
         const level = this.getLevel();
         if(level < 8) {
             return false;
