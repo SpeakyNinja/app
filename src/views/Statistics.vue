@@ -1,10 +1,14 @@
 <template>
     <div class="statistics main-bg no-scrollbar no-select" v-if="isReady" ref="self">
         
-        <LayerPredict :statService="statService" v-if="currentLayer == 'predict'" />
-        <LayerAccuracy :statService="statService" v-if="currentLayer == 'accuracy'" />
-        <LayerRegularity :statService="statService" v-if="currentLayer == 'regularity'" />
-        <LayerLevel :statService="statService" v-if="currentLayer == 'level'" />
+        <template v-for="layer in layers" :key="layer">
+            <component 
+                v-if="currentLayer == layer" 
+                :statService="statService"
+                :is="layer" 
+                :key="layer" 
+            />
+        </template>
 
         <div class="items">
             <div class="item" v-for="item in statService.items">
@@ -15,12 +19,12 @@
             </div>
         </div>
 
-        <div class="pult">
+        <div class="pult" v-if="currentLayer != 'LayerDashboard'">
             <Arrows fill="white" class="m-pointer" @click="toggle(-1)" />
-            <div class="text" v-if="currentLayer == 'predict'">Прогноз</div>
-            <div class="text" v-if="currentLayer == 'accuracy'">Слова</div>
-            <div class="text" v-if="currentLayer == 'regularity'">Регулярность</div>
-            <div class="text" v-if="currentLayer == 'level'">Уровень</div>
+            <div class="text" v-if="currentLayer == 'LayerPredict'">Прогноз</div>
+            <div class="text" v-if="currentLayer == 'LayerAccuracy'">Слова</div>
+            <div class="text" v-if="currentLayer == 'LayerRegularity'">Регулярность</div>
+            <div class="text" v-if="currentLayer == 'LayerLevel'">Уровень</div>
             <Arrows fill="white" class="m-flip-horizontal m-pointer" @click="toggle(1)" />
 
             <div class="big-buttons">
@@ -39,6 +43,7 @@
     import LayerAccuracy from '@/components/stat/LayerAccuracy.vue'
     import LayerPredict from '@/components/stat/LayerPredict.vue'
     import LayerRegularity from '@/components/stat/LayerRegularity.vue'
+    import LayerDashboard from '@/components/stat/LayerDashboard.vue'
     import LayerLevel from '@/components/stat/LayerLevel.vue'
     import Arrows from '@/components/icons/Arrows.vue'
     import StatService from '@/services/StatService.js';
@@ -51,13 +56,14 @@
             LayerAccuracy,
             LayerPredict,
             LayerRegularity,
-            LayerLevel
+            LayerLevel,
+            LayerDashboard
         },
 
         data() {
             return {
                 isReady: false,
-                currentLayer: 'accuracy',
+                currentLayer: 'LayerAccuracy',
                 layers: []
             }
         },
@@ -82,12 +88,24 @@
             },
 
             makeLayers() {
-                this.layers = ['accuracy', 'regularity', 'level'];
+                this.layers = ['LayerAccuracy'];
 
                 if(this.statService.showPredictLayer()) {
-                    this.layers.push('predict');
-                    this.currentLayer = 'predict';
+                    this.layers.push('LayerPredict');
+                    this.currentLayer = 'LayerPredict';
                 }
+
+                if(this.statService.showRegularityLayer()) {
+                    this.layers.unshift('LayerRegularity');
+                }
+
+                if(this.statService.showLevelLayer()) {
+                    this.layers.push('LayerLevel');
+                }
+
+                this.layers.push('LayerDashboard');
+
+                this.currentLayer = this.layers[0];
             }
         },
 
@@ -122,7 +140,7 @@
     .statistics {
         flex-grow: 2;
         padding-top: 258px;
-        padding-bottom: 191px;
+        padding-bottom: 70px;
         width: 100%;
         height: 100vh;
 

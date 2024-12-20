@@ -8,7 +8,6 @@ import AddWords from '@/views/AddWords.vue';
 import Training from '@/views/Training.vue';
 import Statistics from '@/views/Statistics.vue';
 import Options from '@/views/Options.vue';
-import Dashboard from '@/views/Dashboard.vue';
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -37,9 +36,6 @@ const router = createRouter({
         }, {
             path: '/options',
             component: Options
-        }, {
-            path: '/dashboard',
-            component: Dashboard
         }
     ]
 })

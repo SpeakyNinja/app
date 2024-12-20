@@ -9,7 +9,6 @@
         </div>
 
         <div class="controls glass">
-            <div class="btn green" @click="toTraining()">Тренироваться</div>
         </div>
          
     </div>
@@ -40,9 +39,7 @@
         },
 
         methods: {
-            toTraining() {
-                this.$router.push('/training');
-            }
+            
         }
     }
 </script>
@@ -70,22 +67,18 @@
         }
 
         .controls {
-            margin-top: 10px;
             padding: 20px;
             display: flex;
             justify-content: center;
             position: fixed;
             bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 191px;
-            border-top: 1px solid rgba(255,255,255,0.2);
+            left: -10%;
+            width: 120%;
+            height: 70px;
             z-index: 1;
-
-            .btn {
-                max-width: 250px;
-                z-index: 2;
-            }
+            overflow: hidden;
+            border-top-left-radius: 100%;
+            border-top-right-radius: 100%;
         }
     }
 
