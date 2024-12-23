@@ -103,7 +103,14 @@
 
             try {
                 this.preloader.show = true;
-                await this.statService.fetch();
+                const r = await this.statService.fetch();
+                
+                if(r.pwaVersion && localStorage.getItem("pwaVersion") != r.pwaVersion) {
+                    localStorage.setItem("pwaVersion", r.pwaVersion);
+                    await nextTick();
+                    window.location.reload();
+                }
+
                 this.makeLayers();
                 this.isReady = true;
                 await nextTick();

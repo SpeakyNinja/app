@@ -242,7 +242,14 @@
 
             try {
                 this.preloader.show = true;
-                await this.trainings.fetch();
+                const r = await this.trainings.fetch();
+
+                if(r.pwaVersion && localStorage.getItem("pwaVersion") != r.pwaVersion) {
+                    localStorage.setItem("pwaVersion", r.pwaVersion);
+                    await nextTick();
+                    window.location.reload();
+                }
+
                 await this.trainings.fetchMissingVoices(this.student.getId());
                 setTimeout(() => {
                     this.playAudio('muteTrainingVoice1');
