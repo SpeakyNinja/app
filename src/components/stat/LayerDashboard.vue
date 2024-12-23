@@ -11,7 +11,14 @@
                 <div class="counter-wrapper">
                     <div class="counter">
                         <div class="title">Словарный запас</div>
-                        <div class="value accuracy-1">{{ countLearnedWordsFormatted() }}</div>
+                        <div class="value">
+                            <div 
+                                v-for="(part, i) in getLearnedWordsChars()" 
+                                :class="{highlight: i == 1, 'accuracy-1': i == 1}"
+                                v-html="part"
+                            >
+                            </div>
+                        </div>
                         <RoundProgress 
                             :options="{progress: statService.getProgressInBelt()}"
                             :radius="134"
@@ -19,6 +26,9 @@
                             :strokeWidth="7"
                             :filledStroke="statService.getBeltColor()"
                         />
+                        <div class="scale" v-for="angle in getScale()">
+                            <div class="mark" :style="{ 'transform': 'rotate(' + angle + 'deg)' }"></div>
+                        </div>
                     </div>
                 </div>
 
@@ -96,6 +106,33 @@
                 return formatted.slice(0, 2) + ' ' + formatted.slice(2);
             },
 
+            getLearnedWordsChars() {
+                let highlighted = false;
+                const string = this.countLearnedWordsFormatted();
+
+                let moreZero = '';
+                let other = '';
+
+                string.split('').forEach(char => {
+                    if(char > 0) {
+                        highlighted = true;
+                    }
+
+                    if(highlighted) {
+                        moreZero += char;
+                    } else {
+
+                        if(char === ' ') {
+                            char = '&nbsp;';
+                        }
+
+                        other += char;
+                    }
+                });
+
+                return [other, moreZero];
+            },
+
             getCount(color) {
                 if(color == 'red') {
                     return this.statService.countWordsByMemorizations([0, 1, 2, 3]);
@@ -104,6 +141,19 @@
                 }
 
                 return this.statService.countWordsByMemorizations([8, 9, 10, 11]);
+            },
+
+            getScale() {
+                const belt = this.statService.getBelt();
+                const countLevels = this.statService.getCountLevelsInBelt(belt);
+                const angleStep = 360 / countLevels;
+                
+                const scale = [];
+                for(let angle = 0; angle < 360; angle += angleStep) {
+                    scale.push(angle);
+                }
+
+                return scale;
             }
         }
     }
@@ -171,16 +221,49 @@
                         }
 
                         .value {
-                            color: white;
                             position: absolute;
                             top: 102px;
                             left: 0;
                             width: 100%;
                             text-align: center;
-                            font-size: 64px;
-                            font-family: RobotoBlack;
-                            color: white;
-                            z-index: 3;
+                            display: flex;
+                            justify-content: center;
+
+                            >div {
+                                font-size: 64px;
+                                font-family: RobotoBlack;
+                                color: #41424b;
+                                z-index: 3;
+                                
+                                &.highlight {
+                                    color: white;
+                                    font-size: 64px;
+                                    font-family: RobotoBlack;
+                                }
+                            }
+                        }
+
+                        .scale {
+                            width: 100%;
+                            height: 100%;
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            display: flex;
+                            justify-content: center;
+
+                            .mark {
+                                height: 100%;
+                                display: flex;
+                                
+                                &:after {
+                                    content: '';
+                                    width: 2px;
+                                    height: 7px;
+                                    background-color: #41424b;
+                                    margin-top: 7px;
+                                }
+                            }
                         }
                     }
                 }

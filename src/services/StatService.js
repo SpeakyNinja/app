@@ -130,12 +130,12 @@ export default class StatService extends AbstractService {
         return this.regularity.nonstop_days_max > 1 && this.count_trainings_today == 1 && this.regularity.has_today_training;
     }
 
-    // Первое появление – Когда появились первые 5 зеленых блоков слов (8й уровень)  
+    // Первое появление – Когда появились первые 5 зеленых (8й уровень) слов
     // После первой тренировки внутри дня 
     // Каждые 20 тренировок
     showLevelLayer() {
-        const level = this.getLevel();
-        if(level < 8) {
+        const countHighLevelWords = this.countWordsByMemorizations([8,9,10,11,12,13,20]);
+        if(countHighLevelWords < 5) {
             return false;
         }
 
@@ -167,51 +167,51 @@ export default class StatService extends AbstractService {
     }
 
     getLearnedWordsCount() {
-        return this.countWordsByMemorizations([12, 13]);
+        return this.countWordsByMemorizations([13, 20]);
     }
 
     belts() {
         return [
             {
-                level: 1,
+                level: 0,
                 words: 0,
-                color: '#ffffff'
+                color: '#ffa498'
             }, {
                 level: 2,
                 words: 200,
-                color: '#ffa498'
+                color: '#ff0000'
             }, {
                 level: 5,
                 words: 500,
-                color: '#ff0000'
+                color: '#feffc5'
             },  {
                 level: 9,
                 words: 900,
-                color: '#feffc5'
+                color: '#faff00'
             }, {
                 level: 14,
                 words: 1400,
-                color: '#faff00'
+                color: '#e0ffbd'
             }, {
                 level: 21,
                 words: 2100,
-                color: '#e0ffbd'
+                color: '#87ff00'
             },  {
                 level: 30,
                 words: 3000,
-                color: '#87ff00'
+                color: '#ccccff'
             },  {
                 level: 42,
                 words: 4200,
-                color: '#ccccff'
+                color: '#366efe'
             },  {
                 level: 57,
                 words: 5700,
-                color: '#366efe'
+                color: '#c2c2c2'
             },  {
                 level: 75,
                 words: 7500,
-                color: '#c2c2c2'
+                color: '#000000'
             },  {
                 level: 100,
                 words: 10000,
@@ -239,7 +239,12 @@ export default class StatService extends AbstractService {
 
     getCountLevelsInBelt(belt) {
         const nextBelt = this.belts().find(item => item.level > belt.level);
-        return nextBelt ? nextBelt.level - belt.level : 1;
+        if(nextBelt) {
+            return nextBelt.level - belt.level;
+        }
+
+        const prevBelt = this.belts()[ this.belts().length - 2 ];
+        return belt.level - prevBelt.level;
     }
 
     getProgressInBelt() {
@@ -247,7 +252,7 @@ export default class StatService extends AbstractService {
         const learnedWords = this.getLearnedWordsCount();
         const learnedWordsInBelt = learnedWords - belt.words;
         const totalWordsInBelt = this.countWordsInsideBelt(belt);
-        return Math.round(learnedWordsInBelt * 100 / totalWordsInBelt);
+        return learnedWordsInBelt * 100 / totalWordsInBelt;
     }
 
     countWordsInsideBelt(belt) {

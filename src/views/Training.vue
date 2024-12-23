@@ -126,6 +126,7 @@
                     if(this.trainings.isFinish()) {
                         try {
                             this.preloader.show = true;
+                            localStorage.setItem("showFullStat", true);
                             const r = await this.trainings.submitAnswers();
                             this.$router.push('/statistics');
                         } catch(res) {

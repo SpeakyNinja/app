@@ -1,14 +1,11 @@
 <template>
     <div class="statistics main-bg no-scrollbar no-select" v-if="isReady" ref="self">
         
-        <template v-for="layer in layers" :key="layer">
-            <component 
-                v-if="currentLayer == layer" 
-                :statService="statService"
-                :is="layer" 
-                :key="layer" 
-            />
-        </template>
+        <component 
+            :statService="statService"
+            :is="layers[ curIndex ].component" 
+            :key="layers[ curIndex ].component" 
+        />
 
         <div class="items">
             <div class="item" v-for="item in statService.items">
@@ -19,19 +16,7 @@
             </div>
         </div>
 
-        <div class="pult" v-if="currentLayer != 'LayerDashboard'">
-            <Arrows fill="white" class="m-pointer" @click="toggle(-1)" />
-            <div class="text" v-if="currentLayer == 'LayerPredict'">Прогноз</div>
-            <div class="text" v-if="currentLayer == 'LayerAccuracy'">Слова</div>
-            <div class="text" v-if="currentLayer == 'LayerRegularity'">Регулярность</div>
-            <div class="text" v-if="currentLayer == 'LayerLevel'">Уровень</div>
-            <Arrows fill="white" class="m-flip-horizontal m-pointer" @click="toggle(1)" />
-
-            <div class="big-buttons">
-                <div @click="toggle(-1)"></div>
-                <div @click="toggle(1)"></div>
-            </div>
-        </div>
+        <StatPult :layers="layers" @toggle="toggle" :curIndex="curIndex" />
          
     </div>
 </template>
@@ -39,73 +24,74 @@
 <script>
     import { inject } from 'vue';
     import { nextTick } from "vue";
-    import Memorization from '@/components/Memorization.vue'
-    import LayerAccuracy from '@/components/stat/LayerAccuracy.vue'
-    import LayerPredict from '@/components/stat/LayerPredict.vue'
-    import LayerRegularity from '@/components/stat/LayerRegularity.vue'
-    import LayerDashboard from '@/components/stat/LayerDashboard.vue'
-    import LayerLevel from '@/components/stat/LayerLevel.vue'
-    import Arrows from '@/components/icons/Arrows.vue'
+    import Memorization from '@/components/Memorization.vue';
+    import LayerAccuracy from '@/components/stat/LayerAccuracy.vue';
+    import LayerPredict from '@/components/stat/LayerPredict.vue';
+    import LayerRegularity from '@/components/stat/LayerRegularity.vue';
+    import LayerDashboard from '@/components/stat/LayerDashboard.vue';
+    import LayerLevel from '@/components/stat/LayerLevel.vue';
+    import StatPult from '@/components/stat/StatPult.vue';
     import StatService from '@/services/StatService.js';
 
     export default {
 
         components: {
             Memorization,
-            Arrows,
             LayerAccuracy,
             LayerPredict,
             LayerRegularity,
             LayerLevel,
-            LayerDashboard
+            LayerDashboard,
+            StatPult
         },
 
         data() {
             return {
                 isReady: false,
-                currentLayer: 'LayerAccuracy',
+                curIndex: 0,
                 layers: []
             }
         },
 
         methods: {
             toggle(step) {
-                let currentIndex;
+                let index = this.curIndex + step;
 
-                this.layers.forEach((layer, i) => {
-                    if(layer == this.currentLayer) {
-                        currentIndex = i;
-                    }
-                });
-
-                let index = currentIndex + step;
-
-                if(!this.layers[index]) {
-                    index = step > 0 ? 0 : this.layers.length - 1;
+                if(step == -1 && index < 0) {
+                    return false;
                 }
 
-                this.currentLayer = this.layers[index];
+                this.curIndex = index;
             },
 
             makeLayers() {
-                this.layers = ['LayerAccuracy'];
+                this.layers = [];
+                // this.layers = [
+                //     {component: 'LayerAccuracy', title: 'Слова'},
+                //     {component: 'LayerPredict', title: 'Прогноз'},
+                //     {component: 'LayerRegularity', title: 'Регулярность'},
+                //     {component: 'LayerLevel', title: 'Уровень'}
+                // ];
+                
+                if(localStorage.getItem("showFullStat")) {
+                    localStorage.removeItem('showFullStat');
 
-                if(this.statService.showPredictLayer()) {
-                    this.layers.push('LayerPredict');
-                    this.currentLayer = 'LayerPredict';
+                    this.layers.push( {component: 'LayerAccuracy', title: 'Слова'} );
+                    
+                    if(this.statService.showPredictLayer()) {
+                        this.layers.push({component: 'LayerPredict', title: 'Прогноз'});
+                    }
+
+                    if(this.statService.showRegularityLayer()) {
+                        this.layers.unshift({component: 'LayerRegularity', title: 'Регулярность'});
+                    }
+
+                    if(this.statService.showLevelLayer()) {
+                        this.layers.push({component: 'LayerLevel', title: 'Уровень'});
+                    }
                 }
 
-                if(this.statService.showRegularityLayer()) {
-                    this.layers.unshift('LayerRegularity');
-                }
-
-                if(this.statService.showLevelLayer()) {
-                    this.layers.push('LayerLevel');
-                }
-
-                this.layers.push('LayerDashboard');
-
-                this.currentLayer = this.layers[0];
+                this.layers.push({component: 'LayerDashboard', title: ''});
             }
         },
 
@@ -176,48 +162,6 @@
                             text-transform: uppercase;
                         }
                     }
-                }
-            }
-        }
-
-        .pult {
-            position: fixed;
-            bottom: 0;
-            left: -10%;
-            width: 120%;
-            background-color: rgba(0, 0, 0, 0.2);
-            z-index: 100;
-            color: white;
-            height: 70px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            font-size: 24px;
-            border-top-left-radius: 100%;
-            border-top-right-radius: 100%;
-            border-top: 1px solid #7a7a7d;
-            font-family: RobotoLight;
-            padding: 0 20%;
-            overflow: hidden;
-
-            .text {
-                margin-bottom: 20px;
-                flex-grow: 2;
-                text-align: center;
-            }
-
-            .big-buttons {
-                width: 100%;
-                height: 100%;
-                display: flex;
-                justify-content: space-between;
-                position: absolute;
-                top: 0;
-                left: 0;
-
-                div {
-                    width: 40%;
-                    height: 100%;
                 }
             }
         }

@@ -54,17 +54,20 @@
 
         <ButtonsSticked>
             <template v-slot:items>
-                <div class="item no-select" @click="toTraining()">Тренировка</div>
-                <div class="item no-select" @click="logout()">Разлогиниться</div>
+                <div class="item no-select" @click="toStat()">Назад</div>
+                <div class="item no-select" @click="showCloseModal = true">Выход</div>
             </template>
         </ButtonsSticked>
 
     </div>
 
+    <Modal :options="closeModalOptions" :show="showCloseModal" @close="showCloseModal = false" />
+
 </template>
 
 <script>
     import { inject } from 'vue';
+    import Modal from '@/components/Modal.vue';
     import ButtonsSticked from '@/components/ButtonsSticked.vue';
     import Toggler from '@/components/Toggler.vue';
     import LocalStorage from '@/services/LocalStorageService.js';
@@ -73,19 +76,29 @@
 
         components: {
             ButtonsSticked,
-            Toggler
+            Toggler,
+            Modal
         },
 
         data() {
             return {
                 reg: {email: '', password: ''},
                 regError: '',
-                storage: LocalStorage
+                storage: LocalStorage,
+                showCloseModal: false,
+                closeModalOptions: {
+                    header: 'Внимание',
+                    body: 'Вы будете отключены от вашего аккаунта',
+                    action: this.logout.bind(this),
+                    actionButtonText: 'Выйти',
+                    cancelButtonText: 'Отмена'
+                }
             }
         },
 
         methods: {
             async logout() {
+                this.showCloseModal = false;
                 try {
                     this.preloader.show = true;
                     await this.student.logout();
@@ -97,8 +110,8 @@
                 }
             },
 
-            toTraining() {
-                this.$router.push('/training');
+            toStat() {
+                this.$router.push('/statistics');
             },
 
             async submitRegistration() {

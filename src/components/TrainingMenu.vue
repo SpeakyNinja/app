@@ -8,7 +8,6 @@
 
         <div class="menu" :class="{'active' : isActive}">
             <div class="item" @click="isLearned">Выучил это слово</div>
-            <div class="item" @click="toOptions">Настройки</div>
             <div class="item" @click="$emit('showFeedbackForm')">Сообщить об ошибке</div>
         </div>
     </div>
@@ -50,10 +49,6 @@
                         this.isActive = false;
                     }
                 }, {once : true});
-            },
-
-            async toOptions() {
-                this.$router.push('/options');
             }
         },
 
