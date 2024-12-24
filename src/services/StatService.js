@@ -134,7 +134,7 @@ export default class StatService extends AbstractService {
     // После первой тренировки внутри дня 
     // Каждые 20 тренировок
     showLevelLayer() {
-        const countHighLevelWords = this.countWordsByMemorizations([8,9,10,11,12,13,20]);
+        const countHighLevelWords = this.countWordsByMemorizations([8,9,10,11,12,13]);
         if(countHighLevelWords < 5) {
             return false;
         }
@@ -147,7 +147,7 @@ export default class StatService extends AbstractService {
             return true;
         }
 
-        return true;
+        return false;
     }
 
     getLevel() {
