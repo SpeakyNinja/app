@@ -11,6 +11,7 @@
     import Student from '@/models/Student.js'
     import Modal from "@/components/Modal.vue";
     import Preloader from "@/components/Preloader.vue";
+    import StateService from "@/services/StateService.js";
 
     export default {
     	components: {
@@ -64,9 +65,12 @@
 
         created() {
             this.student = new Student();
+            const state = new StateService();
+            
             provide('student', this.student);
             provide('modal', this.modal);
             provide('preloader', this.preloader);
+            provide('state', state);
         }
     }
 </script>

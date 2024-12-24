@@ -126,7 +126,7 @@
                     if(this.trainings.isFinish()) {
                         try {
                             this.preloader.show = true;
-                            localStorage.setItem("showFullStat", true);
+                            this.state.setShowFullStat(true);
                             const r = await this.trainings.submitAnswers();
                             this.$router.push('/statistics');
                         } catch(res) {
@@ -236,6 +236,7 @@
             this.modal = inject('modal');
             this.preloader = inject('preloader');
             this.student = inject('student');
+            this.state = inject('state');
 
             this.toolsService = new ToolsService();
             this.trainings = new Trainings();
@@ -244,10 +245,8 @@
                 this.preloader.show = true;
                 const r = await this.trainings.fetch();
 
-                if(r.pwaVersion && localStorage.getItem("pwaVersion") != r.pwaVersion) {
-                    localStorage.setItem("pwaVersion", r.pwaVersion);
-                    await nextTick();
-                    window.location.reload();
+                if( !this.state.checkPwaVersion(r.pwaVersion) ) {
+                    return false;
                 }
 
                 await this.trainings.fetchMissingVoices(this.student.getId());

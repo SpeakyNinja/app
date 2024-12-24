@@ -73,8 +73,8 @@
                 //     {component: 'LayerLevel', title: 'Уровень'}
                 // ];
                 
-                if(localStorage.getItem("showFullStat")) {
-                    localStorage.removeItem('showFullStat');
+                if(this.state.getShowFullStat()) {
+                    this.state.setShowFullStat(false);
 
                     this.layers.push( {component: 'LayerAccuracy', title: 'Слова'} );
                     
@@ -98,6 +98,7 @@
         async beforeMount() {
             this.modal = inject('modal');
             this.preloader = inject('preloader');
+            this.state = inject('state');
 
             this.statService = new StatService();
 
@@ -105,10 +106,8 @@
                 this.preloader.show = true;
                 const r = await this.statService.fetch();
                 
-                if(r.pwaVersion && localStorage.getItem("pwaVersion") != r.pwaVersion) {
-                    localStorage.setItem("pwaVersion", r.pwaVersion);
-                    await nextTick();
-                    window.location.reload();
+                if( !this.state.checkPwaVersion(r.pwaVersion) ) {
+                    return false;
                 }
 
                 this.makeLayers();

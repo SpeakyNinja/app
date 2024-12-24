@@ -10,19 +10,61 @@
             <div class="btn gray" @click="toTest">Пропустить</div>
         </div>
         
+        <NoticeLayer :items="welcomeItems"/>
     </div>
 </template>
 
 <script>
     import { inject } from 'vue';
+    import NoticeLayer from '@/components/NoticeLayer.vue'
 
     export default {
 
         components: {
+            NoticeLayer
         },
 
         data() {
             return {
+                welcomeItems: [
+                    {
+                        component: 'Rainbow',
+                        title: 'Легко',
+                        texts: [
+                            {
+                                value: 'Слова английского будут запоминаться сами.',
+                                muted: false
+                            }, {
+                                value: 'Как words родного языка.',
+                                muted: true
+                            }
+                        ]
+                    }, {
+                        component: 'SpeedWidget',
+                        title: 'Быстро',
+                        texts: [
+                            {
+                                value: 'За счет досознательного усвоения.',
+                                muted: false
+                            }, {
+                                value: 'Иногда слова будут запомниться с первого раза.',
+                                muted: true
+                            }
+                        ]
+                    }, {
+                        image: new URL('@/images/brain.svg', import.meta.url).href,
+                        title: 'Эффективно',
+                        texts: [
+                            {
+                                value: 'Методика использует врожденные механики усвоения языков мозгом.',
+                                muted: false
+                            }, {
+                                value: 'Удивись своей способности запоминать слова.',
+                                muted: true
+                            }
+                        ]
+                    }
+                ]
             }
         },
 

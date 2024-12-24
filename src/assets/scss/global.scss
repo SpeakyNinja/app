@@ -19,6 +19,11 @@
 }
 
 @font-face {
+    font-family: RobotoThin;
+    src: url(@/fonts/Roboto/Roboto-Thin.ttf);
+}
+
+@font-face {
     font-family: RobotoMono;
     src: url(@/fonts/Roboto-mono/RobotoMono-Regular.ttf);
 }
@@ -259,6 +264,10 @@ textarea {
 
 .m-light {
     font-family: RobotoLight;
+}
+
+.m-thin {
+    font-family: RobotoThin;
 }
 
 .m-capitalize {
