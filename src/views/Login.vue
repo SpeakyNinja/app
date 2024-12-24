@@ -3,6 +3,8 @@
         
         <div class="title">Speaky Ninja</div>
 
+        <div class="m-light m-gray mt-1">вход</div>
+
         <div class="form">
             <div class="row">
                 <div class="m-light ml-1 mb-1 m-size20">E-mail</div>
@@ -16,6 +18,7 @@
             </div>
 
             <div class="btn green mt-1" @click="login">Войти</div>
+            <div class="btn mt-1" @click="registration">Регистрация</div>
         </div>
         
     </div>
@@ -46,6 +49,10 @@
                 } finally {
                     this.preloader.show = false;
                 }
+            },
+
+            registration() {
+                this.$router.push('/registration');
             }
         },
 
