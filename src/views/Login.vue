@@ -43,7 +43,7 @@
                 try {
                     this.preloader.show = true;
                     const r = await this.student.login();
-                    this.$router.push('/test');
+                    this.$router.push('/training');
                 } catch(res) {
                     this.error = res.message;
                 } finally {
