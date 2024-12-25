@@ -34,12 +34,12 @@
         </div>
 
         <div class="text-wrapper">
-            <div class="number" :class="accuracyClass">
+            <div class="number">
                 <div class="sign">+</div>
                 <div class="num">{{ curValue }}</div>
             </div>
 
-            <div class="text" :class="accuracySmallClass">
+            <div class="text">
                 {{ tools.plural(curValue, ['слово', 'слова', 'слов']) }}/месяц
             </div>
         </div>
