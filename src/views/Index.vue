@@ -52,7 +52,7 @@
                             }
                         ]
                     }, {
-                        // image: new URL('@/images/brain.svg', import.meta.url).href,
+                        image: new URL('@/images/brain.svg', import.meta.url).href,
                         title: 'Эффективно',
                         texts: [
                             {

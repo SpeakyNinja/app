@@ -17,6 +17,7 @@
                         :curValue="540"
                         :maxValue="750"
                         backgroundColor="#464664"
+                        :glow="false"
                     />
 
                     <Rainbow v-if="item.component == 'Rainbow'" :freeze="freezeComponentAnimation" />

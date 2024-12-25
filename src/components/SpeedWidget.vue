@@ -34,12 +34,12 @@
         </div>
 
         <div class="text-wrapper">
-            <div class="number">
+            <div class="number" :class="{[accuracyClass]: glow}">
                 <div class="sign">+</div>
                 <div class="num">{{ curValue }}</div>
             </div>
 
-            <div class="text">
+            <div class="text" :class="{[accuracySmallClass]: glow}">
                 {{ tools.plural(curValue, ['слово', 'слова', 'слов']) }}/месяц
             </div>
         </div>
@@ -70,6 +70,11 @@
                 type: String,
                 required: false,
                 default: '#3a3744'
+            },
+            glow: {
+                type: Boolean,
+                required: false,
+                default: true
             }
         },
 
