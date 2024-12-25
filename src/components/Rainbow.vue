@@ -1,7 +1,7 @@
 <template>
     <div class="rainbow">
         
-        <button class="btn"></button>
+        <button class="btn" :class="{freeze: freeze}"></button>
 
     </div>
 </template>
@@ -9,6 +9,15 @@
 <script>
 
     export default {
+
+        props: {
+            freeze: {
+                type: Boolean,
+                required: false,
+                default: false
+            }
+        },
+
 
         data() {
             return {
@@ -45,7 +54,7 @@
                 position: absolute;
                 width: 100%;
                 height: 100%;
-                background-color: #30313f;
+                background-color: #393951;
                 left: 0;
                 top: 0;
                 border-radius: 50%;
@@ -69,6 +78,12 @@
                 animation: glowing 20s linear infinite;
                 transition: opacity .3s ease-in-out;
                 border-radius: 50%;
+            }
+
+            &.freeze {
+                &:before {
+                    animation-play-state: paused;
+                }
             }
         }
 

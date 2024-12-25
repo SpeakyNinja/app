@@ -100,7 +100,7 @@
             >div {
                 z-index: 2;
                 color: white;
-                font-family: RobotoLight;
+                font-family: Light;
             }
         }
     }

@@ -52,7 +52,7 @@
 
         .percents {
             font-size: 68px;
-            font-family: RobotoBlack;
+            font-family: Black;
             padding-left: 40px;
             display: flex;
             gap: 5px;
@@ -62,7 +62,7 @@
 
             .sign {
                 font-size: 68px;
-                font-family: RobotoLight;
+                font-family: Light;
             }
 
             &.accuracy-1 {

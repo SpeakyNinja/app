@@ -158,7 +158,7 @@
 
                     .en {
                         font-size: 20px;
-                        font-family: RobotoBold;
+                        font-family: Bold;
                         color: #eaeaeb;
 
                         display: inline-block;

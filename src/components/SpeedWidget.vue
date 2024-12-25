@@ -65,6 +65,11 @@
             maxValue: {
                 type: Number,
                 required: true
+            },
+            backgroundColor: {
+                type: String,
+                required: false,
+                default: '#3a3744'
             }
         },
 
@@ -77,7 +82,6 @@
                 arrowAngle: 0,
                 strokeWidth: 45,
                 mainColor: '',
-                backgroundColor: '#3a3744',
                 accuracyClass: ''
             }
         },
@@ -187,13 +191,13 @@
                 color: white;
 
                 .sign {
-                    font-family: RobotoLight;
+                    font-family: Light;
                     font-size: 40px;
                     margin-left: -24px;
                 }
 
                 .num {
-                    font-family: RobotoBlack;
+                    font-family: Black;
                     font-size: 40px;
                 }
             }
@@ -204,7 +208,7 @@
                 width: 100%;
                 gap: 5px;
                 color: white;
-                font-family: RobotoLight;
+                font-family: Light;
                 font-size: 16px;
             }
         }

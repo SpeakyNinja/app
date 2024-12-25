@@ -82,7 +82,7 @@
 
             .days {
                 font-size: 68px;
-                font-family: RobotoBlack;
+                font-family: Black;
             }
 
             div {
@@ -111,7 +111,7 @@
                 z-index: 2;
                 text-align: center;
                 color: white;
-                font-family: RobotoLight;
+                font-family: Light;
             }
         }
     }

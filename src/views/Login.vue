@@ -77,7 +77,7 @@
         
         .title {
             font-size: 40px;
-            font-family: RobotoLight;
+            font-family: Light;
             color: #ebebed;
         }
 

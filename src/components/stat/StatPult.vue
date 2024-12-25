@@ -72,7 +72,7 @@
         border-top-left-radius: 100%;
         border-top-right-radius: 100%;
         border-top: 1px solid #7a7a7d;
-        font-family: RobotoLight;
+        font-family: Light;
         padding: 0 20%;
         overflow: hidden;
 

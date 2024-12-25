@@ -215,7 +215,7 @@
                             width: 100%;
                             text-align: center;
                             font-size: 16px;
-                            font-family: RobotoLight;
+                            font-family: Light;
                             color: white;
                             z-index: 3;
                         }
@@ -231,14 +231,14 @@
 
                             >div {
                                 font-size: 64px;
-                                font-family: RobotoBlack;
+                                font-family: Black;
                                 color: #41424b;
                                 z-index: 3;
                                 
                                 &.highlight {
                                     color: white;
                                     font-size: 64px;
-                                    font-family: RobotoBlack;
+                                    font-family: Black;
                                 }
                             }
                         }
@@ -296,7 +296,7 @@
                             gap: 10px;
 
                             >:first-child {
-                                font-family: RobotoLight;
+                                font-family: Light;
                                 color: white;
                                 font-size: 14px;
                             }

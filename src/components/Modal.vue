@@ -94,20 +94,20 @@
                 cursor: pointer;
                 line-height: 0.5;
                 color: black;
-                font-family: RobotoLight;
+                font-family: Light;
                 line-height: 1;
             }
         }
 
         .modal-header {
             margin-top: 0;
-            font-family: RobotoBold;
+            font-family: Bold;
             font-size: 20px;
         }
 
         .modal-body {
             font-size: 18px;
-            font-family: Roboto;
+            font-family: Regular;
         }
 
         &.modal-enter-from, &.modal-leave-to {

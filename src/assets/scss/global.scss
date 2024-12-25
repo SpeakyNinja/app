@@ -1,26 +1,36 @@
 @font-face {
-    font-family: Roboto;
-    src: url(@/fonts/Roboto/Roboto-Regular.ttf);
+    font-family: Thin;
+    src: url(@/fonts/M-plus-rounded/MPLUSRounded1c-Thin.ttf);
 }
 
 @font-face {
-    font-family: RobotoBold;
-    src: url(@/fonts/Roboto/Roboto-Bold.ttf);
+    font-family: Light;
+    src: url(@/fonts/M-plus-rounded/MPLUSRounded1c-Light.ttf);
 }
 
 @font-face {
-    font-family: RobotoBlack;
-    src: url(@/fonts/Roboto/Roboto-Black.ttf);
+    font-family: Regular;
+    src: url(@/fonts/M-plus-rounded/MPLUSRounded1c-Regular.ttf);
 }
 
 @font-face {
-    font-family: RobotoLight;
-    src: url(@/fonts/Roboto/Roboto-Light.ttf);
+    font-family: Medium;
+    src: url(@/fonts/M-plus-rounded/MPLUSRounded1c-Medium.ttf);
 }
 
 @font-face {
-    font-family: RobotoThin;
-    src: url(@/fonts/Roboto/Roboto-Thin.ttf);
+    font-family: Bold;
+    src: url(@/fonts/M-plus-rounded/MPLUSRounded1c-Bold.ttf);
+}
+
+@font-face {
+    font-family: ExtraBold;
+    src: url(@/fonts/M-plus-rounded/MPLUSRounded1c-ExtraBold.ttf);
+}
+
+@font-face {
+    font-family: Black;
+    src: url(@/fonts/M-plus-rounded/MPLUSRounded1c-Black.ttf);
 }
 
 @font-face {
@@ -38,7 +48,8 @@
     padding: 0;
     box-sizing: border-box;
     font-size: 18px;
-    font-family: Roboto, sans-serif;
+    font-family: Regular, sans-serif;
+    line-height: 1.2;
     letter-spacing: 1px;
 }
 
@@ -77,14 +88,14 @@ a {
 }
 
 b {
-    font-family: RobotoBold;
+    font-family: Bold;
     font-weight: normal;
     font-size: unset;
 }
 
 .hint {
     b {
-        font-family: Roboto;
+        font-family: Regular;
     }
 }
 
@@ -255,19 +266,19 @@ textarea {
 }
 
 .m-bold {
-    font-family: RobotoBold;
+    font-family: Bold;
 }
 
 .m-black {
-    font-family: RobotoBlack;
+    font-family: Black;
 }
 
 .m-light {
-    font-family: RobotoLight;
+    font-family: Light;
 }
 
 .m-thin {
-    font-family: RobotoThin;
+    font-family: Thin;
 }
 
 .m-capitalize {

@@ -16,9 +16,10 @@
                         v-if="item.component == 'SpeedWidget'"
                         :curValue="540"
                         :maxValue="750"
+                        backgroundColor="#464664"
                     />
 
-                    <Rainbow v-if="item.component == 'Rainbow'" />
+                    <Rainbow v-if="item.component == 'Rainbow'" :freeze="freezeComponentAnimation" />
 
                 </div>
 
@@ -28,8 +29,7 @@
 
                 <div class="texts" v-if="item.texts?.length">
                     <template v-for="text in item.texts">
-                        <div class="text m-light" :class="{ muted: text.muted }">
-                            {{ text.value }}
+                        <div class="text m-light" :class="{ muted: text.muted }" v-html="text.value">
                         </div>
                     </template>
                 </div>
@@ -50,6 +50,7 @@
 
 <script>
 
+    import { nextTick } from 'vue';
     import Arr2 from '@/components/icons/Arr2.vue';
     import SpeedWidget from '@/components/SpeedWidget.vue';
     import Rainbow from '@/components/Rainbow.vue';
@@ -71,19 +72,27 @@
         data() {
             return {
                 isHidden: false,
-                marginLeft: 0
+                marginLeft: 0,
+                freezeComponentAnimation: false
             }
         },
 
         methods: {
-            changeItem(step) {
+            async changeItem(step) {
                 const newMargin = this.marginLeft - step * 100;
                 if(newMargin > 0) {
                     return false;
                 }
 
+                this.freezeComponentAnimation = true;
+
                 if(-newMargin / 100 < this.items.length) {
                     this.marginLeft = newMargin;
+                    
+                    await nextTick();
+                    setTimeout(() => {
+                        this.freezeComponentAnimation = false;
+                    }, 300);
                 } else {
                     this.isHidden = true;
                 }
@@ -100,7 +109,7 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: #30313f;
+        background-color: #393951;
         display: flex;
         justify-content: center;
         z-index: 2;
@@ -122,29 +131,36 @@
             .item {
                 width: 100%;
                 min-width: 100%;
-                padding: 20px;
+                padding: 20px 40px;
                 display: flex;
-                flex-direction: column;
-                justify-content: center;
                 align-items: center;
-                gap: 70px;
+                flex-direction: column;
 
                 .image, .component {
-                    min-height: 210px;
+                    height: 45%;
+                    min-height: 45%;
                     display: flex;
                     justify-content: center;
                     align-items: center;
                 }
 
                 .title {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: flex-start;
+                    align-items: center;
+                    flex-grow: 2;
                     font-size: 36px;
                 }
 
                 .texts {
+                    height: 40%;
+                    min-height: 40%;
                     display: flex;
                     flex-direction: column;
-                    justify-content: center;
+                    justify-content: flex-start;
                     gap: 20px;
+                    padding-top: 30px;
 
                     .text {
                         text-align: center;
@@ -154,6 +170,7 @@
                         }
                     }
                 }
+                
             }
         }
 

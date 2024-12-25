@@ -228,13 +228,13 @@
             gap: 10px;
 
             .word {
-                font-family: RobotoLight;
+                font-family: Light;
                 font-size: clamp(16px, 7.5vw, 50px);
                 color: white;
             }
 
             .translate {
-                font-family: RobotoLight;
+                font-family: Light;
                 font-size: clamp(18px, 4vw, 20px);
                 color: #bbbbbb;
                 text-align: center;

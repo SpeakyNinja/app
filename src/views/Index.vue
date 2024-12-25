@@ -32,7 +32,7 @@
                         title: 'Легко',
                         texts: [
                             {
-                                value: 'Слова английского будут запоминаться сами.',
+                                value: 'Слова английского<br>будут запоминаться сами.',
                                 muted: false
                             }, {
                                 value: 'Как words родного языка.',
@@ -116,7 +116,7 @@
         
         .title {
             font-size: 40px;
-            font-family: RobotoLight;
+            font-family: Light;
             color: #ebebed;
         }
 

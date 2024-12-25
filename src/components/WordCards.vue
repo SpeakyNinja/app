@@ -211,12 +211,12 @@
             left: 0;
 
             .word {
-                font-family: RobotoLight;
+                font-family: Light;
                 font-size: clamp(16px, 7.5vw, 50px);
             }
 
             .translate {
-                font-family: RobotoLight;
+                font-family: Light;
                 font-size: clamp(18px, 4vw, 20px);
                 color: #525465;
                 text-align: center;
@@ -250,7 +250,7 @@
                 left: 0;
                 width: 100%;
                 text-align: center;
-                font-family: RobotoLight;
+                font-family: Light;
                 font-size: 16px;
             }
         }

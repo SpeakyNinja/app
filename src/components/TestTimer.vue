@@ -113,8 +113,8 @@
         justify-content: center;
 
         .word {
-            font-family: RobotoLight;
-            font-size: clamp(16px, 7vw, 90px);
+            font-family: Light;
+            font-size: clamp(16px, 7vw, 27px);
             letter-spacing: 2px;
             color: #ebebed;
             cursor: pointer;

@@ -163,7 +163,7 @@
 
             .row {
                 &.title {
-                    font-family: RobotoBold;
+                    font-family: Bold;
                     font-size: 20px;
                 }
 
@@ -181,7 +181,7 @@
 
                 .subtitle {
                     font-size: 20px;
-                    font-family: RobotoLight;
+                    font-family: Light;
                 }
             }
 
