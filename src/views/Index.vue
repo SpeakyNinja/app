@@ -40,7 +40,7 @@
                             }
                         ]
                     }, {
-                        // component: 'SpeedWidget',
+                        component: 'SpeedWidget',
                         title: 'Быстро',
                         texts: [
                             {
