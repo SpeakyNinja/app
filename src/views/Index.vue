@@ -28,7 +28,7 @@
             return {
                 welcomeItems: [
                     {
-                        component: 'Rainbow',
+                        // component: 'Rainbow',
                         title: 'Легко',
                         texts: [
                             {
@@ -40,7 +40,7 @@
                             }
                         ]
                     }, {
-                        component: 'SpeedWidget',
+                        // component: 'SpeedWidget',
                         title: 'Быстро',
                         texts: [
                             {
@@ -52,7 +52,7 @@
                             }
                         ]
                     }, {
-                        image: new URL('@/images/brain.svg', import.meta.url).href,
+                        // image: new URL('@/images/brain.svg', import.meta.url).href,
                         title: 'Эффективно',
                         texts: [
                             {
