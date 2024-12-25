@@ -10,13 +10,14 @@
             <div class="btn gray" @click="toTest">Пропустить</div>
         </div>
         
-        <NoticeLayer :items="welcomeItems"/>
+        <NoticeLayer :items="noticeItems" v-if="showNotice" @closedHandler="showNotice = false" />
     </div>
 </template>
 
 <script>
     import { inject } from 'vue';
-    import NoticeLayer from '@/components/NoticeLayer.vue'
+    import NoticeLayer from '@/components/NoticeLayer.vue';
+    import NoticeService from '@/services/NoticeService.js';
 
     export default {
 
@@ -26,45 +27,8 @@
 
         data() {
             return {
-                welcomeItems: [
-                    {
-                        component: 'Rainbow',
-                        title: 'Легко',
-                        texts: [
-                            {
-                                value: 'Слова английского<br>будут запоминаться сами.',
-                                muted: false
-                            }, {
-                                value: 'Как words родного языка.',
-                                muted: true
-                            }
-                        ]
-                    }, {
-                        component: 'SpeedWidget',
-                        title: 'Быстро',
-                        texts: [
-                            {
-                                value: 'За счет досознательного усвоения.',
-                                muted: false
-                            }, {
-                                value: 'Иногда слова будут запомниться с первого раза.',
-                                muted: true
-                            }
-                        ]
-                    }, {
-                        image: new URL('@/images/brain.svg', import.meta.url).href,
-                        title: 'Эффективно',
-                        texts: [
-                            {
-                                value: 'Методика использует врожденные механики усвоения языков мозгом.',
-                                muted: false
-                            }, {
-                                value: 'Удивись своей способности запоминать слова.',
-                                muted: true
-                            }
-                        ]
-                    }
-                ]
+                showNotice: false,
+                noticeItems: []
             }
         },
 
@@ -94,9 +58,16 @@
             this.modal = inject('modal');
             this.preloader = inject('preloader');
             this.student = inject('student');
+            this.state = inject('state');
 
             if(!this.student.isGuest()) {
                 this.$router.push('/statistics');
+            }
+
+            if(this.state.isFirstVisit()) {
+                this.noticeService = new NoticeService();
+                this.noticeItems = this.noticeService.getItems('indexBefore');
+                this.showNotice = true;
             }
         }
     }

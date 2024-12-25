@@ -60,19 +60,25 @@
             </template>
         </ButtonsSticked>
     </div>
+
+    <NoticeLayer :items="noticeItemsBefore" @closedHandler="showInterface" v-if="noticeItemsBefore?.length" />
+    <NoticeLayer :items="noticeItemsAfter" @closedHandler="nextStep" v-if="noticeItemsAfter?.length" />
+
 </template>
 
 <script>
     import { inject } from 'vue';
+    import { nextTick } from "vue";
     import Brain from '@/components/Brain.vue';
     import ProgressBar from '@/components/ProgressBar.vue';
     import IcoArrow from '@/components/icons/IcoArrow.vue';
     import IcoNeuron from '@/components/icons/IcoNeuron.vue';
     import ButtonsSticked from '@/components/ButtonsSticked.vue'
+    import NoticeLayer from '@/components/NoticeLayer.vue'
     import AddWordService from '@/services/AddWordService.js';
     import ToolsService from '@/services/ToolsService.js';
     import LocalStorage from '@/services/LocalStorageService.js';
-    import { nextTick } from "vue";
+    import NoticeService from '@/services/NoticeService.js';
 
     export default {
         
@@ -81,7 +87,8 @@
             ProgressBar,
             IcoArrow,
             IcoNeuron,
-            ButtonsSticked
+            ButtonsSticked,
+            NoticeLayer
         },
 
         data() {
@@ -92,12 +99,15 @@
                 brainWidth: window.screen.width > 550 ? 368 : 283,
                 brainHeight: window.screen.width > 550 ? 316 : 245,
                 brainHexRadius: window.screen.width > 550 ? 18 : 14,
-                buttonsOptions: { highlightedItem: null, maxHighlightInterval: 0.5 }
+                buttonsOptions: { highlightedItem: null, maxHighlightInterval: 0.5 },
+                noticeItemsAfter: [],
+                noticeItemsBefore: []
             }
         },
 
         methods: {
             nextStep() {
+                this.state.increaseAddWordsCount();
                 this.$router.push('/training');
             },
 
@@ -126,7 +136,7 @@
                 if(res.code == 'scm-not-found') {
                     this.$router.push('/test');
                 } else if(res.code == 'dict-is-full') {
-                    this.nextStep();
+                    this.finishHandler();
                 } else if(res.code == 'meaning-not-found') {
                     this.$router.push('/statistics');
                 } else {
@@ -147,22 +157,47 @@
                 if(!LocalStorage.get('options', 'muteAddingVoice1')) {
                     this.toolsService.playAudio(this.addWordService.voice());
                 }
+            },
+
+            showInterface() {
+                this.playAudio();
+                this.countSteps = this.addWordService.data.leftWords;
+                this.updateProgress();
+                this.isReady = true;
+            },
+
+            finishHandler() {
+                const cnt = this.state.getAddWordsCount();
+
+                if(cnt == 0) {
+                    this.noticeItemsAfter = this.noticeService.getItems('addWordsAfterFirst');
+                } else {
+                    const map = {2: 47, 3: 54, 4: 61, 5: 66, 6: 69, 7: 73, 8: 75, 9: 79, 10: 83};
+                    const nth = map[cnt] || this.toolsService.randomInteger(84, 97);
+                    this.noticeItemsAfter = this.noticeService.getItems('addWordsAfterNth', {nth: nth});
+                }
             }
         },
 
         async beforeMount() {
             this.modal = inject('modal');
             this.preloader = inject('preloader');
+            this.state = inject('state');
             
             this.toolsService = new ToolsService();
             this.addWordService = new AddWordService();
+            this.noticeService = new NoticeService();
+
             try {
                 this.preloader.show = true;
                 await this.addWordService.fetchWord();
-                this.playAudio();
-                this.countSteps = this.addWordService.data.leftWords;
-                this.updateProgress();
-                this.isReady = true;
+                
+                if(this.state.getAddWordsCount() > 0) {
+                    this.showInterface();
+                } else {
+                    this.noticeItemsBefore = this.noticeService.getItems('addWordsBefore');
+                }
+
             } catch(res) {
                 this.errorHandler(res);
             } finally {

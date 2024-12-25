@@ -28,22 +28,29 @@
         </ButtonsSticked>
 
         <div></div>
+
     </div>
+    
+    <NoticeLayer :items="noticeItems" @closedHandler="noticeClosed"/>
+
 </template>
 
 <script>
     import { inject } from 'vue';
-    import TestTimer from '@/components/TestTimer.vue'
-    import ButtonsSticked from '@/components/ButtonsSticked.vue'
-    import ProgressBar from '@/components/ProgressBar.vue'
-    import TestService from '@/services/TestService.js'
+    import TestTimer from '@/components/TestTimer.vue';
+    import ButtonsSticked from '@/components/ButtonsSticked.vue';
+    import ProgressBar from '@/components/ProgressBar.vue';
+    import NoticeLayer from '@/components/NoticeLayer.vue';
+    import TestService from '@/services/TestService.js';
     import ToolsService from '@/services/ToolsService.js';
+    import NoticeService from '@/services/NoticeService.js';
 
     export default {
         components: {
             TestTimer,
             ButtonsSticked,
-            ProgressBar
+            ProgressBar,
+            NoticeLayer
         },
 
         data() {
@@ -52,7 +59,8 @@
                 question: {},
                 answers: [],
                 isReady: false,
-                buttonsOptions: { highlightedItem: null, maxHighlightInterval: 0.5 }
+                buttonsOptions: { highlightedItem: null, maxHighlightInterval: 0.5 },
+                noticeItems: []
             }
         },
 
@@ -89,6 +97,12 @@
 
             playAudio() {
                 this.toolsService.playAudio(this.testService.voice);
+            },
+
+            noticeClosed() {
+                this.updateProgress();
+                this.playAudio();
+                this.isReady = true;
             }
         },
 
@@ -97,23 +111,22 @@
             this.preloader = inject('preloader');
             this.testService = new TestService();
             this.toolsService = new ToolsService();
+
+            this.noticeService = new NoticeService();
+            this.noticeItems = this.noticeService.getItems('testBefore');
             
             try {
                 this.preloader.show = true;
                 const r = await this.testService.fetchQuestion();
                 this.maxWords = r.max_words;
                 this.countAnswers = 0;
-                this.updateProgress();
-                if(this.testService.question) {
-                    this.playAudio();
-                } else {
+                if(!this.testService.question) {
                     this.$router.push('/add-words');
                 }
             } catch(res) {
                 this.modal.show(res);
             } finally {
                 this.preloader.show = false;
-                this.isReady = true;
             }
         }
     }

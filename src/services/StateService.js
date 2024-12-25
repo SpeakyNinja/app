@@ -30,4 +30,23 @@ export default class StateService extends AbstractService {
 
         return false;
     }
+
+    isFirstVisit() {
+        const hasVisited = LocalStorage.get(this.storageName, 'hasVisited') || false;
+        if(hasVisited) {
+            return false;
+        }
+
+        LocalStorage.store(this.storageName, 'hasVisited', true);
+        return true;
+    }
+
+    increaseAddWordsCount() {
+        let cnt = this.getAddWordsCount();
+        LocalStorage.store(this.storageName, 'addWordsCount', ++cnt);
+    }
+
+    getAddWordsCount() {
+        return LocalStorage.get(this.storageName, 'addWordsCount') || 0;
+    }
 }

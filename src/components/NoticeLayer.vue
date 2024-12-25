@@ -1,5 +1,5 @@
 <template>
-    <div class="notice-layer" :class="{hidden: isHidden}">
+    <div class="notice-layer" :class="{hidden: isClosed}">
         <div class="items">
 
             <div class="dummy" :style="{ 'margin-left': marginLeft + '%' }"></div>
@@ -39,10 +39,18 @@
 
         </div>
 
-        <div class="controls" v-if="items.length > 1">
+        <div class="controls">
             <div class="controls-wrapper">
-                <Arr2 class="arrow no-select" :class="{muted: !marginLeft}" @click="changeItem(-1)" />
-                <Arr2 class="arrow no-select" @click="changeItem(1)" />
+                <Arr2 
+                    class="arrow no-select" 
+                    :class="{muted: !marginLeft, transparent: items.length == 1}" 
+                    @click="changeItem(-1)" 
+                />
+
+                <Arr2 
+                    class="arrow no-select" 
+                    @click="changeItem(1)" 
+                />
             </div>
         </div>
 
@@ -70,9 +78,11 @@
             }
         },
 
+        emits: ['closedHandler'],
+
         data() {
             return {
-                isHidden: false,
+                isClosed: false,
                 marginLeft: 0,
                 freezeComponentAnimation: false
             }
@@ -95,7 +105,8 @@
                         this.freezeComponentAnimation = false;
                     }, 300);
                 } else {
-                    this.isHidden = true;
+                    this.isClosed = true;
+                    this.$emit('closedHandler');
                 }
             }
         }
@@ -114,6 +125,7 @@
         display: flex;
         justify-content: center;
         z-index: 2;
+        color: white;
 
         &.hidden {
             display: none;
@@ -151,7 +163,16 @@
                     justify-content: flex-start;
                     align-items: center;
                     flex-grow: 2;
-                    font-size: 36px;
+                    font-size: 32px;
+                    text-align: center;
+
+                    &:first-child {
+                        flex-grow: unset;
+                        height: 45%;
+                        min-height: 45%;
+                        justify-content: flex-end;
+                        padding-bottom: 50px;
+                    }
                 }
 
                 .texts {
@@ -202,7 +223,11 @@
                     }
 
                     &.muted {
-                        fill: #545454;
+                        fill: #535567;
+                    }
+
+                    &.transparent {
+                        opacity: 0;
                     }
                 }
             }
