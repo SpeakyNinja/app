@@ -28,7 +28,7 @@
             return {
                 welcomeItems: [
                     {
-                        // component: 'Rainbow',
+                        component: 'Rainbow',
                         title: 'Легко',
                         texts: [
                             {
