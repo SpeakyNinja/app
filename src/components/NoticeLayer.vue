@@ -23,6 +23,7 @@
                     <Rainbow v-if="item.component == 'Rainbow'" :freeze="freezeComponentAnimation" />
 
                     <Brain 
+                        v-if="item.component == 'Brain'"
                         ref="brain" 
                         :hexRadius="brainHexRadius"
                         :width="brainWidth"

@@ -54,7 +54,7 @@
                 position: absolute;
                 width: 100%;
                 height: 100%;
-                background-color: #393951;
+                background-color: #272733;
                 left: 0;
                 top: 0;
                 border-radius: 50%;
