@@ -54,15 +54,14 @@
         align-items: center;
         border-top: 1px solid rgba(255,255,255,0.2);
         width: 100%;
-        position: fixed;
+        position: absolute;
         bottom: 0;
         left: 0;
 
         .item {
             z-index: 2;
             color: #ebebed;
-            max-width: 500px;
-            width: 450px;
+            width: 100%;
             display: flex;
             justify-content: center;
             text-align: center;

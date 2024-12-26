@@ -47,9 +47,14 @@
 <style lang="scss" scoped>
 
     .layer-accuracy {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
 
         .top-fixed {
-            position: fixed;
+            position: absolute;
             top: 0;
             left: 0;
             width: 100%;
@@ -70,7 +75,7 @@
             padding: 20px;
             display: flex;
             justify-content: center;
-            position: fixed;
+            position: absolute;
             bottom: 0;
             left: -10%;
             width: 120%;

@@ -54,27 +54,29 @@
 }
 
 html {
-    min-height: 100%;
-    display: flex;
-    flex-direction: column;
+    height: 100%;
 }
 
 body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    flex: 1 0 auto;
-    min-height: 100vh;
     margin: 0;
-    color: black;
-    overscroll-behavior-y: contain;
+    height: 100%;
 
     #app {
         width: 100%;
-        flex: 1 0 auto;
+        height: 100%;
         display: flex;
         justify-content: center;
-        background-color: #30313f;
+        background-color: #101014;
+        position: relative;
+        color: black;
+
+        .main-bg {
+            background-color: #30313f;
+            min-width: 360px;
+            max-width: 600px;
+            position: relative;
+            overflow: hidden;
+        }
     }
 }
 
@@ -97,12 +99,6 @@ b {
     b {
         font-family: Regular;
     }
-}
-
-.main-bg {
-    background-color: #30313f;
-    min-width: 300px;
-    max-width: 600px;
 }
 
 .btn {

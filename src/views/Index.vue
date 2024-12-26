@@ -58,17 +58,14 @@
             this.modal = inject('modal');
             this.preloader = inject('preloader');
             this.student = inject('student');
-            this.state = inject('state');
 
             if(!this.student.isGuest()) {
                 this.$router.push('/statistics');
             }
 
-            if(this.state.isFirstVisit()) {
-                this.noticeService = new NoticeService();
-                this.noticeItems = this.noticeService.getItems('indexBefore');
-                this.showNotice = true;
-            }
+            this.noticeService = new NoticeService();
+            this.noticeItems = this.noticeService.getItems('indexBefore');
+            this.showNotice = true;
         }
     }
 </script>
@@ -84,6 +81,7 @@
         justify-content: center;
         color: white;
         padding: 60px 40px 20px 40px;
+        min-height: 100%;
         
         .title {
             font-size: 40px;

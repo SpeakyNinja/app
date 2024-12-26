@@ -70,7 +70,7 @@
 
                 try {
                     this.preloader.show = true;
-                    const r = await this.testService.sendAnswer(text);
+                    // const r = await this.testService.sendAnswer(text);
                     this.countAnswers++;
                     this.updateProgress();
                     this.$refs.timer.stop();

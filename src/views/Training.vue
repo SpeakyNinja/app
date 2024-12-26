@@ -1,5 +1,5 @@
 <template>
-    <div class="training main-bg no-scrollbar" v-if="isReady" ref="training">
+    <div class="training main-bg" v-if="isReady" ref="training">
         
         <div class="top-fixed">
             <div class="top">
@@ -17,7 +17,7 @@
             </div>
         </div>
 
-        <div class="hints-wrapper">
+        <div class="hints-wrapper no-scrollbar">
             <div class="hints" v-if="!addHint">
                 <div v-for="hint in trainings.getCurrent()?.hints" class="hint">
                     <p class="m-light no-select" v-html="hint"></p>
@@ -279,7 +279,7 @@
         height: 100vh;
 
         .top-fixed {
-            position: fixed;
+            position: absolute;
             top: 0;
             left: 0;
             width: 100%;

@@ -116,12 +116,11 @@
 <style lang="scss">
 
     .notice-layer {
-        position: fixed;
+        position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: #393951;
         display: flex;
         justify-content: center;
         z-index: 2;
@@ -136,6 +135,7 @@
             overflow-x: hidden;
             display: flex;
             flex-wrap: nowrap;
+            background-color: #272733;
 
             .dummy {
                 transition: all 0.3s ease;

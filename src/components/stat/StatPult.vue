@@ -57,7 +57,7 @@
 <style lang="scss" scoped>
 
     .pult {
-        position: fixed;
+        position: absolute;
         bottom: 0;
         left: -10%;
         width: 120%;

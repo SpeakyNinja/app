@@ -1,54 +1,56 @@
 <template>
-    <div class="options main-bg no-scrollbar">
+    <div class="options main-bg">
 
-        <div class="block" v-if="student.isAutoReg()">
-            <div class="row title">Регистрация</div>
+        <div class="options-wrapper no-scrollbar">
+            <div class="block" v-if="student.isAutoReg()">
+                <div class="row title">Регистрация</div>
 
-            <div class="row">
-                <div class="subtitle mb-1">E-mail</div>
-                <input class="input" type="text" v-model="reg.email">
+                <div class="row">
+                    <div class="subtitle mb-1">E-mail</div>
+                    <input class="input" type="text" v-model="reg.email">
+                </div>
+
+                <div class="row">
+                    <div class="subtitle mb-1">Пароль</div>
+                    <input class="input" type="password" v-model="reg.password">
+                    <div class="m-red mt-2" v-if="regError">{{ regError }}</div>
+                </div>
+
+                <div class="row">
+                    <div class="btn green no-select" @click="submitRegistration">Зарегистрироваться</div>
+                </div>
             </div>
 
-            <div class="row">
-                <div class="subtitle mb-1">Пароль</div>
-                <input class="input" type="password" v-model="reg.password">
-                <div class="m-red mt-2" v-if="regError">{{ regError }}</div>
+            <div class="block">
+                <div class="row title">Озвучивание тренировки</div>
+
+                <div class="row toggler-wrapper">
+                    <div class="subtitle">При показе карточки</div>
+                    <Toggler 
+                        @toggleHandler="toggle('muteTrainingVoice1')" 
+                        :defaultStatus="!storage.get('options', 'muteTrainingVoice1')" 
+                    />
+                </div>
+
+                <div class="row toggler-wrapper">
+                    <div class="subtitle">При правильном ответе</div>
+                    <Toggler 
+                        @toggleHandler="toggle('muteTrainingVoice2')"
+                        :defaultStatus="!storage.get('options', 'muteTrainingVoice2')" 
+                    />
+                </div>
             </div>
 
-            <div class="row">
-                <div class="btn green no-select" @click="submitRegistration">Зарегистрироваться</div>
-            </div>
-        </div>
+            <div class="block mb-1">
+                <div class="row title">Озвучивание добора</div>
 
-        <div class="block">
-            <div class="row title">Озвучивание тренировки</div>
-
-            <div class="row toggler-wrapper">
-                <div class="subtitle">При показе карточки</div>
-                <Toggler 
-                    @toggleHandler="toggle('muteTrainingVoice1')" 
-                    :defaultStatus="!storage.get('options', 'muteTrainingVoice1')" 
-                />
-            </div>
-
-            <div class="row toggler-wrapper">
-                <div class="subtitle">При правильном ответе</div>
-                <Toggler 
-                    @toggleHandler="toggle('muteTrainingVoice2')"
-                    :defaultStatus="!storage.get('options', 'muteTrainingVoice2')" 
-                />
-            </div>
-        </div>
-
-        <div class="block">
-            <div class="row title">Озвучивание добора</div>
-
-            <div class="row toggler-wrapper">
-                <div class="subtitle">При показе карточки</div>
-                <Toggler 
-                    @toggleHandler="toggle('muteAddingVoice1')"
-                    :defaultStatus="!storage.get('options', 'muteAddingVoice1')" 
-                />
+                <div class="row toggler-wrapper">
+                    <div class="subtitle">При показе карточки</div>
+                    <Toggler 
+                        @toggleHandler="toggle('muteAddingVoice1')"
+                        :defaultStatus="!storage.get('options', 'muteAddingVoice1')" 
+                    />
+                </div>
             </div>
         </div>
 
@@ -145,47 +147,53 @@
 
     .options {
         flex-grow: 2;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: flex-start;
-        gap: 50px;
-        padding: 30px 0 154px 0;
-        height: 100vh;
+        height: 100%;
+        padding: 30px 0 125px 0;
 
-        .block {
+        .options-wrapper {
             display: flex;
             flex-direction: column;
-            gap: 20px;
-            color: #ebebed;
-            width: 500px;
-            padding: 0 30px;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 50px;
+            position: relative;
+            max-height: 100%;
 
-            .row {
-                &.title {
-                    font-family: Bold;
-                    font-size: 20px;
-                }
+            .block {
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+                color: #ebebed;
+                max-width: 500px;
+                padding: 0 30px;
 
-                &.toggler-wrapper {
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
+                .row {
+                    &.title {
+                        font-family: Bold;
+                        font-size: 20px;
+                    }
+
+                    &.toggler-wrapper {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+
+                        .subtitle {
+                            overflow: hidden;
+                            white-space: nowrap;
+                            text-overflow: ellipsis;
+                        }
+                    }
 
                     .subtitle {
-                        overflow: hidden;
-                        white-space: nowrap;
-                        text-overflow: ellipsis;
+                        font-size: 20px;
+                        font-family: Light;
                     }
                 }
 
-                .subtitle {
-                    font-size: 20px;
-                    font-family: Light;
-                }
             }
-
         }
+        
     }
 
     @media(max-width: 500px) {

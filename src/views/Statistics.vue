@@ -1,5 +1,5 @@
 <template>
-    <div class="statistics main-bg no-scrollbar no-select" v-if="isReady" ref="self">
+    <div class="statistics main-bg no-select" v-if="isReady" ref="self">
         
         <component 
             :statService="statService"
@@ -7,12 +7,16 @@
             :key="layers[ curIndex ].component" 
         />
 
-        <div class="items">
-            <div class="item" v-for="item in statService.items">
-                <div class="text">
-                    <span class="en">{{ item.en }}</span><span class="m-light"> — {{ item.ru }}</span>
+        <div class="items no-scrollbar">
+            <div class="items-wrapper">
+                
+                <div class="item" v-for="item in statService.items">
+                    <div class="text">
+                        <span class="en">{{ item.en }}</span><span class="m-light"> — {{ item.ru }}</span>
+                    </div>
+                    <Memorization :mem="item.memorization" fill="transparent" />
                 </div>
-                <Memorization :mem="item.memorization" fill="transparent" />
+
             </div>
         </div>
 
@@ -131,45 +135,52 @@
 
     .statistics {
         flex-grow: 2;
-        padding-top: 258px;
-        padding-bottom: 70px;
         width: 100%;
         height: 100vh;
 
         .items {
-            display: flex;
-            flex-direction: column;
-            padding: 0 40px;
+            max-height: 100%;
+            padding: 280px 40px 70px 40px;
+            overflow: hidden;
+            position: absolute;
+            width: 100%;
+            overflow-y: auto;
 
-            .item {
+            .items-wrapper {
                 display: flex;
-                align-items: center;
-                gap: 10px;
-                color: white;
-                font-size: 22px;
-                height: 10vh;
+                flex-direction: column;
 
-                .text {
-                    flex-grow: 2;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    white-space: nowrap;
-                    color: #98989f;
+                .item {
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                    color: white;
+                    font-size: 22px;
+                    height: 10vh;
 
-                    .en {
-                        font-size: 20px;
-                        font-family: Bold;
-                        color: #eaeaeb;
+                    .text {
+                        flex-grow: 2;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                        color: #98989f;
 
-                        display: inline-block;
-                        text-transform: lowercase;
+                        .en {
+                            font-size: 20px;
+                            font-family: Bold;
+                            color: #eaeaeb;
 
-                        &:first-letter {
-                            text-transform: uppercase;
+                            display: inline-block;
+                            text-transform: lowercase;
+
+                            &:first-letter {
+                                text-transform: uppercase;
+                            }
                         }
                     }
                 }
             }
+
         }
     }
 
