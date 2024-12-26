@@ -70,19 +70,23 @@
         @callback="showFeedbackSuccessMessage"
     />
 
+    <NoticeLayer :items="noticeItemsBefore" @closedHandler="showInterface" v-if="noticeItemsBefore?.length" />
+
 </template>
 
 <script>
     import { inject } from 'vue';
+    import moment from 'moment';
     import ProgressBar from '@/components/ProgressBar.vue'
     import Memorization from '@/components/Memorization.vue'
     import TrainingMenu from '@/components/TrainingMenu.vue'
     import ButtonsSticked from '@/components/ButtonsSticked.vue'
     import FeedbackForm from '@/components/FeedbackForm.vue'
+    import NoticeLayer from '@/components/NoticeLayer.vue'
     import Trainings from '@/collections/Trainings.js';
     import ToolsService from '@/services/ToolsService.js';
     import LocalStorage from '@/services/LocalStorageService.js';
-    import moment from 'moment';
+    import NoticeService from '@/services/NoticeService.js';
 
     export default {
 
@@ -91,7 +95,8 @@
             Memorization,
             TrainingMenu,
             ButtonsSticked,
-            FeedbackForm
+            FeedbackForm,
+            NoticeLayer
         },
 
         data() {
@@ -104,7 +109,8 @@
                 showAnswers: true,
                 addHint: false,
                 userHint: null,
-                showFeedback: false
+                showFeedback: false,
+                noticeItemsBefore: []
             }
         },
 
@@ -229,6 +235,17 @@
 
             showFeedbackSuccessMessage() {
                 this.modal.show({message: 'Ваше сообщение отправлено', title: 'Спасибо'});
+            },
+
+            showInterface() {
+                setTimeout(() => {
+                    this.playAudio('muteTrainingVoice1');
+                }, 1000);
+
+                this.updateShowAnswers();
+                this.updateProgress();
+                this.startTimer();
+                this.isReady = true;
             }
         },
 
@@ -240,6 +257,7 @@
 
             this.toolsService = new ToolsService();
             this.trainings = new Trainings();
+            this.noticeService = new NoticeService();
 
             try {
                 this.preloader.show = true;
@@ -250,13 +268,12 @@
                 }
 
                 await this.trainings.fetchMissingVoices(this.student.getId());
-                setTimeout(() => {
-                    this.playAudio('muteTrainingVoice1');
-                }, 1000);
-                this.updateShowAnswers();
-                this.updateProgress();
-                this.startTimer();
-                this.isReady = true;
+
+                if([1, 2, 4].indexOf(r.countTrainings) == -1) {
+                    this.showInterface();
+                } else {
+                    this.noticeItemsBefore = this.noticeService.getItems(`trainingBefore${r.countTrainings}`);
+                }
             } catch(res) {
                 this.errorHandler(res);
             } finally {

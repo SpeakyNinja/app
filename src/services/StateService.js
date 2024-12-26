@@ -4,9 +4,9 @@ import LocalStorage from '@/services/LocalStorageService.js';
 export default class StateService extends AbstractService {
     storageName;
 
-    constructor() {
+    constructor(studentId) {
         super();
-        this.storageName = 'state';
+        this.storageName = `state-${studentId}`;
     }
 
     getShowFullStat() {

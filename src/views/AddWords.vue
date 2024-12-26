@@ -106,8 +106,9 @@
         },
 
         methods: {
-            nextStep() {
+            async nextStep() {
                 this.state.increaseAddWordsCount();
+                await nextTick();
                 this.$router.push('/training');
             },
 
@@ -172,7 +173,7 @@
                 if(cnt == 0) {
                     this.noticeItemsAfter = this.noticeService.getItems('addWordsAfterFirst');
                 } else {
-                    const map = {2: 47, 3: 54, 4: 61, 5: 66, 6: 69, 7: 73, 8: 75, 9: 79, 10: 83};
+                    const map = {1: 47, 2: 54, 3: 61, 4: 66, 5: 69, 6: 73, 7: 75, 8: 79, 9: 83};
                     const nth = map[cnt] || this.toolsService.randomInteger(84, 97);
                     this.noticeItemsAfter = this.noticeService.getItems('addWordsAfterNth', {nth: nth});
                 }

@@ -65,7 +65,7 @@
 
         created() {
             this.student = new Student();
-            const state = new StateService();
+            const state = new StateService( this.student.getId() );
             
             provide('student', this.student);
             provide('modal', this.modal);

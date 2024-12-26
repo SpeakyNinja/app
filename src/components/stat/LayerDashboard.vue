@@ -32,7 +32,7 @@
                     </div>
                 </div>
 
-                <div class="in-progress">
+                <div class="in-progress" @click="showStagesNotice = true">
                     <div>В процессе:</div>
                     <div class="columns">
                         <div>
@@ -59,6 +59,14 @@
         </div>
          
     </div>
+
+    <NoticeLayer 
+        ref="stagesNoticeLayer"
+        :items="noticeService.getItems('stagesWords')" 
+        @closedHandler="closeStagesNotice" 
+        v-if="showStagesNotice" 
+    />
+
 </template>
 
 <script>
@@ -68,6 +76,8 @@
     import HexYellow from '@/components/icons/HexYellow.vue';
     import HexGreen from '@/components/icons/HexGreen.vue';
     import IconCog from '@/components/icons/IconCog.vue';
+    import NoticeLayer from '@/components/NoticeLayer.vue'
+    import NoticeService from '@/services/NoticeService.js';
 
     export default {
 
@@ -76,7 +86,8 @@
             HexRed,
             HexYellow,
             HexGreen,
-            RoundProgress
+            RoundProgress,
+            NoticeLayer
         },
 
         props: {
@@ -88,6 +99,8 @@
 
         data() {
             return {
+                showStagesNotice: false,
+                noticeService: null
             }
         },
 
@@ -154,7 +167,16 @@
                 }
 
                 return scale;
+            },
+
+            closeStagesNotice() {
+                this.$refs.stagesNoticeLayer.isClosed = false;
+                this.showStagesNotice = false;
             }
+        },
+
+        beforeMount() {
+            this.noticeService = new NoticeService();
         }
     }
 </script>

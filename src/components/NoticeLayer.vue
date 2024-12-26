@@ -22,6 +22,14 @@
 
                     <Rainbow v-if="item.component == 'Rainbow'" :freeze="freezeComponentAnimation" />
 
+                    <Brain 
+                        ref="brain" 
+                        :hexRadius="brainHexRadius"
+                        :width="brainWidth"
+                        :height="brainHeight"
+                        :items="statService.getLevelsForBrain(item.brainItems)[0]"
+                    />
+
                 </div>
 
                 <div class="title m-light" v-if="item.title">
@@ -63,12 +71,15 @@
     import Arr2 from '@/components/icons/Arr2.vue';
     import SpeedWidget from '@/components/SpeedWidget.vue';
     import Rainbow from '@/components/Rainbow.vue';
+    import Brain from '@/components/Brain.vue'
+    import StatService from '@/services/StatService.js';
 
     export default {
         components: {
             Arr2,
             SpeedWidget,
-            Rainbow
+            Rainbow,
+            Brain
         },
 
         props: {
@@ -84,7 +95,12 @@
             return {
                 isClosed: false,
                 marginLeft: 0,
-                freezeComponentAnimation: false
+                freezeComponentAnimation: false,
+
+                statService: new StatService(),
+                brainWidth: window.screen.width > 550 ? 368 : 283,
+                brainHeight: window.screen.width > 550 ? 316 : 245,
+                brainHexRadius: window.screen.width > 550 ? 18 : 14
             }
         },
 

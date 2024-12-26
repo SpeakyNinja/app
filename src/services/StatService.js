@@ -67,9 +67,13 @@ export default class StatService extends AbstractService {
         return this.regularity.has_today_training;
     }
 
-    getLevelsForBrain() {
+    getLevelsForBrain(l = null) {
+        if(!l) {
+            l = this.levels;
+        }
+
         const levels = [];
-        this.levels.forEach(item => {
+        l.forEach(item => {
             for(let i = 0; i < item.count; i++) {
                 levels.push(`m${item.memorization}`);
             }
