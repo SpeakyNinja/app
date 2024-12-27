@@ -43,6 +43,16 @@
     src: url(@/fonts/Roboto-mono/RobotoMono-Bold.ttf);
 }
 
+@font-face {
+    font-family: RobotoBlack;
+    src: url(@/fonts/Roboto/Roboto-Black.ttf);
+}
+
+@font-face {
+    font-family: RobotoLight;
+    src: url(@/fonts/Roboto/Roboto-Light.ttf);
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -66,7 +76,7 @@ body {
         height: 100%;
         display: flex;
         justify-content: center;
-        background-color: #101014;
+        background-color: #19191e;
         position: relative;
         color: black;
 

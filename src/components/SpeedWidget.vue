@@ -196,13 +196,13 @@
                 color: white;
 
                 .sign {
-                    font-family: Light;
+                    font-family: RobotoLight;
                     font-size: 40px;
                     margin-left: -24px;
                 }
 
                 .num {
-                    font-family: Black;
+                    font-family: RobotoBlack;
                     font-size: 40px;
                 }
             }

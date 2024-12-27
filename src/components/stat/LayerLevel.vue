@@ -86,7 +86,7 @@
 
             div {
                 font-size: 68px;
-                font-family: Black;
+                font-family: RobotoBlack;
                 color: white;
                 z-index: 2;
             }

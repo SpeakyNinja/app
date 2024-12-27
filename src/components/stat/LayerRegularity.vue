@@ -82,7 +82,7 @@
 
             .days {
                 font-size: 68px;
-                font-family: Black;
+                font-family: RobotoBlack;
             }
 
             div {

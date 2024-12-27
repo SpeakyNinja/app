@@ -81,15 +81,15 @@ export default class NoticeService {
                         }
                     ]
                 }, {
-                    title: 'Выбери слова для запоминания',
+                    title: 'Буду предлагать слова',
                     texts: [
                         {
-                            value: 'Я буду предлагать слова, учитывая их частотность и твой уровень.',
+                            value: 'Учитывая их частотность и твой уровень.',
                             muted: false
                         }
                     ]
                 }, {
-                    title: 'Выбери слова для запоминания',
+                    title: 'Выбирай',
                     texts: [
                         {
                             value: 'Отмечай, которые знаешь и которые хочешь выучить.',
@@ -268,8 +268,8 @@ export default class NoticeService {
                 }, {
                     component: 'Brain',
                     brainItems: [
-                        {memorization: 20, count: 33},
-                        {memorization: 13, count: 19},
+                        {memorization: 20, count: 34},
+                        {memorization: 13, count: 18},
                         {memorization: 12, count: 0},
                         {memorization: 11, count: 0},
                         {memorization: 10, count: 0},
@@ -314,7 +314,7 @@ export default class NoticeService {
                     title: 'Тепловая карта уровней',
                     texts: [
                         {
-                            value: 'Разблокируется когда пять слов дойдут до этапа закрепления.',
+                            value: 'Будет показываться время от времени.',
                             muted: false
                         }
                     ]

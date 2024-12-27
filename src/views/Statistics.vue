@@ -1,5 +1,5 @@
 <template>
-    <div class="statistics main-bg no-select" v-if="isReady" ref="self">
+    <div class="statistics main-bg no-select" v-if="isReady">
         
         <component 
             :statService="statService"
@@ -7,7 +7,7 @@
             :key="layers[ curIndex ].component" 
         />
 
-        <div class="items no-scrollbar">
+        <div class="items no-scrollbar" ref="itemsList">
             <div class="items-wrapper">
                 
                 <div class="item" v-for="item in statService.items">
@@ -117,7 +117,7 @@
                 this.makeLayers();
                 this.isReady = true;
                 await nextTick();
-                this.$refs.self.scrollBy(0, 226);
+                this.$refs.itemsList.scrollBy(0, 226);
             } catch(res) {
                 if(res.code == 'training-not-found') {
                     this.$router.push('/training');

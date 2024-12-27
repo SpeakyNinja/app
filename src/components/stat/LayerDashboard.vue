@@ -253,14 +253,14 @@
 
                             >div {
                                 font-size: 64px;
-                                font-family: Black;
+                                font-family: RobotoBlack;
                                 color: #41424b;
                                 z-index: 3;
                                 
                                 &.highlight {
                                     color: white;
                                     font-size: 64px;
-                                    font-family: Black;
+                                    font-family: RobotoBlack;
                                 }
                             }
                         }

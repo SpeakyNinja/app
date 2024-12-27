@@ -147,7 +147,7 @@ export default class StatService extends AbstractService {
             return true;
         }
 
-        if(this.count_trainings_today % 20 == 0) {
+        if(this.count_trainings_today % 10 == 0) {
             return true;
         }
 

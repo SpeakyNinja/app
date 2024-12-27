@@ -142,6 +142,7 @@
         justify-content: center;
         z-index: 2;
         color: white;
+        background-color: #272733;
 
         &.hidden {
             display: none;
@@ -152,7 +153,6 @@
             overflow-x: hidden;
             display: flex;
             flex-wrap: nowrap;
-            background-color: #272733;
 
             .dummy {
                 transition: all 0.3s ease;
