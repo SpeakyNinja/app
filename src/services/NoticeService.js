@@ -23,7 +23,7 @@ export default class NoticeService {
                             value: 'За счет досознательного усвоения.',
                             muted: false
                         }, {
-                            value: 'Иногда слова будут запомниться с первого раза.',
+                            value: 'Иногда слова будут запоминаться с первого раза.',
                             muted: true
                         }
                     ]
