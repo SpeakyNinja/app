@@ -31,7 +31,8 @@
 
     </div>
     
-    <NoticeLayer :items="noticeItems" @closedHandler="noticeClosed"/>
+    <NoticeLayer :items="noticeItemsBefore" @closedHandler="noticeBeforeClosed" v-if="noticeItemsBefore.length"/>
+    <NoticeLayer :items="noticeItemsAfter" @closedHandler="noticeAfterClosed" v-if="noticeItemsAfter.length"/>
 
 </template>
 
@@ -60,7 +61,8 @@
                 answers: [],
                 isReady: false,
                 buttonsOptions: { highlightedItem: null, maxHighlightInterval: 0.5 },
-                noticeItems: []
+                noticeItemsBefore: [],
+                noticeItemsAfter: []
             }
         },
 
@@ -80,7 +82,7 @@
                         this.$refs.timer.restart();
                         this.playAudio();
                     } else {
-                        this.$router.push('/add-words');
+                        this.noticeItemsAfter = this.noticeService.getItems('testAfter');
                     }
                 } catch(res) {
                     this.modal.show(res);
@@ -99,10 +101,14 @@
                 this.toolsService.playAudio(this.testService.voice);
             },
 
-            noticeClosed() {
+            noticeBeforeClosed() {
                 this.updateProgress();
                 this.playAudio();
                 this.isReady = true;
+            },
+
+            noticeAfterClosed() {
+                this.$router.push('/add-words');
             }
         },
 
@@ -113,7 +119,7 @@
             this.toolsService = new ToolsService();
 
             this.noticeService = new NoticeService();
-            this.noticeItems = this.noticeService.getItems('testBefore');
+            this.noticeItemsBefore = this.noticeService.getItems('testBefore');
             
             try {
                 this.preloader.show = true;
@@ -123,6 +129,7 @@
                 if(!this.testService.question) {
                     this.$router.push('/add-words');
                 }
+                this.$forceUpdate();
             } catch(res) {
                 this.modal.show(res);
             } finally {

@@ -8,10 +8,10 @@
 <script>
     import { provide } from 'vue';
     import { RouterLink, RouterView } from 'vue-router';
-    import Student from '@/models/Student.js'
     import Modal from "@/components/Modal.vue";
     import Preloader from "@/components/Preloader.vue";
-    import StateService from "@/services/StateService.js";
+    import StudentService from "@/services/StudentService.js";
+    import StateService from '@/services/StateService.js'
 
     export default {
     	components: {
@@ -45,6 +45,20 @@
                 this.modal.showModal = true;
 
                 return false;
+            }, 
+
+            checkPwaVersion(version) {
+                const localVersion = localStorage.getItem('pwaVersion') || 0;
+                if(!version || localVersion == version) {
+                    return true;
+                }
+
+                localStorage.setItem('pwaVersion', version);
+                setTimeout(() => {
+                    window.location.reload();
+                });
+
+                return false;
             }
         },
 
@@ -54,7 +68,8 @@
             } else {
                 try {
                     this.preloader.show = true;
-                    await this.student.fetchData();
+                    const r = await this.student.fetchData();
+                    this.checkPwaVersion(r.pwaVersion);
                 } catch(res) {
                     this.modal.show(res);
                 } finally {
@@ -64,8 +79,8 @@
         },
 
         created() {
-            this.student = new Student();
-            const state = new StateService( this.student.getId() );
+            this.student = new StudentService();
+            const state = new StateService(this.student);
             
             provide('student', this.student);
             provide('modal', this.modal);

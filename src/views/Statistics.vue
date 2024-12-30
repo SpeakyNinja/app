@@ -110,10 +110,6 @@
                 this.preloader.show = true;
                 const r = await this.statService.fetch();
                 
-                if( !this.state.checkPwaVersion(r.pwaVersion) ) {
-                    return false;
-                }
-
                 this.makeLayers();
                 this.isReady = true;
                 await nextTick();

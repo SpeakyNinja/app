@@ -44,6 +44,7 @@ export default class NoticeService {
 
             testBefore: [
                 {
+                    component: 'Ai',
                     title: 'Калибровка',
                     texts: [
                         {
@@ -55,6 +56,7 @@ export default class NoticeService {
                         }
                     ]
                 }, {
+                    component: 'Ai',
                     title: 'Как проходить тестирование',
                     texts: [
                         {
@@ -71,8 +73,9 @@ export default class NoticeService {
                 }
             ],
 
-            addWordsBefore: [
+            testAfter: [
                 {
+                    component: 'Ai',
                     title: 'Твой уровень определен',
                     texts: [
                         {
@@ -89,6 +92,7 @@ export default class NoticeService {
                         }
                     ]
                 }, {
+                    component: 'Ai',
                     title: 'Выбирай',
                     texts: [
                         {
@@ -104,6 +108,7 @@ export default class NoticeService {
 
             addWordsAfterFirst: [
                 {
+                    component: 'Ai',
                     title: 'Слова выбраны',
                     texts: [
                         {
@@ -112,6 +117,7 @@ export default class NoticeService {
                         }
                     ]
                 }, {
+                    component: 'Ai',
                     title: 'Не старайся запоминать',
                     texts: [
                         {
@@ -127,6 +133,7 @@ export default class NoticeService {
 
             addWordsAfterNth: [
                 {
+                    component: 'Ai',
                     title: 'Слова выбраны',
                     texts: [
                         {
@@ -139,10 +146,11 @@ export default class NoticeService {
 
             trainingBefore1: [
                 {
+                    component: 'Ai',
                     title: 'Можешь переслушивать произношение',
                     texts: [
                         {
-                            value: 'нажимая на транскрипцию слова',
+                            value: 'Нажимай на транскрипцию слова.',
                             muted: false
                         }
                     ]
@@ -151,10 +159,11 @@ export default class NoticeService {
 
             trainingBefore2: [
                 {
+                    component: 'Ai',
                     title: 'Оптимальные повторы',
                     texts: [
                         {
-                            value: 'В зависимости от твоей активности я определяю лучшее время повторения каждого слова.',
+                            value: 'В зависимости от твоей активности, я определяю лучшее время повторения каждого слова.',
                             muted: false
                         }
                     ]
@@ -163,10 +172,11 @@ export default class NoticeService {
 
             trainingBefore4: [
                 {
+                    component: 'Ai',
                     title: 'Для максимального эффекта',
                     texts: [
                         {
-                            value: 'Читай фразы целиком.',
+                            value: 'читай фразы целиком',
                             muted: false
                         }
                     ]
@@ -253,7 +263,7 @@ export default class NoticeService {
                         {memorization: 4, count: 13},
                         {memorization: 3, count: 0},
                         {memorization: 2, count: 11},
-                        {memorization: 1, count: 5}
+                        {memorization: 1, count: 6}
                     ],
                     title: 'Циановые',
                     texts: [
@@ -269,12 +279,12 @@ export default class NoticeService {
                     component: 'Brain',
                     brainItems: [
                         {memorization: 20, count: 34},
-                        {memorization: 13, count: 18},
+                        {memorization: 13, count: 19},
                         {memorization: 12, count: 0},
                         {memorization: 11, count: 0},
                         {memorization: 10, count: 0},
                         {memorization: 9, count: 0},
-                        {memorization: 8, count: 21},
+                        {memorization: 8, count: 20},
                         {memorization: 7, count: 0},
                         {memorization: 6, count: 0},
                         {memorization: 5, count: 0},
@@ -311,13 +321,7 @@ export default class NoticeService {
                         {memorization: 2, count: 10},
                         {memorization: 1, count: 6}
                     ],
-                    title: 'Тепловая карта уровней',
-                    texts: [
-                        {
-                            value: 'Будет показываться время от времени.',
-                            muted: false
-                        }
-                    ]
+                    title: 'Тепловая карта уровней'
                 }
             ]
         };

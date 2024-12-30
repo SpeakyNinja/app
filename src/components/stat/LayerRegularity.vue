@@ -4,7 +4,7 @@
         <div class="top glass">
             <div class="days accuracy-1">{{ statService.getNonstopDays() }}</div>
             <div class="accuracy-small-1">
-                {{ tools.plural(statService.getNonstopDays(), ['День', 'Дня', 'Дней']) }} подряд!
+                {{ tools.plural(statService.getNonstopDays(), ['день', 'дня', 'дней']) }} подряд!
             </div>
         </div>
         

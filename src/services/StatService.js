@@ -111,20 +111,17 @@ export default class StatService extends AbstractService {
     }
 
     // показывать при рекордах 
-    // показывать при заполнении линии 10 безошибочных тренировок
+    // каждые 5 тренировок
     showPredictLayer() {
         if(this.count_trainings_today >= this.max_count_trainings_per_day) {
             return true;
         }
 
-        let isAllPerfect = true;
-        this.trainingsError.forEach(item => {
-            if(item.errors > 0) {
-                isAllPerfect = false;
-            }
-        });
+        if(this.count_trainings_today % 5 == 0) {
+            return true;
+        }
 
-        return this.trainingsError.length == 10 && isAllPerfect;
+        return false;
     }
 
     // начинать показывать со второго дня первой непрерывной серии
@@ -134,24 +131,31 @@ export default class StatService extends AbstractService {
         return this.regularity.nonstop_days_max > 1 && this.count_trainings_today == 1 && this.regularity.has_today_training;
     }
 
-    // Первое появление – Когда появились первые 5 зеленых (8й уровень) слов
-    // После первой тренировки внутри дня 
-    // Каждые 20 тренировок
+    // показывать при заполнении линии 10 безошибочных тренировок
     showLevelLayer() {
-        const countHighLevelWords = this.countWordsByMemorizations([8,9,10,11,12,13]);
-        if(countHighLevelWords < 5) {
-            return false;
-        }
+        // const countHighLevelWords = this.countWordsByMemorizations([8,9,10,11,12,13]);
+        // if(countHighLevelWords < 5) {
+        //     return false;
+        // }
 
-        if(this.count_trainings_today == 1) {
-            return true;
-        }
+        // if(this.count_trainings_today == 1) {
+        //     return true;
+        // }
 
-        if(this.count_trainings_today % 10 == 0) {
-            return true;
-        }
+        // if(this.count_trainings_today % 10 == 0) {
+        //     return true;
+        // }
 
-        return false;
+        // return false;
+
+        let isAllPerfect = true;
+        this.trainingsError.forEach(item => {
+            if(item.errors > 0) {
+                isAllPerfect = false;
+            }
+        });
+
+        return this.trainingsError.length == 10 && isAllPerfect;
     }
 
     getLevel() {

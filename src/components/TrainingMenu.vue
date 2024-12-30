@@ -21,7 +21,7 @@
         props: {
         },
 
-        emits: ["showFeedbackForm"],
+        emits: ["showFeedbackForm", "isLearned"],
 
         data() {
             return {

@@ -31,6 +31,12 @@
                         :items="statService.getLevelsForBrain(item.brainItems)[0]"
                     />
 
+                    <Ai
+                        v-if="item.component == 'Ai'"
+                        fill="white"
+                        class="ai-image"
+                    />
+
                 </div>
 
                 <div class="title m-light" v-if="item.title">
@@ -50,16 +56,18 @@
 
         <div class="controls">
             <div class="controls-wrapper">
-                <Arr2 
-                    class="arrow no-select" 
-                    :class="{muted: !marginLeft, transparent: items.length == 1}" 
-                    @click="changeItem(-1)" 
-                />
+                <div class="button no-select" @click="changeItem(-1)" >
+                    <Arr2 
+                        class="arrow" 
+                        :class="{muted: !marginLeft, transparent: items.length == 1}" 
+                    />
+                </div>
 
-                <Arr2 
-                    class="arrow no-select" 
-                    @click="changeItem(1)" 
-                />
+                <div class="button no-select" @click="changeItem(1)" >
+                    <Arr2 
+                        class="arrow" 
+                    />
+                </div>
             </div>
         </div>
 
@@ -73,6 +81,7 @@
     import SpeedWidget from '@/components/SpeedWidget.vue';
     import Rainbow from '@/components/Rainbow.vue';
     import Brain from '@/components/Brain.vue'
+    import Ai from '@/components/icons/Ai.vue'
     import StatService from '@/services/StatService.js';
 
     export default {
@@ -80,7 +89,8 @@
             Arr2,
             SpeedWidget,
             Rainbow,
-            Brain
+            Brain,
+            Ai
         },
 
         props: {
@@ -142,17 +152,17 @@
         justify-content: center;
         z-index: 2;
         color: white;
-        background-color: #272733;
 
         &.hidden {
             display: none;
         }
 
         .items {
-            max-width: 600px;
+            width: 600px;
             overflow-x: hidden;
             display: flex;
             flex-wrap: nowrap;
+            background-color: #272733;
 
             .dummy {
                 transition: all 0.3s ease;
@@ -225,29 +235,52 @@
             .controls-wrapper {
                 display: flex;
                 justify-content: space-between;
-                padding: 20px 30px;
                 max-width: 600px;
                 width: 100%;
 
-                .arrow {
-                    fill: white;
-                    width: 25px;
-                    height: 22px;
+                .button {
+                    padding: 20px 30px;
                     cursor: pointer;
 
+                    .arrow {
+                        fill: white;
+                        width: 25px;
+                        height: 22px;
+
+                        &.muted {
+                            fill: #535567;
+                        }
+
+                        &.transparent {
+                            opacity: 0;
+                        }
+                    }
+
                     &:first-child {
-                        transform: rotate(180deg);
-                    }
-
-                    &.muted {
-                        fill: #535567;
-                    }
-
-                    &.transparent {
-                        opacity: 0;
+                        .arrow {
+                            transform: rotate(180deg);
+                        }
                     }
                 }
             }
+        }
+
+
+        .ai-image {
+            width: 300px;
+            height: 50px;
+            filter: drop-shadow(#0bcccf 0px 0px 5px);
+        }
+    }
+
+    @media(max-width: 600px) {
+        
+        .notice-layer {
+
+            .items {
+                width: 100%;
+            }
+
         }
 
     }

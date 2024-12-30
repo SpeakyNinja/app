@@ -263,10 +263,6 @@
                 this.preloader.show = true;
                 const r = await this.trainings.fetch();
 
-                if( !this.state.checkPwaVersion(r.pwaVersion) ) {
-                    return false;
-                }
-
                 await this.trainings.fetchMissingVoices(this.student.getId());
 
                 if([1, 2, 4].indexOf(r.countTrainings) == -1) {

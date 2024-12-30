@@ -2,51 +2,41 @@ import AbstractService from "@/services/AbstractService.js";
 import LocalStorage from '@/services/LocalStorageService.js';
 
 export default class StateService extends AbstractService {
-    storageName;
+    student;
 
-    constructor(studentId) {
+    constructor(student) {
         super();
-        this.storageName = `state-${studentId}`;
+        this.student = student;
+    }
+
+    getStorageName() {
+        return `state-${this.student.getId()}`;
     }
 
     getShowFullStat() {
-        return LocalStorage.get(this.storageName, 'showFullStat') || false;
+        return LocalStorage.get(this.getStorageName(), 'showFullStat') || false;
     }
 
     setShowFullStat(value) {
-        LocalStorage.store(this.storageName, 'showFullStat', value);
-    }
-
-    checkPwaVersion(version) {
-        const oldVersion = LocalStorage.get(this.storageName, 'pwaVersion') || 0;
-        if(!version || oldVersion == version) {
-            return true;
-        }
-
-        LocalStorage.store(this.storageName, 'pwaVersion', version);
-        setTimeout(() => {
-            window.location.reload();
-        });
-
-        return false;
+        LocalStorage.store(this.getStorageName(), 'showFullStat', value);
     }
 
     isFirstVisit() {
-        const hasVisited = LocalStorage.get(this.storageName, 'hasVisited') || false;
+        const hasVisited = LocalStorage.get(this.getStorageName(), 'hasVisited') || false;
         if(hasVisited) {
             return false;
         }
 
-        LocalStorage.store(this.storageName, 'hasVisited', true);
+        LocalStorage.store(this.getStorageName(), 'hasVisited', true);
         return true;
     }
 
     increaseAddWordsCount() {
         let cnt = this.getAddWordsCount();
-        LocalStorage.store(this.storageName, 'addWordsCount', ++cnt);
+        LocalStorage.store(this.getStorageName(), 'addWordsCount', ++cnt);
     }
 
     getAddWordsCount() {
-        return LocalStorage.get(this.storageName, 'addWordsCount') || 0;
+        return LocalStorage.get(this.getStorageName(), 'addWordsCount') || 0;
     }
 }

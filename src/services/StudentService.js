@@ -1,7 +1,7 @@
-import AbstractModel from '@/models/AbstractModel.js';
+import AbstractService from "@/services/AbstractService.js";
 import LocalStorage from '@/services/LocalStorageService.js';
 
-export default class Student extends AbstractModel {
+export default class StudentService extends AbstractService {
     progress = null;
 
     registration() {
