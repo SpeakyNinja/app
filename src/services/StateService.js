@@ -30,13 +30,4 @@ export default class StateService extends AbstractService {
         LocalStorage.store(this.getStorageName(), 'hasVisited', true);
         return true;
     }
-
-    increaseAddWordsCount() {
-        let cnt = this.getAddWordsCount();
-        LocalStorage.store(this.getStorageName(), 'addWordsCount', ++cnt);
-    }
-
-    getAddWordsCount() {
-        return LocalStorage.get(this.getStorageName(), 'addWordsCount') || 0;
-    }
 }

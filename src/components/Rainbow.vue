@@ -78,6 +78,9 @@
                 animation: glowing 20s linear infinite;
                 transition: opacity .3s ease-in-out;
                 border-radius: 50%;
+                -webkit-backface-visibility: hidden;
+                -webkit-transform: translate3d(0, 0, 0);
+                will-change: transform, filter;
             }
 
             &.freeze {
@@ -103,5 +106,11 @@
         }
 
     }
+
+    // @supports (-webkit-touch-callout: none) {
+    //     .rainbow .btn:before {
+    //         background-size: 300%;
+    //     }
+    // }
 
 </style>

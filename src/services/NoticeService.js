@@ -45,6 +45,21 @@ export default class NoticeService {
             testBefore: [
                 {
                     component: 'Ai',
+                    title: 'Привет',
+                    texts: [
+                        {
+                            value: 'Меня зовут Атлас.',
+                            muted: false
+                        }, {
+                            value: 'Я буду обучать английскому нейросеть твоего мозга.',
+                            muted: false
+                        }, {
+                            value: 'И объяснять что к чему.',
+                            muted: true
+                        }
+                    ]
+                }, {
+                    component: 'Ai',
                     title: 'Калибровка',
                     texts: [
                         {
@@ -321,7 +336,13 @@ export default class NoticeService {
                         {memorization: 2, count: 10},
                         {memorization: 1, count: 6}
                     ],
-                    title: 'Тепловая карта уровней'
+                    title: 'Тепловая карта уровней',
+                    texts: [
+                        {
+                            value: 'Показывает количество слов на всех этапах усвоения.',
+                            muted: false
+                        }
+                    ]
                 }
             ]
         };

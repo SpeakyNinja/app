@@ -104,9 +104,7 @@
         },
 
         methods: {
-            async nextStep() {
-                this.state.increaseAddWordsCount();
-                await nextTick();
+            nextStep() {
                 this.$router.push('/training');
             },
 
