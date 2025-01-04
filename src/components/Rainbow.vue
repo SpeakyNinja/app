@@ -107,10 +107,10 @@
 
     }
 
-    // @supports (-webkit-touch-callout: none) {
-    //     .rainbow .btn:before {
-    //         background-size: 300%;
-    //     }
-    // }
+    @supports (-webkit-touch-callout: none) {
+        .rainbow .btn:before {
+            background-size: 300%;
+        }
+    }
 
 </style>

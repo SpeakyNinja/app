@@ -51,7 +51,8 @@
                         pos++;
                         let item = '';
                         if(pos == nonstopDays && this.statService.hasTodayTraining()) {
-                            item = 'blue';
+                            // item = 'blue';
+                            item = 'green';
                         } else if(pos <= nonstopDays) {
                             item = 'green';
                         } else if(pos <= nonstopDaysMax) {

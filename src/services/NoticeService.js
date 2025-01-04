@@ -54,7 +54,7 @@ export default class NoticeService {
                             value: 'Я буду обучать английскому нейросеть твоего мозга.',
                             muted: false
                         }, {
-                            value: 'И объяснять что к чему.',
+                            value: 'И объяснять, что к чему.',
                             muted: true
                         }
                     ]
