@@ -69,6 +69,10 @@ export default class StudentService extends AbstractService {
         });
     }
 
+    rateApp(rating) {
+        return this.request('/student/rate', {rating: rating});
+    }
+
     isGuest() {
         return !this.getToken();
     }

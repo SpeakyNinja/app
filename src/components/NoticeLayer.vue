@@ -6,49 +6,57 @@
 
             <div class="item" v-for="item in items">
 
-                <div class="image" v-if="item.image">
-                    <img :src="item.image">
-                </div>
+                <template v-if="item.customItem">
+                    <component :is="item.customItem" :key="item.customItem" />
+                </template>
 
-                <div class="component" v-if="item.component">
+                <template v-else>
 
-                    <SpeedWidget 
-                        v-if="item.component == 'SpeedWidget'"
-                        :curValue="540"
-                        :maxValue="750"
-                        backgroundColor="#464664"
-                        :glow="false"
-                    />
+                    <div class="image" v-if="item.image">
+                        <img :src="item.image">
+                    </div>
 
-                    <Rainbow v-if="item.component == 'Rainbow'" :freeze="freezeComponentAnimation" />
+                    <div class="component" v-if="item.component">
 
-                    <Brain 
-                        v-if="item.component == 'Brain'"
-                        ref="brain" 
-                        :hexRadius="brainHexRadius"
-                        :width="brainWidth"
-                        :height="brainHeight"
-                        :items="statService.getLevelsForBrain(item.brainItems)[0]"
-                    />
+                        <SpeedWidget 
+                            v-if="item.component == 'SpeedWidget'"
+                            :curValue="540"
+                            :maxValue="750"
+                            backgroundColor="#464664"
+                            :glow="false"
+                        />
 
-                    <Ai
-                        v-if="item.component == 'Ai'"
-                        fill="white"
-                        class="ai-image"
-                    />
+                        <Rainbow v-if="item.component == 'Rainbow'" :freeze="freezeComponentAnimation" />
 
-                </div>
+                        <Brain 
+                            v-if="item.component == 'Brain'"
+                            ref="brain" 
+                            :hexRadius="brainHexRadius"
+                            :width="brainWidth"
+                            :height="brainHeight"
+                            :items="statService.getLevelsForBrain(item.brainItems)[0]"
+                        />
 
-                <div class="title m-light" v-if="item.title">
-                    {{ item.title }}
-                </div>
+                        <Ai
+                            v-if="item.component == 'Ai'"
+                            fill="white"
+                            class="ai-image"
+                        />
 
-                <div class="texts" v-if="item.texts?.length">
-                    <template v-for="text in item.texts">
-                        <div class="text m-light" :class="{ muted: text.muted }" v-html="text.value">
-                        </div>
-                    </template>
-                </div>
+                    </div>
+
+                    <div class="title m-light" v-if="item.title">
+                        {{ item.title }}
+                    </div>
+
+                    <div class="texts" v-if="item.texts?.length">
+                        <template v-for="text in item.texts">
+                            <div class="text m-light" :class="{ muted: text.muted }" v-html="text.value">
+                            </div>
+                        </template>
+                    </div>
+
+                </template>
 
             </div>
 
@@ -82,6 +90,9 @@
     import Rainbow from '@/components/Rainbow.vue';
     import Brain from '@/components/Brain.vue'
     import Ai from '@/components/icons/Ai.vue'
+    import Rating1 from '@/components/notices/Rating1.vue'
+    import Rating2 from '@/components/notices/Rating2.vue'
+    import Rating3 from '@/components/notices/Rating3.vue'
     import StatService from '@/services/StatService.js';
 
     export default {
@@ -90,7 +101,10 @@
             SpeedWidget,
             Rainbow,
             Brain,
-            Ai
+            Ai,
+            Rating1,
+            Rating2,
+            Rating3
         },
 
         props: {
@@ -140,7 +154,7 @@
     }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 
     .notice-layer {
         position: absolute;

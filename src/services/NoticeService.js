@@ -344,6 +344,18 @@ export default class NoticeService {
                         }
                     ]
                 }
+            ],
+
+            rating: [
+                {
+                    customItem: 'Rating1'
+                },
+                {
+                    customItem: 'Rating2'
+                },
+                {
+                    customItem: 'Rating3'
+                } 
             ]
         };
 

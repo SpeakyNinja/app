@@ -23,6 +23,9 @@
         <StatPult :layers="layers" @toggle="toggle" :curIndex="curIndex" />
          
     </div>
+
+    <NoticeLayer :items="noticeItemsBefore" @closedHandler="showMainContent" v-if="noticeItemsBefore.length"/>
+
 </template>
 
 <script>
@@ -34,8 +37,10 @@
     import LayerRegularity from '@/components/stat/LayerRegularity.vue';
     import LayerDashboard from '@/components/stat/LayerDashboard.vue';
     import LayerLevel from '@/components/stat/LayerLevel.vue';
+    import NoticeLayer from '@/components/NoticeLayer.vue';
     import StatPult from '@/components/stat/StatPult.vue';
     import StatService from '@/services/StatService.js';
+    import NoticeService from '@/services/NoticeService.js';
 
     export default {
 
@@ -46,14 +51,16 @@
             LayerRegularity,
             LayerLevel,
             LayerDashboard,
-            StatPult
+            StatPult,
+            NoticeLayer
         },
 
         data() {
             return {
                 isReady: false,
                 curIndex: 0,
-                layers: []
+                layers: [],
+                noticeItemsBefore: []
             }
         },
 
@@ -96,6 +103,12 @@
                 }
 
                 this.layers.push({component: 'LayerDashboard', title: ''});
+            },
+
+            async showMainContent() {
+                this.isReady = true;
+                await nextTick();
+                this.$refs.itemsList.scrollBy(0, 226);
             }
         },
 
@@ -105,15 +118,20 @@
             this.state = inject('state');
 
             this.statService = new StatService();
+            this.noticeService = new NoticeService();
 
             try {
                 this.preloader.show = true;
                 const r = await this.statService.fetch();
+
+                if( this.state.isFirstProgress(this.statService) ) {
+                    this.noticeItemsBefore = this.noticeService.getItems('rating');
+                    this.state.setFirstProgressCongratulated();
+                } else {
+                    this.showMainContent();
+                }
                 
                 this.makeLayers();
-                this.isReady = true;
-                await nextTick();
-                this.$refs.itemsList.scrollBy(0, 226);
             } catch(res) {
                 if(res.code == 'training-not-found') {
                     this.$router.push('/training');
