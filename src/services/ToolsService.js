@@ -9,10 +9,10 @@ export default class ToolsService {
     }
 
     playAudio(voice) {
-    	if(voice) {
+        if(voice) {
             try {
                 this.audio?.pause();
-            	this.audio = new Audio(`data:audio/mpeg;base64,${voice}`);
+                this.audio = new Audio(`data:audio/mpeg;base64,${voice}`);
                 this.audio.play();
             } catch(e) {
             }

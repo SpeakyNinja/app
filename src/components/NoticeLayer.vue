@@ -62,7 +62,7 @@
 
         </div>
 
-        <div class="controls">
+        <div class="controls" :class="{hidden: hideControls}">
             <div class="controls-wrapper">
                 <div class="button no-select" @click="changeItem(-1)" >
                     <Arr2 
@@ -121,6 +121,8 @@
                 isClosed: false,
                 marginLeft: 0,
                 freezeComponentAnimation: false,
+                hideControls: false,
+                itemIndex: 0,
 
                 statService: new StatService(),
                 brainWidth: window.screen.width > 550 ? 368 : 283,
@@ -135,6 +137,9 @@
                 if(newMargin > 0) {
                     return false;
                 }
+
+                this.itemIndex += step;
+                this.hideControls = !!this.items[this.itemIndex]?.hideControls;
 
                 this.freezeComponentAnimation = true;
 
@@ -245,6 +250,10 @@
 
             display: flex;
             justify-content: center;
+
+            &.hidden {
+                display: none;
+            }
 
             .controls-wrapper {
                 display: flex;

@@ -99,6 +99,7 @@ export default class NoticeService {
                         }
                     ]
                 }, {
+                    component: 'Ai',
                     title: 'Буду предлагать слова',
                     texts: [
                         {
@@ -351,7 +352,8 @@ export default class NoticeService {
                     customItem: 'Rating1'
                 },
                 {
-                    customItem: 'Rating2'
+                    customItem: 'Rating2',
+                    hideControls: true
                 },
                 {
                     customItem: 'Rating3'

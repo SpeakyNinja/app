@@ -183,7 +183,7 @@
             async playAudio(type) {
                 if(!LocalStorage.get('options', type)) {
                     const training = this.trainings.getCurrent();
-                    const voice = await training.getNextVoice(this.student.getId());
+                    const voice = await training.getNextVoice(this.student.getId(), true);
                     this.toolsService.playAudio(voice);
                 }
             },

@@ -1,5 +1,5 @@
 <template>
-    <div class="rainbow">
+    <div class="rainbow no-select">
         
         <button class="btn" :class="{freeze: freeze}"></button>
 
@@ -96,20 +96,17 @@
             100% {background-position: 0 0;}
         }
 
-        .btn:active:after {
-            background: transparent;
-        }
-
-        .btn:active {
-            color: #000;
-            font-weight: bold;
-        }
-
     }
 
     @supports (-webkit-touch-callout: none) {
-        .rainbow .btn:before {
-            background-size: 300%;
+        .rainbow {
+            .btn {
+                overflow: hidden;
+
+                &:after {
+                    display: none;
+                }
+            }
         }
     }
 

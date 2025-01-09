@@ -25,12 +25,22 @@ export default class Training extends AbstractModel {
         return this.text == answer;
     }
 
-    async getNextVoice(studentId) {
+    async getNextVoice(studentId, searchInServer = false) {
         const db = new IndexedDBService(studentId);
         db.table = 'voices';
         const voices = await db.get('meaning_id', this.meaning_id);
+        
         if(!voices) {
-            return null;
+            if(searchInServer) {
+                try {
+                    const r = await this.fetchRandomVoice();
+                    return r.voice?.base64;
+                } catch(res) {
+                    return null;
+                }
+            } else {
+                return null;
+            }
         }
 
         if(this.voiceIndex === null || this.voiceIndex == voices.length - 1) {
@@ -40,5 +50,9 @@ export default class Training extends AbstractModel {
         }
 
         return voices[this.voiceIndex]?.value;
+    }
+
+    fetchRandomVoice() {
+        return this.request('/training/random-voice', {meaningId: this.meaning_id});
     }
 }

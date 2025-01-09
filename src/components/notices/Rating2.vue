@@ -13,7 +13,7 @@
 
         <div class="text m-light">Как тебе мой способ усвоения слов?</div>
 
-        <div class="smyles">
+        <div class="smyles" :class="{selected: rating}">
             <Smyle1 class="smyle m-pointer no-select" :class="{ active: ratingIs(1) }" @click="setRating(1)" />
             <Smyle2 class="smyle m-pointer no-select" :class="{ active: ratingIs(2) }" @click="setRating(2)" />
             <Smyle3 class="smyle m-pointer no-select" :class="{ active: ratingIs(3) }" @click="setRating(3)" />
@@ -141,6 +141,12 @@
             display: flex;
             gap: 15px;
             justify-content: center;
+
+            &.selected {
+                .smyle {
+                    fill: #686870;
+                }
+            }
 
             .smyle {
                 width: 40px;
