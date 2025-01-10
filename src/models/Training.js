@@ -26,11 +26,8 @@ export default class Training extends AbstractModel {
     }
 
     async getNextVoice(studentId, searchInServer = false) {
-        const db = new IndexedDBService(studentId);
-        db.table = 'voices';
-        const voices = await db.get('meaning_id', this.meaning_id);
-        
-        if(!voices) {
+        const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+        if(!isSafari) {
             if(searchInServer) {
                 try {
                     const r = await this.fetchRandomVoice();
@@ -42,6 +39,10 @@ export default class Training extends AbstractModel {
                 return null;
             }
         }
+
+        const db = new IndexedDBService(studentId);
+        db.table = 'voices';
+        const voices = await db.get('meaning_id', this.meaning_id);
 
         if(this.voiceIndex === null || this.voiceIndex == voices.length - 1) {
             this.voiceIndex = 0;
