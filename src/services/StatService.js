@@ -9,6 +9,7 @@ export default class StatService extends AbstractService {
     currentLevel;
     chunkSize = 100;
     max_count_trainings_per_day;
+    stage;
 
     fetch() {
         return this.request('/training/stat', {}, r => {
@@ -20,6 +21,7 @@ export default class StatService extends AbstractService {
             this.currentLevel = r.currentLevel;
             this.max_count_trainings_per_day = r.max_count_trainings_per_day;
             this.count_trainings_today = r.count_trainings_today;
+            this.stage = r.stage;
 
             this.items.sort((a, b) => {
                 if(a.memorization < b.memorization) {
@@ -30,6 +32,12 @@ export default class StatService extends AbstractService {
                 }
                 return 0;
             });
+        });
+    }
+
+    setStage(stage) {
+        return this.request('/student/set-stage', {stage: stage}, r => {
+            this.stage = stage;
         });
     }
 
@@ -266,5 +274,15 @@ export default class StatService extends AbstractService {
     countWordsInsideBelt(belt) {
         const levels = this.getCountLevelsInBelt(belt);
         return levels * this.chunkSize;
+    }
+
+    isFirstProgress() {
+        const m = [4];
+        return this.countWordsByMemorizations(m) > 0 && this.stage < 1;
+    }
+
+    isSecondProgress() {
+        const m = [8];
+        return this.countWordsByMemorizations(m) > 0 && this.stage < 2;
     }
 }

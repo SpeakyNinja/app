@@ -30,17 +30,4 @@ export default class StateService extends AbstractService {
         LocalStorage.store(this.getStorageName(), 'hasVisited', true);
         return true;
     }
-    
-    firstProgressCongratulated() {
-        return LocalStorage.get(this.getStorageName(), 'firstProgressCongratulated') || false;
-    }
-
-    setFirstProgressCongratulated() {
-        LocalStorage.store(this.getStorageName(), 'firstProgressCongratulated', true);
-    }
-
-    isFirstProgress(statService) {
-        const m = [4,5,6,7,8,9,10,11,12,13];
-        return statService.countWordsByMemorizations(m) > 0 && !this.firstProgressCongratulated();
-    }
 }

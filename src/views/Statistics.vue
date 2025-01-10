@@ -124,9 +124,12 @@
                 this.preloader.show = true;
                 const r = await this.statService.fetch();
 
-                if( this.state.isFirstProgress(this.statService) ) {
+                if( this.statService.isFirstProgress() ) {
                     this.noticeItemsBefore = this.noticeService.getItems('rating');
-                    this.state.setFirstProgressCongratulated();
+                    await this.statService.setStage(1);
+                } else if( this.statService.isSecondProgress() ) {
+                    this.noticeItemsBefore = this.noticeService.getItems('greenMem');
+                    await this.statService.setStage(2);
                 } else {
                     this.showMainContent();
                 }

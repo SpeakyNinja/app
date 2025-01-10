@@ -22,8 +22,8 @@ export default class Trainings extends AbstractCollection {
 
     makeHint(meaningId, hintText) {
         return this.request('/training/make-hint', {meaningId: meaningId, hintText: hintText}, r => {
-            const current = this.getCurrent();
-            current?.hints.unshift(hintText);
+            // const current = this.getCurrent();
+            // current?.hints.unshift(hintText);
         });
     }
 

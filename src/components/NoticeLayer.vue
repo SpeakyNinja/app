@@ -64,10 +64,10 @@
 
         <div class="controls" :class="{hidden: hideControls}">
             <div class="controls-wrapper">
-                <div class="button no-select" @click="changeItem(-1)" >
+                <div class="button no-select" @click="changeItem(-1)" :class="{transparent: items.length == 1}" >
                     <Arr2 
                         class="arrow" 
-                        :class="{muted: !marginLeft, transparent: items.length == 1}" 
+                        :class="{muted: !marginLeft}" 
                     />
                 </div>
 
@@ -93,6 +93,7 @@
     import Rating1 from '@/components/notices/Rating1.vue'
     import Rating2 from '@/components/notices/Rating2.vue'
     import Rating3 from '@/components/notices/Rating3.vue'
+    import GreenMemCongratulation from '@/components/notices/GreenMemCongratulation.vue'
     import StatService from '@/services/StatService.js';
 
     export default {
@@ -104,7 +105,8 @@
             Ai,
             Rating1,
             Rating2,
-            Rating3
+            Rating3,
+            GreenMemCongratulation
         },
 
         props: {
@@ -273,10 +275,11 @@
                         &.muted {
                             fill: #535567;
                         }
+                    }
 
-                        &.transparent {
-                            opacity: 0;
-                        }
+                    &.transparent {
+                        cursor: default;
+                        opacity: 0;
                     }
 
                     &:first-child {

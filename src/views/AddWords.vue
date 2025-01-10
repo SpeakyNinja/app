@@ -61,6 +61,7 @@
         </ButtonsSticked>
     </div>
 
+    <NoticeLayer :items="noticeItemsBefore" @closedHandler="showInterface" v-if="noticeItemsBefore?.length" />
     <NoticeLayer :items="noticeItemsAfter" @closedHandler="nextStep" v-if="noticeItemsAfter?.length" />
 
 </template>
@@ -99,7 +100,8 @@
                 brainHeight: window.screen.width > 550 ? 316 : 245,
                 brainHexRadius: window.screen.width > 550 ? 18 : 14,
                 buttonsOptions: { highlightedItem: null, maxHighlightInterval: 0.5 },
-                noticeItemsAfter: []
+                noticeItemsAfter: [],
+                noticeItemsBefore: []
             }
         },
 
@@ -188,7 +190,7 @@
             try {
                 this.preloader.show = true;
                 await this.addWordService.fetchWord();
-                this.showInterface();
+                this.noticeItemsBefore = this.noticeService.getItems('addWordsBefore');
             } catch(res) {
                 this.errorHandler(res);
             } finally {

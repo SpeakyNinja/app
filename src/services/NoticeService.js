@@ -160,6 +160,19 @@ export default class NoticeService {
                 } 
             ],
 
+            addWordsBefore: [
+                {
+                    component: 'Ai',
+                    title: 'Время повтора изучаемых слов еще не наступило',
+                    texts: [
+                        {
+                            value: 'Нужно выбрать новые слова.',
+                            muted: false
+                        }
+                    ]
+                } 
+            ],
+
             trainingBefore1: [
                 {
                     component: 'Ai',
@@ -358,6 +371,12 @@ export default class NoticeService {
                 {
                     customItem: 'Rating3'
                 } 
+            ],
+
+            greenMem: [
+                {
+                    customItem: 'GreenMemCongratulation'
+                }
             ]
         };
 

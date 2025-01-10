@@ -40,7 +40,8 @@
 
                 this.modal.modalOptions = {
                     header: res.title || 'Извините',
-                    body: res.message || 'Ошибка сервера'
+                    body: res.message || 'Ошибка сервера',
+                    cancelButtonText: res.cancelButtonText || 'Закрыть'
                 };
                 this.modal.showModal = true;
 

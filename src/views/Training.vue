@@ -216,8 +216,13 @@
                 const training = this.trainings.getCurrent();
                 try {
                     this.preloader.show = true;
-                    const r = await this.trainings.makeHint(training.meaning_id, this.userHint);
+                    await this.trainings.makeHint(training.meaning_id, this.userHint);
                     this.closeHintLayer();
+                    this.modal.show({
+                        title: 'Спасибо', 
+                        message: 'Подсказка отправлена на модерацию',
+                        cancelButtonText: 'Ок'
+                    });
                 } catch(res) {
                     this.errorHandler(res);
                 } finally {
