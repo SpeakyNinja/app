@@ -3,6 +3,8 @@
         
         <button class="btn" :class="{freeze: freeze}"></button>
 
+        <div class="safari"></div>
+
     </div>
 </template>
 
@@ -37,6 +39,10 @@
         justify-content: center;
         align-items: center;
         overflow: hidden;
+
+        .safari {
+            display: none;
+        }
 
         .btn {
             margin: 40px;
@@ -101,10 +107,26 @@
     @supports (-webkit-touch-callout: none) {
         .rainbow {
             .btn {
-                overflow: hidden;
+                display: none;
+            }
 
-                &:after {
-                    display: none;
+            .safari {
+                display: block;
+                width: 130px;
+                height: 130px;
+                margin: 40px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: linear-gradient(0deg, #fffb00, #48ff00);
+
+                &:before {
+                    content: '';
+                    width: 116px;
+                    height: 116px;
+                    border-radius: 50%;
+                    background-color: #272733;
                 }
             }
         }
