@@ -27,7 +27,7 @@ export default class Training extends AbstractModel {
 
     async getNextVoice(studentId, searchInServer = false) {
         const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-        if(!isSafari) {
+        if(isSafari) {
             if(searchInServer) {
                 try {
                     const r = await this.fetchRandomVoice();
