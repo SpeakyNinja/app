@@ -34,7 +34,7 @@ export default class Training extends AbstractModel {
             if(searchInServer) {
                 try {
                     const r = await this.fetchRandomVoice();
-                    return r.voice?.base64;
+                    return r.base64;
                 } catch(res) {
                     return null;
                 }
