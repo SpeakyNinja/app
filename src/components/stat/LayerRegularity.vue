@@ -48,9 +48,10 @@
             },
 
             getPercentRegularity() {
-                const max = this.statService.getTotalMaxnonstopDays();
-                const percentRegularity = max ? Math.round(this.statService.getNonstopDays() * 100 / max) : 100;
-                return percentRegularity > 100 ? 100 : percentRegularity;
+                return this.statService.regularity.percent_regularity;
+                // const max = this.statService.getTotalMaxnonstopDays();
+                // const percentRegularity = max ? Math.round(this.statService.getNonstopDays() * 100 / max) : 100;
+                // return percentRegularity > 100 ? 100 : percentRegularity;
             }
         },
 

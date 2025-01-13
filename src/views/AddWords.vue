@@ -190,7 +190,13 @@
             try {
                 this.preloader.show = true;
                 await this.addWordService.fetchWord();
-                this.noticeItemsBefore = this.noticeService.getItems('addWordsBefore');
+
+                if(this.addWordService.data.countAddWords > 0) {
+                    this.noticeItemsBefore = this.noticeService.getItems('addWordsBefore');
+                } else {
+                    this.showInterface();
+                }
+
             } catch(res) {
                 this.errorHandler(res);
             } finally {
