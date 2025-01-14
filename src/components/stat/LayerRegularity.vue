@@ -13,7 +13,7 @@
         </div>
 
         <div class="bottom glass">
-            <div class="">Ты входишь в топ {{ getPercentRegularity() }}% по&nbsp;регулярности занятий</div>
+            <div class="">Качество регулярности: {{ getPercentRegularity() }}%</div>
         </div>
          
     </div>
