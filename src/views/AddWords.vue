@@ -119,7 +119,7 @@
 
                 try {
                     this.preloader.show = true;
-                    const r = await this.addWordService.rateWord(status);
+                    const r = await this.addWordService.rateWord(status, this.countSeconds());
                     this.playAudio();
                     this.updateProgress();
                     this.$refs.buttons.highlightStop();
@@ -150,6 +150,15 @@
                 if(this.$refs.progressBar) {
                     this.$refs.progressBar.$forceUpdate();
                 }
+                this.startCounter();
+            },
+
+            startCounter() {
+                this.seconds = new Date().getTime();
+            },
+
+            countSeconds() {
+                return Math.round((new Date().getTime() - this.seconds) / 1000);
             },
 
             playAudio() {

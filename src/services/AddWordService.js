@@ -19,14 +19,15 @@ export default class AddWordService extends AbstractService {
         });
     }
 
-    rateWord(status) {
+    rateWord(status, seconds) {
         if(status == 'in_progress') {
             this.storeVoices();
         }
 
         const request = {
             meaning_id: this.data.meaning_id,
-            status: status
+            status: status,
+            seconds: seconds
         };
 
         return this.request('/add-word/rate', request, r => {

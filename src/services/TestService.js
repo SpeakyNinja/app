@@ -19,10 +19,11 @@ export default class TestService extends AbstractService {
         });
     }
 
-    sendAnswer(text) {
+    sendAnswer(text, seconds) {
         const data = {
             meaning_id: this.question.meaning_id,
-            text: text
+            text: text,
+            seconds: seconds
         };
 
         return this.request('/test/send-answer', data, r => {

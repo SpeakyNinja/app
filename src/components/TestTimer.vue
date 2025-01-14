@@ -64,7 +64,7 @@
             },
 
             stop() {
-                clearInterval(this.autoSubmitPid);
+                clearTimeout(this.autoSubmitPid);
                 this.progressPercent = 0.001;
                 this.isAnimated = false;
             },

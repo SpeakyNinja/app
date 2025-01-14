@@ -72,7 +72,7 @@
 
                 try {
                     this.preloader.show = true;
-                    const r = await this.testService.sendAnswer(text);
+                    const r = await this.testService.sendAnswer(text, this.countSeconds());
                     this.countAnswers++;
                     this.updateProgress();
                     this.$refs.timer.stop();
@@ -95,6 +95,15 @@
                 const width = document.body.clientWidth > 430 ? 320 : 280;
                 const p = Math.round( this.countAnswers * 100 / (this.maxWords - 1) );
                 this.progress = {width: `${width}px`, widthFilled: `${p}%`};
+                this.startCounter();
+            },
+
+            startCounter() {
+                this.seconds = new Date().getTime();
+            },
+
+            countSeconds() {
+                return Math.round((new Date().getTime() - this.seconds) / 1000);
             },
 
             playAudio() {
