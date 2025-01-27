@@ -74,4 +74,24 @@ export default class ToolsService {
         let rand = min - 0.5 + Math.random() * (max - min + 1);
         return Math.round(rand);
     }
+
+    days(seconds) {
+        const days = Math.floor(seconds / 86400);
+        return days > 0 ? days : 0;
+    }
+
+    hours(seconds) {
+        const hours = Math.floor((seconds % 86400) / 3600);
+        return hours > 0 ? hours : 0;
+    }
+
+    minutes(seconds) {
+        const minutes = Math.floor(((seconds % 86400) % 3600) / 60);
+        return minutes > 0 ? minutes : 0;
+    }
+
+    seconds(seconds) {
+        const sec = ((seconds % 86400) % 3600) % 60;
+        return sec > 0 ? sec : 0;
+    }
 }

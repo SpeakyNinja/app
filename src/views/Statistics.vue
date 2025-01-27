@@ -37,6 +37,7 @@
     import LayerRegularity from '@/components/stat/LayerRegularity.vue';
     import LayerDashboard from '@/components/stat/LayerDashboard.vue';
     import LayerLevel from '@/components/stat/LayerLevel.vue';
+    import LayerIntensity from '@/components/stat/LayerIntensity.vue';
     import NoticeLayer from '@/components/NoticeLayer.vue';
     import StatPult from '@/components/stat/StatPult.vue';
     import StatService from '@/services/StatService.js';
@@ -51,6 +52,7 @@
             LayerRegularity,
             LayerLevel,
             LayerDashboard,
+            LayerIntensity,
             StatPult,
             NoticeLayer
         },
@@ -76,13 +78,13 @@
             },
 
             makeLayers() {
-                this.layers = [];
-                // this.layers = [
-                //     {component: 'LayerAccuracy', title: 'Слова'},
-                //     {component: 'LayerPredict', title: 'Прогноз'},
-                //     {component: 'LayerRegularity', title: 'Регулярность'},
-                //     {component: 'LayerLevel', title: 'Уровень'}
-                // ];
+                this.layers = [
+                    // {component: 'LayerAccuracy', title: 'Слова'},
+                    // {component: 'LayerPredict', title: 'Прогноз'},
+                    // {component: 'LayerRegularity', title: 'Регулярность'},
+                    // {component: 'LayerLevel', title: 'Уровень'},
+                    {component: 'LayerIntensity', title: 'Интенсивность'}
+                ];
                 
                 if(this.state.getShowFullStat()) {
                     this.state.setShowFullStat(false);

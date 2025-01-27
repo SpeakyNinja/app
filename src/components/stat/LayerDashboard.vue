@@ -3,12 +3,14 @@
         
         <div class="wrapper">
 
-            <div class="top">
+            <div class="top glass">
+                <TimerStat :ownedTime="ownedTime" :isSmall="true" />
+
                 <IconCog class="cog" @click="toOptions()" />
             </div>
 
-            <div class="bottom">
-                <div class="counter-wrapper">
+            <div class="middle no-scrollbar">
+                <div class="counter-wrapper mt-2">
                     <div class="counter">
                         <div class="title">Словарный запас</div>
                         <div class="value">
@@ -53,6 +55,9 @@
                     </div>
                 </div>
                 
+            </div>
+
+            <div class="bottom glass">
                 <div class="btn green" @click="toTraining()">Тренироваться</div>
             </div>
 
@@ -78,6 +83,7 @@
     import IconCog from '@/components/icons/IconCog.vue';
     import NoticeLayer from '@/components/NoticeLayer.vue'
     import NoticeService from '@/services/NoticeService.js';
+    import TimerStat from '@/components/TimerStat.vue'
 
     export default {
 
@@ -87,7 +93,8 @@
             HexYellow,
             HexGreen,
             RoundProgress,
-            NoticeLayer
+            NoticeLayer,
+            TimerStat
         },
 
         props: {
@@ -177,6 +184,7 @@
 
         beforeMount() {
             this.noticeService = new NoticeService();
+            this.ownedTime = this.statService.intensity.timeRecord.seconds;
         }
     }
 </script>
@@ -194,30 +202,47 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
             z-index: 2;
             position: relative;
             height: 100%;
 
             .top {
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 81px;
+                min-height: 81px;
                 display: flex;
-                justify-content: flex-end;
-                padding: 16px;
+                justify-content: center;
+                align-items: center;
+                padding-top: 4px;
                 width: 100%;
+                border-bottom: 1px solid #4c4d57;
+                z-index: 4;
 
                 .cog {
                     width: 32px;
                     height: 32px;
                     cursor: pointer;
+                    position: absolute;
+                    top: 26px;
+                    right: 16px;
+                    z-index: 2;
                 }
             }
 
-            .bottom {
+            .middle {
                 display: flex;
                 flex-direction: column;
                 align-items: center;
                 justify-content: space-around;
                 gap: 20px;
                 flex-grow: 2;
+                padding-top: 81px;
+                padding-bottom: 111px;
+                overflow-y: auto;
+                width: 100%;
 
                 >:last-child {
                     margin-bottom: 30px;
@@ -336,6 +361,23 @@
                     }
                 }
 
+            }
+
+            .bottom {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border-top: 1px solid #4c4d57;
+                width: 100%;
+                padding: 20px 0;
+
+                .btn {
+                    z-index: 2;
+                    width: 310px;
+                }
             }
 
         }

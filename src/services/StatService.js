@@ -10,6 +10,7 @@ export default class StatService extends AbstractService {
     chunkSize = 100;
     max_count_trainings_per_day;
     stage;
+    intensity;
 
     fetch() {
         return this.request('/training/stat', {}, r => {
@@ -22,6 +23,7 @@ export default class StatService extends AbstractService {
             this.max_count_trainings_per_day = r.max_count_trainings_per_day;
             this.count_trainings_today = r.count_trainings_today;
             this.stage = r.stage;
+            this.intensity = r.intensity;
 
             this.items.sort((a, b) => {
                 if(a.memorization < b.memorization) {
@@ -284,5 +286,10 @@ export default class StatService extends AbstractService {
     isSecondProgress() {
         const m = [8];
         return this.countWordsByMemorizations(m) > 0 && this.stage < 2;
+    }
+
+    getLastEarnedTime() {
+        const list = this.intensity.earnedTimeList;
+        return list.length ? list[0] : null;
     }
 }
