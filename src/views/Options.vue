@@ -165,6 +165,7 @@
                 gap: 20px;
                 color: #ebebed;
                 max-width: 500px;
+                width: 500px;
                 padding: 0 30px;
 
                 .row {
@@ -199,8 +200,10 @@
     @media(max-width: 500px) {
         .options {
 
-            .block {
-                width: 100%;
+            .options-wrapper {
+                .block {
+                    width: 100%;
+                }
             }
         }
     }
