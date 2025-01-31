@@ -83,7 +83,7 @@
                     // {component: 'LayerPredict', title: 'Прогноз'},
                     // {component: 'LayerRegularity', title: 'Регулярность'},
                     // {component: 'LayerLevel', title: 'Уровень'},
-                    {component: 'LayerIntensity', title: 'Интенсивность'}
+                    // {component: 'LayerIntensity', title: 'Интенсивность'}
                 ];
                 
                 if(this.state.getShowFullStat()) {
@@ -102,6 +102,8 @@
                     if(this.statService.showLevelLayer()) {
                         this.layers.push({component: 'LayerLevel', title: 'Уровень'});
                     }
+                    
+                    this.layers.push({component: 'LayerIntensity', title: 'Интенсивность'});
                 }
 
                 this.layers.push({component: 'LayerDashboard', title: ''});

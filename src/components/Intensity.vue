@@ -155,7 +155,12 @@
                 const hours = this.toolsService.hours(seconds);
                 const minutes = this.toolsService.minutes(seconds);
                 
-                return `+${hours}ч ${minutes}м`;
+                let text = `+${hours}ч`;
+                if(minutes) {
+                    text +=  ` ${minutes}м`;
+                }
+
+                return text;
             }
         },
 

@@ -50,13 +50,13 @@
                 const seconds = this.toolsService.seconds(leftSeconds);
                 
                 this.timeParts = [
-                    ...String(days).padStart(2, '0').split('').map((char, i) => ({ value: char, isMuted: char === '0' && days < 10 && (!i || !days) })),
+                    ...String(days).padStart(2, '0').split('').map((char, i) => ({ value: char, isMuted: char === '0' && days < 10 })),
                     { value: ' ', isMuted: true },
-                    ...String(hours).padStart(2, '0').split('').map((char, i) => ({ value: char, isMuted: char === '0' && hours < 10 && ( !i || (!days && !hours) ) })),
+                    ...String(hours).padStart(2, '0').split('').map((char, i) => ({ value: char, isMuted: char === '0' && hours < 10 && days == 0 })),
                     { value: ':', isMuted: !days && !hours },
-                    ...String(minutes).padStart(2, '0').split('').map((char, i) => ({ value: char, isMuted: char === '0' && minutes < 10 && ( !i || (!days && !hours && !minutes) ) })),
+                    ...String(minutes).padStart(2, '0').split('').map((char, i) => ({ value: char, isMuted: char === '0' && minutes < 10 && hours == 0 && days == 0 })),
                     { value: ':', isMuted: !days && !hours && !minutes },
-                    ...String(seconds).padStart(2, '0').split('').map((char, i) => ({ value: char, isMuted: char === '0' && seconds < 10 && ( !i || (!days && !hours && !minutes && !seconds) ) }))
+                    ...String(seconds).padStart(2, '0').split('').map((char, i) => ({ value: char, isMuted: char === '0' && seconds < 10 && minutes == 0 && hours == 0 && days == 0 }))
                 ];
             },
 
