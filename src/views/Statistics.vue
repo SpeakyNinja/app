@@ -1,11 +1,14 @@
 <template>
-    <div class="statistics main-bg no-select" v-if="isReady">
+    <div class="statistics main-bg no-select" v-if="isReady" ref="statisticsContainer">
         
-        <component 
-            :statService="statService"
-            :is="layers[ curIndex ].component" 
-            :key="layers[ curIndex ].component" 
-        />
+        <div class="layers-wrapper" ref="layersWrapper" :class="{ 'swipe-in-progress': swipeInProgress }">
+            <template v-for="layer in layers">
+                <component 
+                    :statService="statService"
+                    :is="layer.component" 
+                />
+            </template>
+        </div>
 
         <div class="items no-scrollbar" ref="itemsList">
             <div class="items-wrapper">
@@ -42,6 +45,7 @@
     import StatPult from '@/components/stat/StatPult.vue';
     import StatService from '@/services/StatService.js';
     import NoticeService from '@/services/NoticeService.js';
+    import SlideHandler from "@/services/SlideHandler.js";
 
     export default {
 
@@ -62,7 +66,9 @@
                 isReady: false,
                 curIndex: 0,
                 layers: [],
-                noticeItemsBefore: []
+                noticeItemsBefore: [],
+                swipeDelta: 20,
+                swipeInProgress: false
             }
         },
 
@@ -70,11 +76,15 @@
             toggle(step) {
                 let index = this.curIndex + step;
 
-                if(step == -1 && index < 0) {
-                    return false;
+                if(step != -1 || index >= 0) {
+                    this.curIndex = index;
                 }
 
-                this.curIndex = index;
+                this.updateLeft();
+
+                if(this.curIndex == this.layers.length - 1) {
+                    this.slideHandler?.clearListeners();
+                }
             },
 
             makeLayers() {
@@ -102,7 +112,7 @@
                     if(this.statService.showLevelLayer()) {
                         this.layers.push({component: 'LayerLevel', title: 'Уровень'});
                     }
-                    
+
                     this.layers.push({component: 'LayerIntensity', title: 'Интенсивность'});
                 }
 
@@ -113,6 +123,42 @@
                 this.isReady = true;
                 await nextTick();
                 this.$refs.itemsList.scrollBy(0, 226);
+                this.initSwipeLayers();
+            },
+
+            initSwipeLayers() {
+                if(this.layers.length > 1) {
+                    this.slideHandler = new SlideHandler(
+                        this.$refs.statisticsContainer, 
+                        this.swipeEndHandler.bind(this),
+                        this.swipeHandler.bind(this),
+                        'x'
+                    );
+                }
+            },
+
+            swipeEndHandler(direction, delta) {
+                const left = -this.curIndex * 100;
+
+                if(delta >= this.swipeDelta) {
+                    this.toggle(direction);
+                } else {
+                    this.updateLeft();
+                }
+                    
+                this.swipeInProgress = false;
+            },
+
+            swipeHandler(distance) {
+                this.swipeInProgress = true;
+                const curLeft = -this.curIndex * 100;
+                const left = curLeft + distance / this.$refs.statisticsContainer.clientWidth * 100;
+                this.$refs.layersWrapper.style.left = `${left}%`;
+            },
+
+            updateLeft() {
+                const left = -this.curIndex * 100;
+                this.$refs.layersWrapper.style.left = `${left}%`;
             }
         },
 
@@ -148,6 +194,10 @@
             } finally {
                 this.preloader.show = false;
             }
+        },
+
+        unmounted() {
+            this.slideHandler?.clearListeners();
         }
     }
 </script>
@@ -159,11 +209,27 @@
         width: 100%;
         height: 100vh;
 
+        .layers-wrapper {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            transition: left 0.5s;
+
+            &.swipe-in-progress {
+                transition: none;
+            }
+        }
+
         .items {
             max-height: 100%;
-            padding: 280px 40px 70px 40px;
+            padding: 280px 40px 100px 40px;
             overflow: hidden;
             position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             overflow-y: auto;
 

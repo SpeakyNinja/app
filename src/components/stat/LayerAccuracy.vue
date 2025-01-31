@@ -47,10 +47,11 @@
 <style lang="scss" scoped>
 
     .layer-accuracy {
-        position: absolute;
-        top: 0;
-        left: 0;
+        // position: absolute;
+        // top: 0;
+        // left: 0;
         width: 100%;
+        min-width: 100%;
         height: 100%;
 
         .top-fixed {
@@ -77,13 +78,12 @@
             justify-content: center;
             position: absolute;
             bottom: 0;
-            left: -10%;
-            width: 120%;
-            height: 70px;
+            left: 0;
+            width: 100%;
+            height: 100px;
             z-index: 1;
             overflow: hidden;
-            border-top-left-radius: 100%;
-            border-top-right-radius: 100%;
+            border-top: 1px solid #4c4d57;
         }
     }
 

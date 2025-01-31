@@ -1,5 +1,5 @@
 <template>
-    <div class="layer-accuracy">
+    <div class="layer-predict">
         
         <div class="top glass">
             <div>Ожидаемый<br> прирост</div>
@@ -50,14 +50,15 @@
 
 <style lang="scss" scoped>
 
-    .layer-accuracy {
+    .layer-predict {
         display: flex;
         flex-direction: column;
         width: 100%;
+        min-width: 100%;
         height: 100vh;
-        position: absolute;
-        top: 0;
-        left: 0;
+        // position: absolute;
+        // top: 0;
+        // left: 0;
         z-index: 1;
 
         .top {

@@ -1,8 +1,8 @@
 <template>
     <div class="notice-layer" :class="{hidden: isClosed}">
-        <div class="items">
+        <div class="items" ref="slideContainer">
 
-            <div class="dummy" :style="{ 'margin-left': marginLeft + '%' }"></div>
+            <div class="dummy" :class="{ 'swipe-in-progress': swipeInProgress }" :style="{ 'margin-left': marginLeft + ml + '%' }"></div>
 
             <div class="item" v-for="item in items">
 
@@ -95,6 +95,7 @@
     import Rating3 from '@/components/notices/Rating3.vue'
     import GreenMemCongratulation from '@/components/notices/GreenMemCongratulation.vue'
     import StatService from '@/services/StatService.js';
+    import SlideHandler from "@/services/SlideHandler.js";
 
     export default {
         components: {
@@ -122,9 +123,12 @@
             return {
                 isClosed: false,
                 marginLeft: 0,
+                ml: 0,
                 freezeComponentAnimation: false,
                 hideControls: false,
                 itemIndex: 0,
+                swipeDelta: 20,
+                swipeInProgress: false,
 
                 statService: new StatService(),
                 brainWidth: window.screen.width > 550 ? 368 : 283,
@@ -156,7 +160,39 @@
                     this.isClosed = true;
                     this.$emit('closedHandler');
                 }
+            },
+
+            initSwipeLayers() {
+                this.slideHandler = new SlideHandler(
+                    this.$refs.slideContainer, 
+                    this.swipeEndHandler.bind(this),
+                    this.swipeHandler.bind(this),
+                    'x'
+                );
+            },
+
+            swipeEndHandler(direction, delta) {
+                this.swipeInProgress = false;
+                this.ml = 0;
+
+                if(delta >= this.swipeDelta) {
+                    this.changeItem(direction);
+                }
+            },
+
+            swipeHandler(distance) {
+                this.ml = Math.round(distance / this.$refs.slideContainer.clientWidth * 100);
+                this.swipeInProgress = true;
             }
+        },
+
+        async mounted() {
+            await nextTick();
+            this.initSwipeLayers();
+        },
+
+        unmounted() {
+            this.slideHandler?.clearListeners();
         }
     }
 </script>
@@ -187,6 +223,10 @@
 
             .dummy {
                 transition: all 0.3s ease;
+
+                &.swipe-in-progress {
+                    transition: none;
+                }
             }
 
             .item {

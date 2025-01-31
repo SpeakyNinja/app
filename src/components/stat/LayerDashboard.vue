@@ -63,14 +63,14 @@
 
         </div>
          
-    </div>
+        <NoticeLayer 
+            ref="stagesNoticeLayer"
+            :items="noticeService.getItems('stagesWords')" 
+            @closedHandler="closeStagesNotice" 
+            v-if="showStagesNotice" 
+        />
 
-    <NoticeLayer 
-        ref="stagesNoticeLayer"
-        :items="noticeService.getItems('stagesWords')" 
-        @closedHandler="closeStagesNotice" 
-        v-if="showStagesNotice" 
-    />
+    </div>
 
 </template>
 
@@ -192,10 +192,11 @@
 <style lang="scss" scoped>
 
     .layer-dashboard {
-        position: absolute;
-        top: 0;
-        left: 0;
+        // position: absolute;
+        // top: 0;
+        // left: 0;
         width: 100%;
+        min-width: 100%;
         height: 100%;
 
         .wrapper {
