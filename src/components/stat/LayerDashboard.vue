@@ -5,14 +5,13 @@
 
             <div class="top glass">
                 <TimerStat :ownedTime="ownedTime" :isSmall="true" />
-
-                <IconCog class="cog" @click="toOptions()" />
             </div>
 
             <div class="middle no-scrollbar">
                 <div class="counter-wrapper mt-2">
                     <div class="counter">
                         <div class="title">Словарный запас</div>
+
                         <div class="value">
                             <div 
                                 v-for="(part, i) in getLearnedWordsChars()" 
@@ -21,6 +20,24 @@
                             >
                             </div>
                         </div>
+
+                        <div class="in-progress">
+                            <div class="columns" @click="showStagesNotice = true">
+                                <div>
+                                    <HexRed class="hex" />
+                                    <div>{{ getCount('red') }}</div>
+                                </div>
+                                <div>
+                                    <HexYellow class="hex" />
+                                    <div>{{ getCount('yellow') }}</div>
+                                </div>
+                                <div>
+                                    <HexGreen class="hex" />
+                                    <div>{{ getCount('green') }}</div>
+                                </div>
+                            </div>
+                        </div>
+
                         <RoundProgress 
                             :options="{progress: statService.getProgressInBelt()}"
                             :radius="134"
@@ -34,23 +51,26 @@
                     </div>
                 </div>
 
-                <div class="in-progress" @click="showStagesNotice = true">
-                    <div>В процессе:</div>
-                    <div class="columns">
-                        <div>
-                            <div>Знакомство</div>
-                            <HexRed class="hex" />
-                            <div>{{ getCount('red') }}</div>
+                <div class="buttons-wrapper">
+                    <div class="row">
+                        <div class="item" @click="$parent.showLayer('LayerRegularity')">
+                            <div class="item-title">Регулярность</div>
+                            <div class="item-value">{{ statService.getNonstopDays() }}</div>
                         </div>
-                        <div>
-                            <div>Усвоение</div>
-                            <HexYellow class="hex" />
-                            <div>{{ getCount('yellow') }}</div>
+                        <div class="item" @click="$parent.showLayer('LayerPredict')">
+                            <div class="item-title">Прогноз</div>
+                            <div class="item-value">+ {{ statService.predict.curValue }}</div>
                         </div>
-                        <div>
-                            <div>Закрепление</div>
-                            <HexGreen class="hex" />
-                            <div>{{ getCount('green') }}</div>
+                    </div>
+
+                    <div class="row">
+                        <div class="item" @click="toStore()">
+                            <div class="item-title">Нейроны</div>
+                            <div class="item-value">{{ new Intl.NumberFormat().format(245000) }}</div>
+                        </div>
+                        <div class="item" @click="toOptions()">
+                            <div class="item-title">Настройки</div>
+                            <IconCog class="cog" />
                         </div>
                     </div>
                 </div>
@@ -75,6 +95,7 @@
 </template>
 
 <script>
+    import { nextTick } from "vue";
     import StatService from '@/services/StatService.js';
     import RoundProgress from '@/components/RoundProgress.vue';
     import HexRed from '@/components/icons/HexRed.vue';
@@ -179,6 +200,10 @@
             closeStagesNotice() {
                 this.$refs.stagesNoticeLayer.isClosed = false;
                 this.showStagesNotice = false;
+            },
+
+            toStore() {
+                this.$router.push('/store');
             }
         },
 
@@ -221,16 +246,12 @@
                 width: 100%;
                 border-bottom: 1px solid #4c4d57;
                 z-index: 4;
+            }
 
-                .cog {
-                    width: 32px;
-                    height: 32px;
-                    cursor: pointer;
-                    position: absolute;
-                    top: 26px;
-                    right: 16px;
-                    z-index: 2;
-                }
+            .cog {
+                width: 26px;
+                height: 26px;
+                cursor: pointer;
             }
 
             .middle {
@@ -258,7 +279,7 @@
                         
                         .title {
                             position: absolute;
-                            top: 75px;
+                            top: 54px;
                             left: 0;
                             width: 100%;
                             text-align: center;
@@ -270,7 +291,7 @@
 
                         .value {
                             position: absolute;
-                            top: 102px;
+                            top: 90px;
                             left: 0;
                             width: 100%;
                             text-align: center;
@@ -313,50 +334,79 @@
                                 }
                             }
                         }
+
+                        .in-progress {
+                            display: flex;
+                            justify-content: center;
+                            width: 100%;
+                            position: absolute;
+                            top: 175px;
+                            left: 0;
+                            z-index: 1;
+
+                            .columns {
+                                display: flex;
+                                justify-content: space-around;
+                                gap: 20px;
+
+                                >div {
+                                    display: flex;
+                                    flex-direction: column;
+                                    align-items: center;
+                                    gap: 10px;
+
+                                    .hex {
+                                        width: 28px;
+                                        height: 28px;
+                                    }
+
+                                    >:last-child {
+                                        color: white;
+                                        font-size: 14px;
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
 
-                .in-progress {
+
+                .buttons-wrapper {
                     display: flex;
                     flex-direction: column;
-                    gap: 19px;
-                    width: 310px;
-                    background-color: #1e1f2c;
-                    border-radius: 10px;
-                    padding: 16px;
+                    gap: 10px;
 
-                    >:first-child {
-                        color: white;
-                        font-size: 16px;
-                        text-align: center;
-                    }
-
-                    .columns {
+                    .row {
                         display: flex;
-                        justify-content: space-around;
-                        gap: 5px;
-                        width: 100%;
+                        gap: 10px;
 
-                        >div {
+                        .item {
+                            background-color: #1e1f2c;
+                            border-radius: 10px;
+                            border: 1px solid #272733;
+                            width: 150px;
+                            min-width: 150px;
+                            height: 87px;
                             display: flex;
                             flex-direction: column;
                             align-items: center;
+                            justify-content: center;
                             gap: 10px;
+                            box-shadow: 10px 10px 15px 0px rgba(0, 0, 0, 0.2);
 
-                            >:first-child {
+                            .item-title {
+                                text-align: center;
+                                font-size: 14px;
                                 font-family: Light;
                                 color: white;
-                                font-size: 14px;
                             }
 
-                            .hex {
-                                width: 28px;
-                                height: 28px;
-                            }
-
-                            >:last-child {
+                            .item-value {
+                                font-size: 20px;
+                                font-family: RobotoBold;
                                 color: white;
-                                font-size: 16px;
+                                text-shadow: 0px 0px 15px #7faef9, 0px 0px 15px rgba(127,174,249,0.5);
+                                line-height: 1;
                             }
                         }
                     }

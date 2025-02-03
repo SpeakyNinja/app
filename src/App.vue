@@ -71,6 +71,7 @@
                     this.preloader.show = true;
                     const r = await this.student.fetchData();
                     this.checkPwaVersion(r.pwaVersion);
+                    localStorage.setItem('appTimezone', r.appTimezone);
                 } catch(res) {
                     this.modal.show(res);
                 } finally {

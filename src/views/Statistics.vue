@@ -2,12 +2,14 @@
     <div class="statistics main-bg no-select" v-if="isReady" ref="statisticsContainer">
         
         <div class="layers-wrapper" ref="layersWrapper" :class="{ 'swipe-in-progress': swipeInProgress }">
+            
             <template v-for="layer in layers">
                 <component 
                     :statService="statService"
-                    :is="layer.component" 
+                    :is="layer.component"
                 />
             </template>
+
         </div>
 
         <div class="items no-scrollbar" ref="itemsList">
@@ -123,7 +125,7 @@
                 this.isReady = true;
                 await nextTick();
                 this.$refs.itemsList.scrollBy(0, 226);
-                this.initSwipeLayers();
+                // this.initSwipeLayers();
             },
 
             initSwipeLayers() {
@@ -159,6 +161,22 @@
             updateLeft() {
                 const left = -this.curIndex * 100;
                 this.$refs.layersWrapper.style.left = `${left}%`;
+            },
+
+            showLayer(layerName) {
+                const layers = [{component: 'LayerDashboard', title: ''}];
+
+                if(layerName == 'LayerRegularity') {
+                    layers.unshift({component: 'LayerRegularity', title: 'Регулярность'});
+                } else if(layerName == 'LayerPredict') {
+                    layers.unshift( {component: 'LayerPredict', title: 'Прогноз'} );
+                } else {
+                    return false;
+                }
+
+                this.curIndex = 0;
+                this.layers = layers;
+                this.updateLeft();
             }
         },
 
@@ -216,7 +234,7 @@
             position: absolute;
             top: 0;
             left: 0;
-            transition: left 0.5s;
+            // transition: left 0.5s;
 
             &.swipe-in-progress {
                 transition: none;

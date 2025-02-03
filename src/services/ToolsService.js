@@ -1,3 +1,5 @@
+import moment from 'moment-timezone';
+
 export default class ToolsService {
     shuffle(items) { 
         for(let i = items.length - 1; i > 0; i--) { 
@@ -93,5 +95,19 @@ export default class ToolsService {
     seconds(seconds) {
         const sec = ((seconds % 86400) % 3600) % 60;
         return sec > 0 ? sec : 0;
+    }
+
+    getLocalDate(serverDateString) {
+        const appTimezone = localStorage.getItem('appTimezone') || 'UTC';
+        const serverMoment = moment.tz(serverDateString, appTimezone);
+        const localMoment = serverMoment.local();
+        return localMoment;
+    }
+
+    getServerDate(dateString = null) {
+        const appTimezone = localStorage.getItem('appTimezone') || 'UTC';
+        const localMoment = dateString ? moment(dateString) : moment();
+        const serverMoment = localMoment.tz(appTimezone);
+        return serverMoment;
     }
 }

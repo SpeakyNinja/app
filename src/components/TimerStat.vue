@@ -41,7 +41,9 @@
 
         methods: {
             updateTimeParts() {
-                const secondsFromStartOfDay = Math.round( (moment() - moment().startOf('day')) / 1000 );
+                const localNow = moment().format('YYYY-MM-DD HH:mm:ss');
+                const serverNow = this.toolsService.getServerDate(localNow);
+                const secondsFromStartOfDay = Math.round( (serverNow - serverNow.clone().startOf('day')) / 1000 );
                 const leftSeconds = this.ownedTime - secondsFromStartOfDay;
                 
                 const days = this.toolsService.days(leftSeconds);

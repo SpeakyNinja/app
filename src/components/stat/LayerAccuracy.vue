@@ -79,12 +79,13 @@
             justify-content: center;
             position: absolute;
             bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 100px;
+            left: -10%;
+            width: 120%;
+            height: 70px;
             z-index: 1;
             overflow: hidden;
-            border-top: 1px solid #4c4d57;
+            border-top-left-radius: 100%;
+            border-top-right-radius: 100%;
         }
     }
 
