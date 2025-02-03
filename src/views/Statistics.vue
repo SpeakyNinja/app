@@ -89,11 +89,11 @@
 
             makeLayers() {
                 this.layers = [
-                    // {component: 'LayerAccuracy', title: 'Слова'},
-                    // {component: 'LayerPredict', title: 'Прогноз'},
-                    // {component: 'LayerRegularity', title: 'Регулярность'},
-                    // {component: 'LayerLevel', title: 'Уровень'},
-                    // {component: 'LayerIntensity', title: 'Интенсивность'}
+                    {component: 'LayerAccuracy', title: 'Слова'},
+                    {component: 'LayerPredict', title: 'Прогноз'},
+                    {component: 'LayerRegularity', title: 'Регулярность'},
+                    {component: 'LayerLevel', title: 'Уровень'},
+                    {component: 'LayerIntensity', title: 'Интенсивность'}
                 ];
                 
                 if(this.state.getShowFullStat()) {
