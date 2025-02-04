@@ -163,6 +163,8 @@
                     this.$router.push('/add-words');
                 } else if(res.code == 'is-last-level') {
                     this.$router.push('/statistics');
+                } else if(res.code == 'few-neurons') {
+                    this.$router.push('/store');
                 } else {
                     this.modal.show(res);
                 }

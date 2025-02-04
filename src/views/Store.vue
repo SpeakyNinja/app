@@ -9,21 +9,19 @@
         </div>
 
         <div class="content no-scrollbar">
-            <div class="lot">
-                <div class="neurons">125 000</div>
-                <div class="subtitle">нейронов</div>
-                <div class="discont">-0%</div>
-                <div class="sum">249 р.</div>
-                <div class="btn green">Купить</div>
+            
+            <div class="lot" v-for="item in storeService.items">
+                <div class="neurons">{{ storeService.formattedNum(item, 'qty') }}</div>
+                <div class="subtitle">{{ storeService.getTitle(item) }}</div>
+                <div class="discount">
+                    <div class="bckg-wrapper"><img :src="getBckg(item)"></div>
+                    {{ item.discount_text }}
+                </div>
+                <div class="price">{{ storeService.formattedNum(item, 'price') }}</div>
+                <div class="price_discounted">{{ storeService.formattedNum(item, 'price_discounted') }} р</div>
+                <div class="btn green" @click="buy(item)">Купить</div>
             </div>
 
-            <div class="lot">
-                <div class="neurons">250 000</div>
-                <div class="subtitle">нейронов</div>
-                <div class="discont">-10%</div>
-                <div class="sum">449 р.</div>
-                <div class="btn green">Купить</div>
-            </div>
         </div>
          
     </div>
@@ -34,6 +32,7 @@
     import { inject } from 'vue';
     import { nextTick } from "vue";
     import IcoArrow from '@/components/icons/IcoArrow.vue';
+    import StoreService from '@/services/StoreService.js';
 
     export default {
 
@@ -43,18 +42,54 @@
 
         data() {
             return {
-                isReady: false
+                isReady: false,
+                p0: new URL(`@/images/0.svg`, import.meta.url).href,
+                p10: new URL(`@/images/10.svg`, import.meta.url).href,
+                p20: new URL(`@/images/20.svg`, import.meta.url).href,
+                p30: new URL(`@/images/30.svg`, import.meta.url).href,
+                p40: new URL(`@/images/40.svg`, import.meta.url).href,
+                p50: new URL(`@/images/50.svg`, import.meta.url).href,
+                p60: new URL(`@/images/60.svg`, import.meta.url).href,
+                p70: new URL(`@/images/70.svg`, import.meta.url).href,
+                p75: new URL(`@/images/75.svg`, import.meta.url).href,
+                p80: new URL(`@/images/80.svg`, import.meta.url).href
             }
         },
 
         methods: {
-            
+            getBckg(item) {
+                const key = `p${this.storeService.getDiscount(item)}`;
+                return this[key];
+            },
+
+            async buy(item) {
+                try {
+                    this.preloader.show = true;
+                    await this.storeService.buy(item);
+                    this.$router.push('/statistics');
+                } catch(res) {
+                    this.modal.show(res);
+                } finally {
+                    this.preloader.show = false;
+                }
+            }
         },
 
-        beforeMount() {
+        async beforeMount() {
             this.modal = inject('modal');
             this.preloader = inject('preloader');
             this.isReady = true;
+            this.storeService = new StoreService();
+
+            try {
+                this.preloader.show = true;
+                await this.storeService.fetch();
+                this.$forceUpdate();
+            } catch(res) {
+                this.modal.show(res);
+            } finally {
+                this.preloader.show = false;
+            }
         }
     }
 </script>
@@ -132,11 +167,11 @@
                     color: #9e9ea8;
                 }
 
-                .discont {
-                    width: 80px;
-                    height: 80px;
+                .discount {
+                    width: 100px;
+                    height: 100px;
                     border-radius: 50%;
-                    border: 2px solid #54546f;
+                    // border: 2px solid #54546f;
                     display: flex;
                     justify-content: center;
                     align-items: center;
@@ -145,10 +180,39 @@
                     font-size: 24px;
                     line-height: 1;
                     color: #9e9ea8;
+                    position: relative;
+
+                    .bckg-wrapper {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                    }
                 }
 
-                .sum {
+                .price {
                     margin-top: 36px;
+                    font-size: 22px;
+                    font-family: RobotoLight;
+                    color: #9e9ea8;
+                    position: relative;
+
+                    &:before {
+                        content: "";
+                        border-bottom: 1px solid #9e9ea8;
+                        position: absolute;
+                        width: 110%;
+                        height: 50%;
+                        transform: rotate(-12deg);
+                        margin-left: -7%;
+                    }
+                }
+
+                .price_discounted {
                     margin-bottom: 20px;
                     font-size: 32px;
                     font-family: RobotoLight;

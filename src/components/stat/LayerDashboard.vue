@@ -66,7 +66,7 @@
                     <div class="row">
                         <div class="item" @click="toStore()">
                             <div class="item-title">Нейроны</div>
-                            <div class="item-value">{{ new Intl.NumberFormat().format(245000) }}</div>
+                            <div class="item-value">{{ new Intl.NumberFormat().format( statService.count_neurons ) }}</div>
                         </div>
                         <div class="item" @click="toOptions()">
                             <div class="item-title">Настройки</div>
@@ -134,7 +134,12 @@
 
         methods: {
             toTraining() {
-                this.$router.push('/training');
+                const trainingCost = 2500;
+                if(this.statService.count_neurons >= trainingCost) {
+                    this.$router.push('/training');
+                } else {
+                    this.$router.push('/store');
+                }
             },
 
             toOptions() {

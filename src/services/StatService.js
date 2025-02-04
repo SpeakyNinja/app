@@ -11,6 +11,8 @@ export default class StatService extends AbstractService {
     max_count_trainings_per_day;
     stage;
     intensity;
+    count_neurons;
+    count_game_overs;
 
     fetch() {
         return this.request('/training/stat', {}, r => {
@@ -24,6 +26,8 @@ export default class StatService extends AbstractService {
             this.count_trainings_today = r.count_trainings_today;
             this.stage = r.stage;
             this.intensity = r.intensity;
+            this.count_neurons = r.count_neurons;
+            this.count_game_overs = r.count_game_overs;
 
             this.items.sort((a, b) => {
                 if(a.memorization < b.memorization) {
