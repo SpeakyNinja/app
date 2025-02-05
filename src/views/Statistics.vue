@@ -29,7 +29,12 @@
          
     </div>
 
-    <NoticeLayer :items="noticeItemsBefore" @closedHandler="showMainContent" v-if="noticeItemsBefore.length"/>
+    <NoticeLayer 
+        :items="noticeItemsBefore"
+        @closedHandler="showMainContent"
+        v-if="noticeItemsBefore.length"
+
+    />
 
 </template>
 
@@ -192,7 +197,9 @@
                 this.preloader.show = true;
                 const r = await this.statService.fetch();
 
-                if( this.statService.isFirstProgress() ) {
+                if( this.statService.timeIsEmpty() ) {
+                    this.noticeItemsBefore = this.noticeService.getItems('timeIsEmpty', {statService: this.statService});
+                } else if( this.statService.isFirstProgress() ) {
                     this.noticeItemsBefore = this.noticeService.getItems('rating');
                     await this.statService.setStage(1);
                 } else if( this.statService.isSecondProgress() ) {

@@ -7,7 +7,7 @@
             <div class="item" v-for="item in items">
 
                 <template v-if="item.customItem">
-                    <component :is="item.customItem" :key="item.customItem" />
+                    <component :is="item.customItem" :options="item.options" :key="item.customItem" />
                 </template>
 
                 <template v-else>
@@ -94,6 +94,7 @@
     import Rating2 from '@/components/notices/Rating2.vue'
     import Rating3 from '@/components/notices/Rating3.vue'
     import GreenMemCongratulation from '@/components/notices/GreenMemCongratulation.vue'
+    import TimeIsEmpty from '@/components/notices/TimeIsEmpty.vue'
     import StatService from '@/services/StatService.js';
     import SlideHandler from "@/services/SlideHandler.js";
 
@@ -107,7 +108,8 @@
             Rating1,
             Rating2,
             Rating3,
-            GreenMemCongratulation
+            GreenMemCongratulation,
+            TimeIsEmpty
         },
 
         props: {
@@ -187,6 +189,7 @@
         },
 
         async mounted() {
+            this.hideControls = !!this.items[0]?.hideControls;
             await nextTick();
             this.initSwipeLayers();
         },

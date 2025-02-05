@@ -2,7 +2,7 @@
     <div class="layer-regularity">
         
         <div class="top glass">
-            <TimerStat :ownedTime="ownedTime" />
+            <TimerStat :statService="statService" />
         </div>
 
         <div class="middle no-scrollbar">
@@ -58,7 +58,6 @@
             this.record = 0; // пока отключен
             this.countDays = 7;
             this.dateFrom = moment().startOf('day').subtract(this.countDays - 1, 'days');
-            this.ownedTime = this.statService.intensity.timeRecord.seconds;
             this.lastEarnedTime = this.statService.getLastEarnedTime();
         }
     }

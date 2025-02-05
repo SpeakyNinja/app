@@ -13,12 +13,13 @@
 <script>
     import moment from 'moment';
     import ToolsService from '@/services/ToolsService.js';
+    import StatService from '@/services/StatService.js';
 
     export default {
 
         props: {
-            ownedTime: {
-                type: Number,
+            statService: {
+                type: StatService,
                 required: true
             },
 
@@ -41,11 +42,7 @@
 
         methods: {
             updateTimeParts() {
-                const localNow = moment().format('YYYY-MM-DD HH:mm:ss');
-                const serverNow = this.toolsService.getServerDate(localNow);
-                const secondsFromStartOfDay = Math.round( (serverNow - serverNow.clone().startOf('day')) / 1000 );
-                const leftSeconds = this.ownedTime - secondsFromStartOfDay;
-                
+                const leftSeconds = this.statService.leftSeconds();
                 const days = this.toolsService.days(leftSeconds);
                 const hours = this.toolsService.hours(leftSeconds);
                 const minutes = this.toolsService.minutes(leftSeconds);

@@ -377,6 +377,14 @@ export default class NoticeService {
                 {
                     customItem: 'GreenMemCongratulation'
                 }
+            ],
+
+            timeIsEmpty: [
+                {
+                    customItem: 'TimeIsEmpty',
+                    options: options,
+                    hideControls: true
+                }
             ]
         };
 

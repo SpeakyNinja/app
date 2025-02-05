@@ -4,7 +4,7 @@
         <div class="wrapper">
 
             <div class="top glass">
-                <TimerStat :ownedTime="ownedTime" :isSmall="true" />
+                <TimerStat :statService="statService" :isSmall="true" />
             </div>
 
             <div class="middle no-scrollbar">
@@ -214,7 +214,6 @@
 
         beforeMount() {
             this.noticeService = new NoticeService();
-            this.ownedTime = this.statService.intensity.timeRecord.seconds;
         }
     }
 </script>

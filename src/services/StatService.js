@@ -1,4 +1,6 @@
 import AbstractService from "@/services/AbstractService.js";
+import moment from 'moment';
+import ToolsService from '@/services/ToolsService.js';
 
 export default class StatService extends AbstractService {
     items;
@@ -13,6 +15,11 @@ export default class StatService extends AbstractService {
     intensity;
     count_neurons;
     count_game_overs;
+
+    constructor() {
+        super();
+        this.toolsService = new ToolsService();
+    }
 
     fetch() {
         return this.request('/training/stat', {}, r => {
@@ -295,5 +302,21 @@ export default class StatService extends AbstractService {
     getLastEarnedTime() {
         const list = this.intensity.earnedTimeList;
         return list.length ? list[0] : null;
+    }
+
+    leftSeconds() {
+        const localNow = moment().format('YYYY-MM-DD HH:mm:ss');
+        const serverNow = this.toolsService.getServerDate(localNow);
+        const secondsFromStartOfDay = Math.round( (serverNow - serverNow.clone().startOf('day')) / 1000 );
+        const leftSeconds = this.intensity.timeRecord.seconds - secondsFromStartOfDay;
+        return leftSeconds;
+    }
+
+    timeIsEmpty() {
+        return this.leftSeconds() <= 0;
+    }
+
+    writeGameover() {
+        return this.request('/student/gameover');
     }
 }
