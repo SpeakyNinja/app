@@ -13,7 +13,12 @@
         </div>
 
         <div class="bottom glass">
-            <div class="">При текущем темпе</div>
+            <div>
+                На основе темпа тренировок и точности ответов за 
+                {{ tools.plural(lastDays, ['последний', 'последние', 'последние']) }}
+                {{ lastDays }} 
+                {{ tools.plural(lastDays, ['день', 'дня', 'дней']) }}
+            </div>
         </div>
          
     </div>
@@ -22,7 +27,7 @@
 <script>
     import SpeedWidget from '@/components/SpeedWidget.vue'
     import StatService from '@/services/StatService.js';
-
+    import ToolsService from '@/services/ToolsService.js';
 
     export default {
 
@@ -44,6 +49,15 @@
 
         methods: {
             
+        },
+
+        beforeMount() {
+            this.tools = new ToolsService();
+            
+            this.lastDays = 30;
+            if(this.statService?.predict?.daysFromBegin < this.lastDays) {
+                this.lastDays = this.statService?.predict?.daysFromBegin;
+            }
         }
     }
 </script>
@@ -102,6 +116,8 @@
                 z-index: 2;
                 color: white;
                 font-family: Light;
+                text-align: center;
+                padding: 0 40px;
             }
         }
     }

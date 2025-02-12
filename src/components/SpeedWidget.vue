@@ -40,7 +40,9 @@
             </div>
 
             <div class="text" :class="{[accuracySmallClass]: glow}">
-                {{ tools.plural(curValue, ['слово', 'слова', 'слов']) }}/месяц
+                {{ tools.plural(curValue, ['выученное', 'выученных', 'выученных']) }}
+                {{ tools.plural(curValue, ['слово', 'слова', 'слов']) }}
+                за месяц
             </div>
         </div>
     </div>
