@@ -53,13 +53,13 @@
 
                 <div class="buttons-wrapper">
                     <div class="row">
-                        <div class="item" @click="$parent.showLayer('LayerRegularity')">
-                            <div class="item-title">Регулярность</div>
-                            <div class="item-value">{{ statService.getNonstopDays() }}</div>
-                        </div>
                         <div class="item" @click="$parent.showLayer('LayerPredict')">
                             <div class="item-title">Прогноз</div>
                             <div class="item-value">+ {{ statService.predict.curValue }}</div>
+                        </div>
+                        <div class="item" @click="$parent.showLayer('LayerRegularity')">
+                            <div class="item-title">Регулярность</div>
+                            <div class="item-value">{{ statService.getNonstopDays() }}</div>
                         </div>
                     </div>
 
