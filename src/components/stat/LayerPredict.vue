@@ -8,7 +8,8 @@
         <div class="middle">
             <SpeedWidget 
                 :curValue="statService.predict.curValue" 
-                :maxValue="statService.predict.maxValue" 
+                :maxValue="statService.predict.maxValue"
+                :progressSize="progressSize" 
             />
         </div>
 
@@ -57,6 +58,11 @@
             this.lastDays = 30;
             if(this.statService?.predict?.daysFromBegin < this.lastDays) {
                 this.lastDays = this.statService?.predict?.daysFromBegin;
+            }
+
+            this.progressSize = window.innerHeight * 0.45;
+            if(this.progressSize > window.innerWidth * 0.85) {
+                this.progressSize = window.innerWidth * 0.85;
             }
         }
     }

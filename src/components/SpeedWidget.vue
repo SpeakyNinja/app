@@ -1,7 +1,14 @@
 <template>
 
-    <div class="speed-widget">
-        <div class="scale-wrapper">
+    <div class="speed-widget" :style="{'margin-top': `-${progressSize * 0.13333}px`}">
+        <div 
+            class="scale-wrapper" 
+            :style="{
+                width: `${progressSize * 1.06667}px`, 
+                height: `${progressSize * 0.58333}px`,
+                'padding-top': `${progressSize * 0.03333}px`
+            }"
+        >
             <svg :width="progressSize" :height="progressSize" class="scale">
                 <circle
                     fill="none"
@@ -9,7 +16,7 @@
                     :cx="progressSize / 2"
                     :cy="progressSize / 2"
                     :r="radius"
-                    :stroke-width="strokeWidth"
+                    :stroke-width="progressSize * 0.15"
                     :transform="`rotate(-90 ${progressSize / 2} ${progressSize / 2})`"
                     stroke-linecap="butt"
                     :stroke-dasharray="strokeDashArray(100)"
@@ -21,7 +28,7 @@
                     :cx="progressSize / 2"
                     :cy="progressSize / 2"
                     :r="radius"
-                    :stroke-width="strokeWidth"
+                    :stroke-width="progressSize * 0.15"
                     :transform="`rotate(-90 ${progressSize / 2} ${progressSize / 2})`"
                     stroke-linecap="butt"
                     :stroke-dasharray="strokeDashArray(progress)"
@@ -29,17 +36,47 @@
             </svg>
 
             <div class="arr-wrapper">
-                <Arr1 fill="white" class="arr1" />
+                <Arr1 
+                    fill="white" 
+                    class="arr1" 
+                    :style="{
+                        width: `${progressSize * 0.33333}px`, 
+                        height: `${progressSize * 0.06667}px`, 
+                        left: `-${progressSize * 0.02333}px`
+                    }" 
+                />
             </div>
         </div>
 
-        <div class="text-wrapper">
-            <div class="number" :class="{[accuracyClass]: glow}">
-                <div class="sign">+</div>
-                <div class="num">{{ curValue }}</div>
+        <div 
+            class="text-wrapper" 
+            :style="{
+                top: `${progressSize * 0.40333}px`, 
+                gap: `${progressSize * 0.02333}px`
+            }"
+        >
+            <div class="number" :class="{[accuracyClass]: glow}" :style="{
+                gap: `${progressSize * 0.01666}px`
+            }">
+                <div class="sign" :style="{
+                    'font-size': `${progressSize * 0.13333}px`,
+                    'margin-left': `-${progressSize * 0.08}px`
+                }">+</div>
+                <div 
+                    class="num" 
+                    :style="{
+                        'font-size': `${progressSize * 0.13333}px`
+                    }"
+                >{{ curValue }}</div>
             </div>
 
-            <div class="text" :class="{[accuracySmallClass]: glow}">
+            <div 
+                class="text" 
+                :class="{[accuracySmallClass]: glow}" 
+                :style="{
+                    'font-size': `${progressSize * 0.05333}px`
+                }"
+            >
                 {{ tools.plural(curValue, ['выученное', 'выученных', 'выученных']) }}
                 {{ tools.plural(curValue, ['слово', 'слова', 'слов']) }}
                 за месяц
@@ -77,17 +114,19 @@
                 type: Boolean,
                 required: false,
                 default: true
+            },
+            progressSize: {
+                type: Number,
+                required: false,
+                default: 300
             }
         },
 
         data() {
             return {
                 accuracyCssClass: '',
-                progressSize: 300,
-                radius: 120,
                 progress: 0,
                 arrowAngle: 0,
-                strokeWidth: 45,
                 mainColor: '',
                 accuracyClass: ''
             }
@@ -127,7 +166,9 @@
 
         beforeMount() {
             this.tools = new ToolsService();
-            
+
+            this.radius = this.progressSize * 0.4;
+
             this.progress = Math.round(this.curValue * 100 / this.maxValue);
             if(this.progress > 100) {
                 this.progress = 100;
@@ -148,13 +189,9 @@
 
     .speed-widget {
         position: relative;
-        margin-top: -40px;
 
         .scale-wrapper {
             position: relative;
-            width: 320px;
-            height: 175px;
-            padding-top: 10px;
             overflow: hidden;
             display: flex;
             justify-content: center;
@@ -172,40 +209,31 @@
                 font-size: 0;
 
                 .arr1 {
-                    width: 100px;
-                    height: 20px;
                     position: relative;
                     top: 0;
-                    left: -7px;
                 }
             }
         }
 
         .text-wrapper {
-            top: 121px;
             left: 0;
             position: absolute;
             width: 100%;
             display: flex;
             flex-direction: column;
-            gap: 7px;
             align-items: center;
 
             .number {
                 display: flex;
                 justify-content: center;
-                gap: 5px;
                 color: white;
 
                 .sign {
                     font-family: RobotoLight;
-                    font-size: 40px;
-                    margin-left: -24px;
                 }
 
                 .num {
                     font-family: RobotoBlack;
-                    font-size: 40px;
                 }
             }
 
@@ -213,10 +241,8 @@
                 display: flex;
                 justify-content: center;
                 width: 100%;
-                gap: 5px;
                 color: white;
                 font-family: Light;
-                font-size: 16px;
             }
         }
     }
