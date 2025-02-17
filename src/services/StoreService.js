@@ -10,10 +10,6 @@ export default class StoreService extends AbstractService {
         });
     }
 
-    buy(item) {
-        return this.request('/store/buy', { id: item.id });
-    }
-
     formattedNum(item, field) {
         const value = item[field];
         return new Intl.NumberFormat().format(value);

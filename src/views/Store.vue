@@ -24,7 +24,9 @@
 
         </div>
          
+        <div id="payment-form" :class="{'m-hidden': !showPaymentForm}"></div>
     </div>
+
 
 </template>
 
@@ -33,6 +35,7 @@
     import { nextTick } from "vue";
     import IcoArrow from '@/components/icons/IcoArrow.vue';
     import StoreService from '@/services/StoreService.js';
+    import YookassaService from '@/services/YookassaService.js';
 
     export default {
 
@@ -43,6 +46,7 @@
         data() {
             return {
                 isReady: false,
+                showPaymentForm: false,
                 p0: new URL(`@/images/0.svg`, import.meta.url).href,
                 p10: new URL(`@/images/10.svg`, import.meta.url).href,
                 p20: new URL(`@/images/20.svg`, import.meta.url).href,
@@ -65,12 +69,27 @@
             async buy(item) {
                 try {
                     this.preloader.show = true;
-                    await this.storeService.buy(item);
-                    this.$router.push('/statistics');
-                } catch(res) {
-                    this.modal.show(res);
-                } finally {
+
+                    await this.yk.createPayment(item.id);
+                    await this.yk.waitForScript();
+                    
                     this.preloader.show = false;
+                    this.showPaymentForm = true;
+                    await this.yk.showWidget('payment-form');
+
+                    await this.yk.confirmPayment();
+                    
+                    if(this.yk.isSucceeded()) {
+                        this.showPaymentForm = false;
+                        this.$router.push('/statistics');
+                    } else {
+                        this.modal.show({message: 'Платеж не был подтвержден'});
+                    }
+
+                } catch(res) {
+                    this.showPaymentForm = false;
+                    this.preloader.show = false;
+                    this.modal.show(res);
                 }
             }
         },
@@ -78,8 +97,8 @@
         async beforeMount() {
             this.modal = inject('modal');
             this.preloader = inject('preloader');
-            this.isReady = true;
             this.storeService = new StoreService();
+            this.yk = new YookassaService();
 
             try {
                 this.preloader.show = true;
@@ -88,13 +107,25 @@
             } catch(res) {
                 this.modal.show(res);
             } finally {
+                this.yk.loadWidget();
                 this.preloader.show = false;
+                this.isReady = true;
             }
         }
     }
 </script>
 
 <style lang="scss" scoped>
+
+    #payment-form {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #30313f;
+        z-index: 2;
+    }
 
     .store {
         flex-grow: 2;
