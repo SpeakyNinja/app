@@ -120,7 +120,7 @@
                         this.layers.push({component: 'LayerLevel', title: 'Уровень'});
                     }
 
-                    this.layers.push({component: 'LayerIntensity', title: 'Интенсивность'});
+                    // this.layers.push({component: 'LayerIntensity', title: 'Интенсивность'});
                 }
 
                 this.layers.push({component: 'LayerDashboard', title: ''});

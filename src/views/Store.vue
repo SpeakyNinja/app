@@ -19,6 +19,7 @@
                 </div>
                 <div class="price">{{ storeService.formattedNum(item, 'price') }}</div>
                 <div class="price_discounted">{{ storeService.formattedNum(item, 'price_discounted') }} р</div>
+                <div class="subtitle mb-1">Тренировка = {{ trainingCostFormat(item.training_cost) }} р</div>
                 <div class="btn green" @click="buy(item)">Купить</div>
             </div>
 
@@ -91,6 +92,10 @@
                     this.preloader.show = false;
                     this.modal.show(res);
                 }
+            },
+
+            trainingCostFormat(value) {
+                return ('' + (value * 1)).replace('.', ',');
             }
         },
 
@@ -244,7 +249,7 @@
                 }
 
                 .price_discounted {
-                    margin-bottom: 20px;
+                    margin-bottom: 15px;
                     font-size: 32px;
                     font-family: RobotoLight;
                     color: white;
