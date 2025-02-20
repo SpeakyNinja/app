@@ -489,3 +489,10 @@ textarea {
         0px 0px 30px rgba(240,22,0,0.25), 
         0px 0px 20px rgba(255,255,255,0.85);
 }
+
+.ai-image {
+    fill: white;
+    width: 300px;
+    height: 50px;
+    filter: drop-shadow(#0bcccf 0px 0px 5px);
+}

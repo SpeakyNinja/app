@@ -8,6 +8,11 @@
             </div>
 
             <div class="middle no-scrollbar">
+
+                <div class="settings-button" @click="toOptions()">
+                    <IconCog class="cog" />
+                </div>
+
                 <div class="counter-wrapper mt-2">
                     <div class="counter">
                         <div class="title">Словарный запас</div>
@@ -51,6 +56,10 @@
                     </div>
                 </div>
 
+                <div class="neurons m-light">
+                    Нейроны: {{ new Intl.NumberFormat().format( statService.count_neurons ) }}
+                </div>
+
                 <div class="buttons-wrapper">
                     <div class="row">
                         <div class="item" @click="$parent.showLayer('LayerPredict')">
@@ -60,17 +69,6 @@
                         <div class="item" @click="$parent.showLayer('LayerRegularity')">
                             <div class="item-title">Регулярность</div>
                             <div class="item-value">{{ statService.getNonstopDays() }}</div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="item" @click="toStore()">
-                            <div class="item-title">Нейроны</div>
-                            <div class="item-value">{{ new Intl.NumberFormat().format( statService.count_neurons ) }}</div>
-                        </div>
-                        <div class="item" @click="toOptions()">
-                            <div class="item-title">Настройки</div>
-                            <IconCog class="cog" />
                         </div>
                     </div>
                 </div>
@@ -269,9 +267,21 @@
                 padding-bottom: 111px;
                 overflow-y: auto;
                 width: 100%;
+                position: relative;
 
                 >:last-child {
                     margin-bottom: 30px;
+                }
+
+                .settings-button {
+                    position: absolute;
+                    top: 100px;
+                    right: 25px;
+                }
+
+                .neurons {
+                    color: white;
+                    font-size: 14px;
                 }
 
                 .counter-wrapper {

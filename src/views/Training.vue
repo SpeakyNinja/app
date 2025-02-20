@@ -164,7 +164,7 @@
                 } else if(res.code == 'is-last-level') {
                     this.$router.push('/statistics');
                 } else if(res.code == 'few-neurons') {
-                    this.$router.push('/statistics');
+                    this.$router.push('/few-neurons');
                 } else if(res.code == 'few-seconds') {
                     this.$router.push('/statistics');
                 } else {

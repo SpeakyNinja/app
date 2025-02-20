@@ -385,7 +385,24 @@ export default class NoticeService {
                     options: options,
                     hideControls: true
                 }
+            ],
+
+            awardByTime: [
+                {
+                    customItem: 'awardByTime',
+                    options: options,
+                    hideControls: true
+                }
+            ],
+
+            awardByWords: [
+                {
+                    customItem: 'awardByWords',
+                    options: options,
+                    hideControls: true
+                }
             ]
+
         };
 
         return items[key];

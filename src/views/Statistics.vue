@@ -207,6 +207,11 @@
                     await this.statService.setStage(2);
                 } else {
                     this.showMainContent();
+
+                    // const notices = this.noticeService.getItems('awardByTime', {hours: 12});
+                    // notices.push( ...this.noticeService.getItems('awardByWords', {words: 100}) );
+                    // this.noticeItemsBefore = notices;
+
                 }
                 
                 this.makeLayers();

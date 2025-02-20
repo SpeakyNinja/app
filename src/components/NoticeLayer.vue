@@ -88,13 +88,15 @@
     import Arr2 from '@/components/icons/Arr2.vue';
     import SpeedWidget from '@/components/SpeedWidget.vue';
     import Rainbow from '@/components/Rainbow.vue';
-    import Brain from '@/components/Brain.vue'
-    import Ai from '@/components/icons/Ai.vue'
-    import Rating1 from '@/components/notices/Rating1.vue'
-    import Rating2 from '@/components/notices/Rating2.vue'
-    import Rating3 from '@/components/notices/Rating3.vue'
-    import GreenMemCongratulation from '@/components/notices/GreenMemCongratulation.vue'
-    import TimeIsEmpty from '@/components/notices/TimeIsEmpty.vue'
+    import Brain from '@/components/Brain.vue';
+    import Ai from '@/components/icons/Ai.vue';
+    import Rating1 from '@/components/notices/Rating1.vue';
+    import Rating2 from '@/components/notices/Rating2.vue';
+    import Rating3 from '@/components/notices/Rating3.vue';
+    import GreenMemCongratulation from '@/components/notices/GreenMemCongratulation.vue';
+    import TimeIsEmpty from '@/components/notices/TimeIsEmpty.vue';
+    import AwardByTime from '@/components/notices/AwardByTime.vue';
+    import AwardByWords from '@/components/notices/AwardByWords.vue';
     import StatService from '@/services/StatService.js';
     import SlideHandler from "@/services/SlideHandler.js";
 
@@ -109,7 +111,9 @@
             Rating2,
             Rating3,
             GreenMemCongratulation,
-            TimeIsEmpty
+            TimeIsEmpty,
+            AwardByTime,
+            AwardByWords
         },
 
         props: {
@@ -333,13 +337,7 @@
                 }
             }
         }
-
-
-        .ai-image {
-            width: 300px;
-            height: 50px;
-            filter: drop-shadow(#0bcccf 0px 0px 5px);
-        }
+        
     }
 
     @media(max-width: 600px) {

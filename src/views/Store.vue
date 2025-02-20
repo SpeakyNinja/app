@@ -137,6 +137,7 @@
         width: 100%;
         height: 100%;
         position: relative;
+        background-color: #252631!important;
 
         .top {
             display: flex;
@@ -175,10 +176,12 @@
         .content {
             display: flex;
             flex-direction: column;
+            align-items: center;
             padding: 90px 20px 10px 20px;
             gap: 40px;
             overflow-y: auto;
             height: 100%;
+            position: relative;
 
             .lot {
                 display: flex;
@@ -189,6 +192,7 @@
                 border: 1px solid #54546f;
                 border-radius: 20px;
                 padding: 50px 32px 27px 32px;
+                width: 80%;
 
                 .neurons {
                     font-family: RobotoBlack;
