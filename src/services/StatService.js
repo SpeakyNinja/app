@@ -9,6 +9,7 @@ export default class StatService extends AbstractService {
     regularity;
     levels;
     currentLevel;
+    firstTrainingTimeAward;
     chunkSize = 100;
     max_count_trainings_per_day;
     stage;
@@ -29,6 +30,7 @@ export default class StatService extends AbstractService {
             this.regularity = r.regularity;
             this.levels = r.levels;
             this.currentLevel = r.currentLevel;
+            this.firstTrainingTimeAward = r.firstTrainingTimeAward;
             this.max_count_trainings_per_day = r.max_count_trainings_per_day;
             this.count_trainings_today = r.count_trainings_today;
             this.stage = r.stage;

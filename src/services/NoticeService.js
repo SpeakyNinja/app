@@ -401,7 +401,46 @@ export default class NoticeService {
                     options: options,
                     hideControls: true
                 }
-            ]
+            ],
+
+            firstLevelUp: [
+                {
+                    component: 'Ai',
+                    title: 'Поздравляю',
+                    texts: [
+                        {
+                            value: 'Достигнут первый уровень.',
+                            muted: false
+                        }
+                    ]
+                }, {
+                    customItem: 'FirstLevelUp2'
+                }, {
+                    component: 'Ai',
+                    title: 'Бонус уровня',
+                    texts: [
+                        {
+                            value: 'Уровни дают бонус к создаваемому времени. Чем больше уровень, тем больше бонус.',
+                            muted: false
+                        },
+                        {
+                            value: 'Бонус уровня будет добавляться каждый день к первой тренировке.',
+                            muted: false
+                        }
+                    ]
+                }, {
+                    customItem: 'FirstLevelUp4',
+                    hideControls: true
+                }
+            ],
+
+            levelUp: [
+                {
+                    customItem: 'LevelUp',
+                    options: options,
+                    hideControls: true
+                }
+            ],
 
         };
 

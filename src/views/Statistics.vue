@@ -197,21 +197,30 @@
                 this.preloader.show = true;
                 const r = await this.statService.fetch();
 
+                const notices = [];
+                
+                if(this.state.updateCurrentLevel( this.statService.currentLevel )) {
+                    if(this.statService.currentLevel == 1) {
+                        notices.push( ...this.noticeService.getItems('firstLevelUp') );
+                    } else {
+                        notices.push( ...this.noticeService.getItems('levelUp', {statService: this.statService}) );
+                    }
+                }
+
                 if( this.statService.timeIsEmpty() ) {
-                    this.noticeItemsBefore = this.noticeService.getItems('timeIsEmpty', {statService: this.statService});
+                    notices.push( ...this.noticeService.getItems('timeIsEmpty', {statService: this.statService}) );
                 } else if( this.statService.isFirstProgress() ) {
-                    this.noticeItemsBefore = this.noticeService.getItems('rating');
+                    notices.push( ...this.noticeService.getItems('rating') );
                     await this.statService.setStage(1);
                 } else if( this.statService.isSecondProgress() ) {
-                    this.noticeItemsBefore = this.noticeService.getItems('greenMem');
+                    notices.push( ...this.noticeService.getItems('greenMem') );
                     await this.statService.setStage(2);
+                }
+
+                if(notices.length) {
+                    this.noticeItemsBefore = notices;
                 } else {
                     this.showMainContent();
-
-                    // const notices = this.noticeService.getItems('awardByTime', {hours: 12});
-                    // notices.push( ...this.noticeService.getItems('awardByWords', {words: 100}) );
-                    // this.noticeItemsBefore = notices;
-
                 }
                 
                 this.makeLayers();

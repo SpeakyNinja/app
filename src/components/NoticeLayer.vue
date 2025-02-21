@@ -97,6 +97,10 @@
     import TimeIsEmpty from '@/components/notices/TimeIsEmpty.vue';
     import AwardByTime from '@/components/notices/AwardByTime.vue';
     import AwardByWords from '@/components/notices/AwardByWords.vue';
+    import FirstLevelUp2 from '@/components/notices/FirstLevelUp2.vue';
+    import FirstLevelUp4 from '@/components/notices/FirstLevelUp4.vue';
+    import LevelUp from '@/components/notices/LevelUp.vue';
+
     import StatService from '@/services/StatService.js';
     import SlideHandler from "@/services/SlideHandler.js";
 
@@ -113,7 +117,10 @@
             GreenMemCongratulation,
             TimeIsEmpty,
             AwardByTime,
-            AwardByWords
+            AwardByWords,
+            FirstLevelUp2,
+            FirstLevelUp4,
+            LevelUp
         },
 
         props: {
@@ -214,7 +221,7 @@
         height: 100%;
         display: flex;
         justify-content: center;
-        z-index: 2;
+        z-index: 4;
         color: white;
 
         &.hidden {

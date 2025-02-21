@@ -71,6 +71,7 @@
     />
 
     <NoticeLayer :items="noticeItemsBefore" @closedHandler="showInterface" v-if="noticeItemsBefore?.length" />
+    <NoticeLayer :items="noticeItemsAfter" @closedHandler="$router.push('/statistics')" v-if="noticeItemsAfter?.length" />
 
 </template>
 
@@ -110,7 +111,8 @@
                 addHint: false,
                 userHint: null,
                 showFeedback: false,
-                noticeItemsBefore: []
+                noticeItemsBefore: [],
+                noticeItemsAfter: []
             }
         },
 
@@ -134,7 +136,7 @@
                             this.preloader.show = true;
                             this.state.setShowFullStat(true);
                             const r = await this.trainings.submitAnswers();
-                            this.$router.push('/statistics');
+                            this.showAwardsLayer(r.hoursAward, r.wordsAward);
                         } catch(res) {
                             this.errorHandler(res);
                         } finally {
@@ -255,6 +257,23 @@
                 this.updateProgress();
                 this.startTimer();
                 this.isReady = true;
+            },
+
+            showAwardsLayer(hours, words) {
+                const notices = [];
+                if(hours) {
+                    notices.push( ...this.noticeService.getItems('awardByTime', {hours: hours}) );
+                }
+
+                if(words) {
+                    notices.push( ...this.noticeService.getItems('awardByWords', {words: words}) );
+                }
+
+                if(notices.length) {
+                    this.noticeItemsAfter = notices;
+                } else {
+                    this.$router.push('/statistics');
+                }
             }
         },
 

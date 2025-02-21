@@ -30,4 +30,14 @@ export default class StateService extends AbstractService {
         LocalStorage.store(this.getStorageName(), 'hasVisited', true);
         return true;
     }
+
+    updateCurrentLevel(level) {
+        const currentLevel = LocalStorage.get(this.getStorageName(), 'currentLevel') || 0;
+        if(currentLevel == level) {
+            return false;
+        }
+
+        LocalStorage.store(this.getStorageName(), 'currentLevel', level);
+        return true;
+    }
 }

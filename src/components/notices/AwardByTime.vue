@@ -12,7 +12,7 @@
             
             <div class="text m-light">
                 Обновлен рекорд запаса времени: на таймере больше {{options.hours}}
-                {{ tools.plural(lastDays, ['час', 'часа', 'часов']) }}.
+                {{ tools.plural(options.hours, ['час', 'часа', 'часов']) }}.
             </div>
             
             <div class="text m-light">Награда 20 000 нейронов.</div>
