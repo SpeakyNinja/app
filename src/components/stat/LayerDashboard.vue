@@ -132,12 +132,7 @@
 
         methods: {
             toTraining() {
-                const trainingCost = 2500;
-                if(this.statService.count_neurons >= trainingCost) {
-                    this.$router.push('/training');
-                } else {
-                    this.$router.push('/store');
-                }
+                this.$router.push('/training');
             },
 
             toOptions() {
