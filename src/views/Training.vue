@@ -169,6 +169,8 @@
                     this.$router.push('/few-neurons');
                 } else if(res.code == 'few-seconds') {
                     this.$router.push('/statistics');
+                } else if(res.code == 'training-limit') {
+                    this.showTrainingsLimitNotice();
                 } else {
                     this.modal.show(res);
                 }
@@ -274,6 +276,10 @@
                 } else {
                     this.$router.push('/statistics');
                 }
+            },
+
+            showTrainingsLimitNotice() {
+                this.noticeItemsAfter = this.noticeService.getItems('trainingsLimit');
             }
         },
 
@@ -293,11 +299,27 @@
 
                 await this.trainings.fetchMissingVoices(this.student.getId());
 
-                if([1, 2, 4].indexOf(r.countTrainings) == -1) {
-                    this.showInterface();
-                } else {
-                    this.noticeItemsBefore = this.noticeService.getItems(`trainingBefore${r.countTrainings}`);
+                const notices = [];
+
+                if(r.tlUpdated) {
+                    if(!this.state.firstTimeLimitUpdated()) {
+                        this.state.storeFirstTlUpdated();
+                        notices.push( ...this.noticeService.getItems('firstTrainingsLimitUpdated') );
+                    }
+                     
+                    notices.push( ...this.noticeService.getItems('trainingsLimitUpdated') );
                 }
+
+                if([1, 2, 4].indexOf(r.countTrainings) > -1) {
+                    notices.push( ...this.noticeService.getItems(`trainingBefore${r.countTrainings}`) );
+                }
+
+                if(notices.length) {
+                    this.noticeItemsBefore = notices;
+                } else {
+                    this.showInterface();
+                }
+
             } catch(res) {
                 this.errorHandler(res);
             } finally {

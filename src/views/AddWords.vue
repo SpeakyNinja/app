@@ -177,13 +177,28 @@
             finishHandler() {
                 const cnt = this.addWordService.data.countAddWords;
 
+                const notices = [];
+
+                if(this.state.updateCurrentLevel( this.addWordService.data.currentLevel )) {
+                    if(this.addWordService.data.currentLevel == 1) {
+                        notices.push( ...this.noticeService.getItems('firstLevelUp') );
+                    } else {
+                        notices.push( ...this.noticeService.getItems('levelUp', {
+                            firstTrainingTimeAward: this.addWordService.data.firstTrainingTimeAward,
+                            currentLevel: this.addWordService.data.currentLevel
+                        }) );
+                    }
+                }
+
                 if(cnt == 0) {
-                    this.noticeItemsAfter = this.noticeService.getItems('addWordsAfterFirst');
+                    notices.push( ...this.noticeService.getItems('addWordsAfterFirst') );
                 } else {
                     const map = {1: 47, 2: 54, 3: 61, 4: 66, 5: 69, 6: 73, 7: 75, 8: 79, 9: 83};
                     const nth = map[cnt] || this.toolsService.randomInteger(84, 97);
-                    this.noticeItemsAfter = this.noticeService.getItems('addWordsAfterNth', {nth: nth});
+                    notices.push( ...this.noticeService.getItems('addWordsAfterNth', {nth: nth}) );
                 }
+
+                this.noticeItemsAfter = notices;
             }
         },
 

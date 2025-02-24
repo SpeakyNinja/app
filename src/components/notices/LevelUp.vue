@@ -11,7 +11,7 @@
         <div class="texts">
             
             <div class="text m-light">
-                Достигнут уровень {{ statService.currentLevel }}.
+                Достигнут уровень {{ options.currentLevel }}.
             </div>
 
             <div class="text m-light">
@@ -56,15 +56,11 @@
 
         methods: {
             getBonusString() {
-                const seconds = this.statService.firstTrainingTimeAward;
+                const seconds = this.options.firstTrainingTimeAward;
                 const h = ( Math.floor(seconds / 60 / 60) + '' ).padStart(2, "0");
                 const m = ( (Math.floor(seconds / 60) % 60) + '' ).padStart(2, "0");
                 return `+ ${h}h ${m}m`;
             }
-        },
-
-        beforeMount() {
-            this.statService = this.options.statService;
         }
     }
 </script>

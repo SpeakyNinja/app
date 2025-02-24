@@ -100,6 +100,9 @@
     import FirstLevelUp2 from '@/components/notices/FirstLevelUp2.vue';
     import FirstLevelUp4 from '@/components/notices/FirstLevelUp4.vue';
     import LevelUp from '@/components/notices/LevelUp.vue';
+    import TrainingsLimit from '@/components/notices/TrainingsLimit.vue';
+    import TrainingsLimitUpdated from '@/components/notices/TrainingsLimitUpdated.vue';
+    import TimerNotice from '@/components/notices/TimerNotice.vue';
 
     import StatService from '@/services/StatService.js';
     import SlideHandler from "@/services/SlideHandler.js";
@@ -120,7 +123,10 @@
             AwardByWords,
             FirstLevelUp2,
             FirstLevelUp4,
-            LevelUp
+            LevelUp,
+            TrainingsLimit,
+            TrainingsLimitUpdated,
+            TimerNotice
         },
 
         props: {

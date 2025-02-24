@@ -203,7 +203,10 @@
                     if(this.statService.currentLevel == 1) {
                         notices.push( ...this.noticeService.getItems('firstLevelUp') );
                     } else {
-                        notices.push( ...this.noticeService.getItems('levelUp', {statService: this.statService}) );
+                        notices.push( ...this.noticeService.getItems('levelUp', {
+                            firstTrainingTimeAward: this.statService.firstTrainingTimeAward,
+                            currentLevel: this.statService.currentLevel
+                        }) );
                     }
                 }
 

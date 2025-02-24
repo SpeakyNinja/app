@@ -40,4 +40,12 @@ export default class StateService extends AbstractService {
         LocalStorage.store(this.getStorageName(), 'currentLevel', level);
         return true;
     }
+
+    firstTimeLimitUpdated() {
+        return LocalStorage.get(this.getStorageName(), 'firstTimeLimitUpdated') || false;
+    }
+
+    storeFirstTlUpdated() {
+        LocalStorage.store(this.getStorageName(), 'firstTimeLimitUpdated', true);
+    }
 }

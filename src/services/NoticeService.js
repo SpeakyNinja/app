@@ -442,6 +442,61 @@ export default class NoticeService {
                 }
             ],
 
+            trainingsLimit: [
+                {
+                    customItem: 'TrainingsLimit',
+                    hideControls: true
+                }
+            ],
+
+            firstTrainingsLimitUpdated: [
+                {
+                    component: 'Ai',
+                    title: 'Защита от перегрузки',
+                    texts: [
+                        {
+                            value: 'Достигнут стартовый лимит тренировок на день.',
+                            muted: false
+                        }
+                    ]
+                }, {
+                    component: 'Ai',
+                    title: 'Защита от перегрузки',
+                    texts: [
+                        {
+                            value: 'Чтобы защитить мозг от переутомления, количество нагрузки будет увеличиваться постепенно.',
+                            muted: false
+                        }
+                    ]
+                }, {
+                    component: 'Ai',
+                    title: 'Защита от перегрузки',
+                    texts: [
+                        {
+                            value: 'Ограничение будет снижаться на 5, когда будет достигнуто прошлое значение.',
+                            muted: false
+                        }, {
+                            value: 'Увеличение лимита происходит не чаще одного раза в сутки.',
+                            muted: true
+                        }
+                    ]
+                }
+            ],
+
+            trainingsLimitUpdated: [
+                {
+                    customItem: 'TrainingsLimitUpdated',
+                    hideControls: true
+                }
+            ],
+
+            timerNotice: [
+                {
+                    customItem: 'TimerNotice',
+                    hideControls: true
+                }
+            ]
+
         };
 
         return items[key];

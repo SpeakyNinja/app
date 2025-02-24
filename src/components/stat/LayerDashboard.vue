@@ -4,7 +4,7 @@
         <div class="wrapper">
 
             <div class="top glass">
-                <TimerStat :statService="statService" :isSmall="true" />
+                <TimerStat :statService="statService" :isSmall="true" @click="showTimerNotice = true" />
             </div>
 
             <div class="middle no-scrollbar">
@@ -88,6 +88,12 @@
             v-if="showStagesNotice" 
         />
 
+        <NoticeLayer 
+            :items="noticeService.getItems('timerNotice')" 
+            @closedHandler="closeTimerNotice" 
+            v-if="showTimerNotice" 
+        />
+
     </div>
 
 </template>
@@ -126,6 +132,7 @@
         data() {
             return {
                 showStagesNotice: false,
+                showTimerNotice: false,
                 noticeService: null
             }
         },
@@ -202,6 +209,10 @@
 
             toStore() {
                 this.$router.push('/store');
+            },
+
+            closeTimerNotice() {
+                this.showTimerNotice = false;
             }
         },
 
