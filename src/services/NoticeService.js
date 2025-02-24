@@ -389,7 +389,7 @@ export default class NoticeService {
 
             awardByTime: [
                 {
-                    customItem: 'awardByTime',
+                    customItem: 'AwardByTime',
                     options: options,
                     hideControls: true
                 }
@@ -397,7 +397,7 @@ export default class NoticeService {
 
             awardByWords: [
                 {
-                    customItem: 'awardByWords',
+                    customItem: 'AwardByWords',
                     options: options,
                     hideControls: true
                 }

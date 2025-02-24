@@ -1,15 +1,15 @@
 <template>
 
-    <div class="rating2">
-
+    <div class="component">
         <Ai
             fill="white"
             class="ai-image"
         />
+    </div>
 
-        <div class="title m-light">
-            Что скажешь?
-        </div>
+    <div class="title m-light">Что скажешь?</div>
+
+    <div class="texts">
 
         <div class="text m-light">Как тебе мой способ усвоения слов?</div>
 
@@ -21,8 +21,10 @@
             <Smyle5 class="smyle m-pointer no-select" :class="{ active: ratingIs(5) }" @click="setRating(5)" />
         </div>
 
-        <div class="btn m-pointer no-select" :class="{gray: !rating, green: rating}" @click="send()">
-            Отправить
+        <div class="button-wrapper">
+            <div class="btn m-pointer no-select" :class="{gray: !rating, green: rating}" @click="send()">
+                Отправить
+            </div>
         </div>
 
     </div>
@@ -47,6 +49,14 @@
             Smyle3,
             Smyle4,
             Smyle5
+        },
+
+        props: {
+            options: {
+                type: Object,
+                required: false,
+                default: {}
+            }
         },
 
         data() {
@@ -91,88 +101,41 @@
 
 <style lang="scss">
 
-    .rating2 {
-        width: 100%;
-        min-width: 100%;
-        height: 100%;
-        padding: 100px 0 50px 0;
+    .smyles {
         display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: space-between;
+        gap: 15px;
+        justify-content: center;
 
-        .component {
-            height: 45%;
-            min-height: 45%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .title {
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: center;
-            font-size: 32px;
-            text-align: center;
-
-            &:first-child {
-                flex-grow: unset;
-                height: 45%;
-                min-height: 45%;
-                justify-content: flex-end;
-                padding-bottom: 50px;
-            }
-        }
-
-        .text {
-            text-align: center;
-            color: #949494;
-        }
-
-        .ai-image {
-            width: 300px;
-            height: 50px;
-            filter: drop-shadow(#0bcccf 0px 0px 5px);
-        }
-
-        .smyles {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-
-            &.selected {
-                .smyle {
-                    fill: #686870;
-                }
-            }
-
+        &.selected {
             .smyle {
-                width: 40px;
-                height: 40px;
-                fill: #bebec1;
+                fill: #686870;
+            }
+        }
 
-                &.active {
-                    &:nth-child(1) {
-                        fill: #ff4242;
-                    }
+        .smyle {
+            width: 40px;
+            height: 40px;
+            fill: #bebec1;
 
-                    &:nth-child(2) {
-                        fill: #ff8446;
-                    }
+            &.active {
+                &:nth-child(1) {
+                    fill: #ff4242;
+                }
 
-                    &:nth-child(3) {
-                        fill: #fbff49;
-                    }
+                &:nth-child(2) {
+                    fill: #ff8446;
+                }
 
-                    &:nth-child(4) {
-                        fill: #abff4e;
-                    }
+                &:nth-child(3) {
+                    fill: #fbff49;
+                }
 
-                    &:nth-child(5) {
-                        fill: #94f2ff;
-                    }
+                &:nth-child(4) {
+                    fill: #abff4e;
+                }
+
+                &:nth-child(5) {
+                    fill: #94f2ff;
                 }
             }
         }

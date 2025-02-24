@@ -1,19 +1,15 @@
 <template>
 
-    <div class="rating1">
+    <div class="component">
+        <Ai fill="white" class="ai-image" />
+    </div>
 
-        <Ai
-            fill="white"
-            class="ai-image"
-        />
+    <div class="title m-light">
+        Поздравляю
+    </div>
 
-        <div>
-            <div class="title m-light mb-2">
-                Поздравляю
-            </div>
-
-            <div class="text m-light">С достижением этапа закрепления.</div>
-        </div>
+    <div class="texts">
+        <div class="text m-light">С достижением этапа закрепления.</div>
 
         <Brain 
             ref="brain" 
@@ -21,9 +17,8 @@
             :width="brainWidth"
             :height="brainHeight"
             :items="statService.getLevelsForBrain(brainItems)[0]"
-            class="mb-2"
+            class="m-center"
         />
-
     </div>
 
 </template>
@@ -39,6 +34,14 @@
         components: {
             Brain,
             Ai
+        },
+
+        props: {
+            options: {
+                type: Object,
+                required: false,
+                default: {}
+            }
         },
 
         data() {
@@ -66,44 +69,11 @@
     }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 
-    .rating1 {
-        width: 100%;
-        min-width: 100%;
-        height: 100%;
-        padding: 100px 0 50px 0;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: space-between;
-
-        .component {
-            height: 45%;
-            min-height: 45%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .title {
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: center;
-            font-size: 32px;
-            text-align: center;
-        }
-
-        .text {
-            text-align: center;
-        }
-        
-        .ai-image {
-            width: 300px;
-            height: 50px;
-            filter: drop-shadow(#0bcccf 0px 0px 5px);
-        }
+    .texts {
+        padding-top: 0 !important;
+        flex-grow: 3;
     }
 
 </style>

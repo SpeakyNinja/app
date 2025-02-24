@@ -1,21 +1,17 @@
 <template>
 
-    <div class="time-is-empty">
+    <div class="component">
+        <Ai fill="white" class="ai-image" />
+    </div>
 
-        <div class="m-center">
-            <Ai fill="white" class="ai-image" />
-        </div>
+    <div class="title m-light">Допущено доведение&nbsp;таймера до нуля</div>
 
-        <div class="title m-light">Допущено доведение&nbsp;таймера до нуля</div>
-
-        <div class="texts">
-            
-            <div class="text m-light">Таймер перезапущен.</div>
-            
-            <div class="text m-light">
-                {{`Следующие ${getCount()} тренировок будут дороже на ${getCount()}%`}}
-            </div>
-
+    <div class="texts">
+        
+        <div class="text m-light">Таймер перезапущен.</div>
+        
+        <div class="text m-light">
+            {{`Следующие ${getCount()} тренировок будут дороже на ${getCount()}%`}}
         </div>
 
         <div class="button-wrapper">
@@ -75,48 +71,11 @@
     }
 </script>
 
-<style lang="scss" >
+<style lang="scss" scoped>
 
-    .time-is-empty {
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        flex-grow: 2;
-        padding: 100px 0 10px 0;
-
-        .title {
-            display: flex;
-            justify-content: center;
-            text-align: center;
-            font-size: 32px;
-            margin-top: 100px;
-        }
-
-        .texts {
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            gap: 20px;
-            margin-top: 32px;
-
-            .text {
-                text-align: center;
-            }
-        }
-
-        .button-wrapper {
-            flex-grow: 2;
-            padding-bottom: 30px;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-        }
-
-        .ai-image {
-            width: 300px;
-            height: 50px;
-            filter: drop-shadow(#0bcccf 0px 0px 5px);
-        }
+    .texts {
+        min-height: 38% !important;
+        height: 38% !important;
     }
-
+    
 </style>

@@ -217,7 +217,7 @@
     }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 
     .notice-layer {
         position: absolute;
@@ -252,7 +252,7 @@
             .item {
                 width: 100%;
                 min-width: 100%;
-                padding: 20px 40px;
+                padding: 20px 25px;
                 display: flex;
                 align-items: center;
                 flex-direction: column;
@@ -298,6 +298,18 @@
                         &.muted {
                             color: #949494;
                         }
+                    }
+                }
+
+                .button-wrapper {
+                    flex-grow: 2;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: flex-end;
+
+                    .btn {
+                        max-width: 310px;
+                        width: 310px;
                     }
                 }
                 
@@ -359,6 +371,12 @@
 
             .items {
                 width: 100%;
+
+                .item {
+                    .texts {
+                        width: 100%;
+                    }
+                }
             }
 
         }
