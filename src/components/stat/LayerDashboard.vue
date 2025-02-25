@@ -86,12 +86,19 @@
             :items="noticeService.getItems('stagesWords')" 
             @closedHandler="closeStagesNotice" 
             v-if="showStagesNotice" 
+            :fade="false"
         />
 
         <NoticeLayer 
             :items="noticeService.getItems('timerNotice')" 
             @closedHandler="closeTimerNotice" 
             v-if="showTimerNotice" 
+        />
+
+        <NoticeLayer 
+            :items="noticeService.getItems('pwaInstall')" 
+            @closedHandler="showPwaInstallNotice = false" 
+            v-if="showPwaInstallNotice" 
         />
 
     </div>
@@ -133,6 +140,7 @@
             return {
                 showStagesNotice: false,
                 showTimerNotice: false,
+                showPwaInstallNotice: false,
                 noticeService: null
             }
         },
@@ -218,6 +226,8 @@
 
         beforeMount() {
             this.noticeService = new NoticeService();
+
+            // this.showPwaInstallNotice = true;
         }
     }
 </script>

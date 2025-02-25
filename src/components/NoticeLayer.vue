@@ -2,65 +2,71 @@
     <div class="notice-layer" :class="{hidden: isClosed}">
         <div class="items" ref="slideContainer">
 
-            <div class="dummy" :class="{ 'swipe-in-progress': swipeInProgress }" :style="{ 'margin-left': marginLeft + ml + '%' }"></div>
+            <div 
+                class="dummy" 
+                :class="{ 'swipe-in-progress': swipeInProgress, 'fade': fade }" 
+                :style="{ 'margin-left': marginLeft + ml + '%' }"></div>
 
-            <div class="item" v-for="item in items">
+            <template v-for="(item, i) in items">
+                <div class="item" :class="{visible: isVisibleItem(i)}">
 
-                <template v-if="item.customItem">
-                    <component :is="item.customItem" :options="item.options" :key="item.customItem" />
-                </template>
+                    <template v-if="item.customItem">
+                        <component :is="item.customItem" :options="item.options" :key="item.customItem" />
+                    </template>
 
-                <template v-else>
+                    <template v-else>
 
-                    <div class="image" v-if="item.image">
-                        <img :src="item.image">
-                    </div>
+                        <div class="image" v-if="item.image">
+                            <img :src="item.image">
+                        </div>
 
-                    <div class="component" v-if="item.component">
+                        <div class="component" v-if="item.component">
 
-                        <SpeedWidget 
-                            v-if="item.component == 'SpeedWidget'"
-                            :curValue="540"
-                            :maxValue="750"
-                            backgroundColor="#464664"
-                            :glow="false"
-                        />
+                            <SpeedWidget 
+                                v-if="item.component == 'SpeedWidget'"
+                                :curValue="540"
+                                :maxValue="750"
+                                backgroundColor="#464664"
+                                :glow="false"
+                                forceMainColor="#96dd47"
+                            />
 
-                        <Rainbow v-if="item.component == 'Rainbow'" :freeze="freezeComponentAnimation" />
+                            <Rainbow v-if="item.component == 'Rainbow'" :freeze="freezeComponentAnimation" />
 
-                        <Brain 
-                            v-if="item.component == 'Brain'"
-                            ref="brain" 
-                            :hexRadius="brainHexRadius"
-                            :width="brainWidth"
-                            :height="brainHeight"
-                            :items="statService.getLevelsForBrain(item.brainItems)[0]"
-                        />
+                            <Brain 
+                                v-if="item.component == 'Brain'"
+                                ref="brain" 
+                                :hexRadius="brainHexRadius"
+                                :width="brainWidth"
+                                :height="brainHeight"
+                                :items="statService.getLevelsForBrain(item.brainItems)[0]"
+                            />
 
-                        <Ai
-                            v-if="item.component == 'Ai'"
-                            fill="white"
-                            class="ai-image"
-                        />
+                            <Ai
+                                v-if="item.component == 'Ai'"
+                                fill="white"
+                                class="ai-image"
+                            />
 
-                    </div>
+                        </div>
 
-                    <div class="title m-light" v-if="item.title">
-                        {{ item.title }}
-                    </div>
+                        <div class="title m-light" v-if="item.title">
+                            {{ item.title }}
+                        </div>
 
-                    <div class="texts" v-if="item.texts?.length">
-                        <template v-for="text in item.texts">
-                            <div class="text m-light" :class="{ muted: text.muted }" v-html="text.value">
-                            </div>
-                        </template>
-                    </div>
+                        <div class="texts" v-if="item.texts?.length">
+                            <template v-for="text in item.texts">
+                                <div class="text m-light" :class="{ muted: text.muted }" v-html="text.value">
+                                </div>
+                            </template>
+                        </div>
 
-                </template>
+                    </template>
+
+                </div>
+            </template>
 
             </div>
-
-        </div>
 
         <div class="controls" :class="{hidden: hideControls}">
             <div class="controls-wrapper">
@@ -103,6 +109,7 @@
     import TrainingsLimit from '@/components/notices/TrainingsLimit.vue';
     import TrainingsLimitUpdated from '@/components/notices/TrainingsLimitUpdated.vue';
     import TimerNotice from '@/components/notices/TimerNotice.vue';
+    import PwaInstall from '@/components/notices/PwaInstall.vue';
 
     import StatService from '@/services/StatService.js';
     import SlideHandler from "@/services/SlideHandler.js";
@@ -126,13 +133,19 @@
             LevelUp,
             TrainingsLimit,
             TrainingsLimitUpdated,
-            TimerNotice
+            TimerNotice,
+            PwaInstall
         },
 
         props: {
             items: {
                 type: Array,
                 required: true
+            },
+            fade: {
+                type: Boolean,
+                required: false,
+                default: true
             }
         },
 
@@ -202,13 +215,20 @@
             swipeHandler(distance) {
                 this.ml = Math.round(distance / this.$refs.slideContainer.clientWidth * 100);
                 this.swipeInProgress = true;
+            },
+
+            isVisibleItem(pos) {
+                return !this.fade || this.itemIndex == pos;
             }
         },
 
         async mounted() {
             this.hideControls = !!this.items[0]?.hideControls;
-            await nextTick();
-            this.initSwipeLayers();
+
+            if(!this.fade) {
+                await nextTick();
+                this.initSwipeLayers();
+            }
         },
 
         unmounted() {
@@ -243,6 +263,10 @@
 
             .dummy {
                 transition: all 0.3s ease;
+                
+                &.fade {
+                    transition: unset;
+                }
 
                 &.swipe-in-progress {
                     transition: none;
@@ -256,6 +280,12 @@
                 display: flex;
                 align-items: center;
                 flex-direction: column;
+                opacity: 0;
+                transition: opacity 0.5s ease;
+
+                &.visible {
+                    opacity: 1;
+                }
 
                 .image, .component {
                     height: 45%;
@@ -306,6 +336,8 @@
                     display: flex;
                     flex-direction: column;
                     justify-content: flex-end;
+                    align-items: center;
+                    gap: 20px;
 
                     .btn {
                         max-width: 310px;

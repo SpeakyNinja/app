@@ -10,7 +10,13 @@
             <div class="btn gray" @click="toTest">Пропустить</div>
         </div>
         
-        <NoticeLayer :items="noticeItems" v-if="showNotice" @closedHandler="showNotice = false" />
+        <NoticeLayer 
+            :items="noticeItems" 
+            v-if="showNotice" 
+            @closedHandler="showNotice = false"
+            :fade="false"
+        />
+
     </div>
 </template>
 

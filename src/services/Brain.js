@@ -8,7 +8,7 @@ export default class Brain {
         this.baseColor = '#525465';
         this.activeOutlineColor = '#525465';
         this.fillColors = {
-            in_progress: '#3d3e4d',
+            in_progress: '#272735',
             knows: '#e6e8fa',
             green: '#76fa3d',
             m0: '#ff1c00',

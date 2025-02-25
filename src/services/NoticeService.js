@@ -8,7 +8,7 @@ export default class NoticeService {
                     title: 'Легко',
                     texts: [
                         {
-                            value: 'Слова английского<br>будут запоминаться сами.',
+                            value: 'Слова будут запоминаться сами.',
                             muted: false
                         }, {
                             value: 'Как words родного языка.',
@@ -28,7 +28,22 @@ export default class NoticeService {
                         }
                     ]
                 }, {
-                    image: new URL('@/images/brain.svg', import.meta.url).href,
+                    // image: new URL('@/images/brain.svg', import.meta.url).href,
+                    component: 'Brain',
+                    brainItems: [
+                        {memorization: 12, count: 6},
+                        {memorization: 11, count: 4},
+                        {memorization: 10, count: 6},
+                        {memorization: 9, count: 11},
+                        {memorization: 8, count: 13},
+                        {memorization: 7, count: 7},
+                        {memorization: 6, count: 6},
+                        {memorization: 5, count: 13},
+                        {memorization: 4, count: 13},
+                        {memorization: 3, count: 5},
+                        {memorization: 2, count: 10},
+                        {memorization: 1, count: 6}
+                    ],
                     title: 'Эффективно',
                     texts: [
                         {
@@ -166,7 +181,7 @@ export default class NoticeService {
                     title: 'Время повтора изучаемых слов еще не наступило',
                     texts: [
                         {
-                            value: 'Нужно выбрать новые слова.',
+                            value: 'Выбери новые слова.',
                             muted: false
                         }
                     ]
@@ -297,7 +312,7 @@ export default class NoticeService {
                     title: 'Циановые',
                     texts: [
                         {
-                            value: 'Выучил',
+                            value: 'Выучил.',
                             muted: false
                         }, {
                             value: 'Слова, которые прошли все этапы.',
@@ -325,7 +340,7 @@ export default class NoticeService {
                     title: 'Белые',
                     texts: [
                         {
-                            value: 'Известные',
+                            value: 'Известные.',
                             muted: false
                         }, {
                             value: 'Слова, которые знал.',
@@ -493,6 +508,13 @@ export default class NoticeService {
             timerNotice: [
                 {
                     customItem: 'TimerNotice',
+                    hideControls: true
+                }
+            ],
+
+            pwaInstall: [
+                {
+                    customItem: 'PwaInstall',
                     hideControls: true
                 }
             ]

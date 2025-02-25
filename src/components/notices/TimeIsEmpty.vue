@@ -8,11 +8,21 @@
 
     <div class="texts">
         
-        <div class="text m-light">Таймер перезапущен.</div>
-        
-        <div class="text m-light">
-            {{`Следующие ${getCount()} тренировок будут дороже на ${getCount()}%`}}
-        </div>
+        <template v-if="isFirst()">
+            <div class="text m-light">На первый раз – только предупреждение.</div>
+            
+            <div class="text m-light">
+                В следующий раз 10 тренировок будут дороже на 10%.
+            </div>
+        </template>
+
+        <template v-else>
+            <div class="text m-light">Таймер перезапущен.</div>
+            
+            <div class="text m-light">
+                {{`Следующие ${getCount()} тренировок будут дороже на ${getCount()}%`}}
+            </div>
+        </template>
 
         <div class="button-wrapper">
             <div class="btn green" @click="ok()">ОК</div>
@@ -59,7 +69,11 @@
             },
 
             getCount() {
-                return (this.statService.count_game_overs + 1) * 10;
+                return this.statService.count_game_overs * 10;
+            },
+
+            isFirst() {
+                return this.statService.count_game_overs == 0;
             }
         },
 

@@ -119,6 +119,10 @@
                 type: Number,
                 required: false,
                 default: 300
+            },
+            forceMainColor: {
+                required: false,
+                default: null
             }
         },
 
@@ -160,6 +164,10 @@
                     this.mainColor = '#7cdeff';
                     this.accuracyClass = 'accuracy-1';
                     this.accuracySmallClass = 'accuracy-1';
+                }
+
+                if(this.forceMainColor) {
+                    this.mainColor = this.forceMainColor;
                 }
             }
         },
