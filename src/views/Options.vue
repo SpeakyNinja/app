@@ -1,24 +1,11 @@
 <template>
     <div class="options main-bg">
 
+        <TopBar title="Настройки" />
+
         <div class="options-wrapper no-scrollbar">
-            <div class="block" v-if="student.isAutoReg()">
-                <div class="row title">Регистрация</div>
-
-                <div class="row">
-                    <div class="subtitle mb-1">E-mail</div>
-                    <input class="input" type="text" v-model="reg.email">
-                </div>
-
-                <div class="row">
-                    <div class="subtitle mb-1">Пароль</div>
-                    <input class="input" type="password" v-model="reg.password">
-                    <div class="m-red mt-2" v-if="regError">{{ regError }}</div>
-                </div>
-
-                <div class="row">
-                    <div class="btn green no-select" @click="submitRegistration">Зарегистрироваться</div>
-                </div>
+            <div class="block mt-10">
+                <div class="row">{{ userId() }}</div>
             </div>
 
             <div class="block">
@@ -41,7 +28,7 @@
                 </div>
             </div>
 
-            <div class="block mb-1">
+            <div class="block">
                 <div class="row title">Озвучивание добора</div>
 
                 <div class="row toggler-wrapper">
@@ -52,14 +39,23 @@
                     />
                 </div>
             </div>
-        </div>
 
-        <ButtonsSticked>
-            <template v-slot:items>
-                <div class="item no-select" @click="toStat()">Назад</div>
-                <div class="item no-select" @click="showCloseModal = true">Выход</div>
-            </template>
-        </ButtonsSticked>
+            <div class="block">
+
+                <div class="btn dark-gray no-select" @click="$router.push('/feedback')">
+                    Обратная связь
+                </div>
+
+                <div class="btn dark-gray no-select" v-if="student.isAutoReg()" @click="$router.push('/permanent-registration')">
+                    Регистрация
+                </div>
+
+                <div class="btn dark-gray no-select" @click="showCloseModal = true">
+                    Выйти
+                </div>
+
+            </div>
+        </div>
 
     </div>
 
@@ -70,22 +66,20 @@
 <script>
     import { inject } from 'vue';
     import Modal from '@/components/Modal.vue';
-    import ButtonsSticked from '@/components/ButtonsSticked.vue';
     import Toggler from '@/components/Toggler.vue';
     import LocalStorage from '@/services/LocalStorageService.js';
+    import TopBar from '@/components/TopBar.vue';
 
     export default {
 
         components: {
-            ButtonsSticked,
             Toggler,
-            Modal
+            Modal,
+            TopBar
         },
 
         data() {
             return {
-                reg: {email: '', password: ''},
-                regError: '',
                 storage: LocalStorage,
                 showCloseModal: false,
                 closeModalOptions: {
@@ -112,25 +106,17 @@
                 }
             },
 
-            toStat() {
-                this.$router.push('/statistics');
-            },
-
-            async submitRegistration() {
-                try {
-                    this.preloader.show = true;
-                    const r = await this.student.postRegistration(this.reg.email, this.reg.password);
-                    this.showRegistration = false;
-                } catch(res) {
-                    this.regError = res.message || 'Ошибка сервера';
-                } finally {
-                    this.preloader.show = false;
-                }
-            },
-
             toggle(key) {
                 const val = !LocalStorage.get('options', key);
                 LocalStorage.store('options', key, val);
+            },
+
+            userId() {
+                if( this.student.isAutoReg() ) {
+                    return `Id: ${this.student.getEmail().split('@').shift()}`;
+                }
+
+                return `E-mail: ${this.student.getEmail()}`;
             }
         },
 
@@ -148,14 +134,14 @@
     .options {
         flex-grow: 2;
         height: 100%;
-        padding: 30px 0 125px 0;
+        padding-bottom: 10px;
 
         .options-wrapper {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
-            gap: 50px;
+            gap: 40px;
             position: relative;
             max-height: 100%;
 

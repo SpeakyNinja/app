@@ -10,6 +10,8 @@ import Statistics from '@/views/Statistics.vue';
 import Options from '@/views/Options.vue';
 import Store from '@/views/Store.vue';
 import FewNeurons from '@/views/FewNeurons.vue';
+import PermanentRegistration from '@/views/PermanentRegistration.vue';
+import Feedback from '@/views/Feedback.vue';
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -44,6 +46,12 @@ const router = createRouter({
         }, {
             path: '/few-neurons',
             component: FewNeurons
+        }, {
+            path: '/permanent-registration',
+            component: PermanentRegistration
+        }, {
+            path: '/feedback',
+            component: Feedback
         }
     ]
 })

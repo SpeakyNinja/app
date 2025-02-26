@@ -53,6 +53,7 @@
     import StatService from '@/services/StatService.js';
     import NoticeService from '@/services/NoticeService.js';
     import SlideHandler from "@/services/SlideHandler.js";
+    import PwaInstallService from '@/services/PwaInstallService.js';
 
     export default {
 
@@ -218,6 +219,11 @@
                 } else if( this.statService.isSecondProgress() ) {
                     notices.push( ...this.noticeService.getItems('greenMem') );
                     await this.statService.setStage(2);
+                }
+
+                if(PwaInstallService.needShowNotice(this.statService)) {
+                    notices.push( ...this.noticeService.getItems('pwaInstall') );
+                    PwaInstallService.setPwaInstallNoticeShown(true);
                 }
 
                 if(notices.length) {

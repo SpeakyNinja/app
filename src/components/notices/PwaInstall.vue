@@ -25,7 +25,7 @@
 
     import { inject } from 'vue';
     import Ai from '@/components/icons/Ai.vue';
-    import ToolsService from '@/services/ToolsService.js';
+    import PwaInstallService from '@/services/PwaInstallService.js';
 
     export default {
         components: {
@@ -46,10 +46,22 @@
         },
 
         methods: {
-            installPwa() {
-
-                this.$parent.changeItem(1);
+            async installPwa() {
+                try {
+                    this.preloader.show = true;
+                    const choiceResult = await PwaInstallService.install();
+                    this.$parent.changeItem(1);
+                } catch(error) {
+                    this.modal.show({message: 'Ошибка при попытке установки PWA'});
+                } finally {
+                    this.preloader.show = false;
+                }
             }
+        },
+
+        beforeMount() {
+            this.modal = inject('modal');
+            this.preloader = inject('preloader');
         }
     }
 </script>

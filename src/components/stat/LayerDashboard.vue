@@ -95,12 +95,6 @@
             v-if="showTimerNotice" 
         />
 
-        <NoticeLayer 
-            :items="noticeService.getItems('pwaInstall')" 
-            @closedHandler="showPwaInstallNotice = false" 
-            v-if="showPwaInstallNotice" 
-        />
-
     </div>
 
 </template>
@@ -114,8 +108,8 @@
     import HexGreen from '@/components/icons/HexGreen.vue';
     import IconCog from '@/components/icons/IconCog.vue';
     import NoticeLayer from '@/components/NoticeLayer.vue'
-    import NoticeService from '@/services/NoticeService.js';
     import TimerStat from '@/components/TimerStat.vue'
+    import NoticeService from '@/services/NoticeService.js';
 
     export default {
 
@@ -140,7 +134,6 @@
             return {
                 showStagesNotice: false,
                 showTimerNotice: false,
-                showPwaInstallNotice: false,
                 noticeService: null
             }
         },
@@ -226,8 +219,6 @@
 
         beforeMount() {
             this.noticeService = new NoticeService();
-
-            // this.showPwaInstallNotice = true;
         }
     }
 </script>

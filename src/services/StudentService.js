@@ -43,15 +43,10 @@ export default class StudentService extends AbstractService {
         });
     }
 
-    postRegistration(email, password) {
-        const data = {
-            email: email,
-            password: password
-        };
-
+    postRegistration(data) {
         return this.request('/post-registration', data, r => {
             this.setToken(r.access_token);
-            LocalStorage.store('student_data', 'email', email);
+            LocalStorage.store('student_data', 'email', data.email);
             LocalStorage.store('student_data', 'isAutoReg', false);
         });
     }
@@ -90,7 +85,11 @@ export default class StudentService extends AbstractService {
     }
 
     getId() {
-        return LocalStorage.get("student_data", "id")
+        return LocalStorage.get("student_data", "id");
+    }
+
+    getEmail() {
+        return LocalStorage.get("student_data", "email");
     }
 
     clearData() {
