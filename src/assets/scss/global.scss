@@ -173,6 +173,14 @@ b {
             background-color: #292937;
         }
     }
+
+    &.transparent {
+        background-color: transparent;
+
+        &:hover {
+            background-color: transparent;
+        }
+    }
 }
 
 .input {
@@ -318,6 +326,10 @@ textarea {
 
 .m-white {
     color: white;
+}
+
+.m-underline {
+    text-decoration: underline;
 }
 
 .m-hidden {

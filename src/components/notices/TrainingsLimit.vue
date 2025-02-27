@@ -13,7 +13,7 @@
         </div>
         
         <div class="button-wrapper">
-            <div class="btn green" @click="$parent.changeItem(1)">Продолжить</div>
+            <div class="btn green" @click="$parent.changeItem(1)">Ок</div>
         </div>
 
     </div>

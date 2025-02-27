@@ -49,6 +49,7 @@
                     this.preloader.show = true;
                     await this.feedbackService.submit(this.message);
                     this.$router.push('/options');
+                    this.modal.show({message: 'Ваше сообщение отправлено', title: 'Спасибо'});
                 } catch(res) {
                     this.error = res.message || 'Ошибка сервера';
                 } finally {

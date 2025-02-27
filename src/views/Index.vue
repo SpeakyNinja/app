@@ -7,7 +7,12 @@
         <div class="buttons">
             <div class="btn green" @click="toRegistration">Зарегистрироваться</div>
             <div class="btn blue" @click="toLogin">Войти</div>
-            <div class="btn gray" @click="toTest">Пропустить</div>
+            <div class="btn transparent" @click="toTest">Пропустить</div>
+        </div>
+
+        <div class="mt-2 m-center">
+            <div class=" m-size16">Продолжая, вы принимаете</div>
+            <a href="https://speaky.ninja/agreement" target="_blank" class="m-underline m-size16">данные условия</a>
         </div>
         
         <NoticeLayer 
@@ -77,7 +82,6 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@/assets/scss/global.scss';
 
     .index {
         flex-grow: 2;
@@ -88,6 +92,7 @@
         color: white;
         padding: 60px 40px 20px 40px;
         min-height: 100%;
+        background-color: #272733;
         
         .title {
             font-size: 40px;

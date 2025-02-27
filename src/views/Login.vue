@@ -20,6 +20,11 @@
             <div class="btn green mt-1" @click="login">Войти</div>
             <div class="btn mt-1" @click="registration">Регистрация</div>
         </div>
+
+        <div class="mt-2 m-center">
+            <div class=" m-size16">Регистрируясь, вы принимаете</div>
+            <a href="https://speaky.ninja/agreement" target="_blank" class="m-underline m-size16">данные условия</a>
+        </div>
         
     </div>
 </template>

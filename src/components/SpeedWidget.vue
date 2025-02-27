@@ -144,19 +144,19 @@
             },
 
             makeCssClasses() {
-                if(this.curValue < 199) {
+                if(this.curValue <= 200) {
                     this.mainColor = '#fb4545';
                     this.accuracyClass = 'accuracy-5';
                     this.accuracySmallClass = 'accuracy-5';
-                } else if(this.curValue < 399) {
+                } else if(this.curValue <= 400) {
                     this.mainColor = '#fb823d';
                     this.accuracyClass = 'accuracy-4';
                     this.accuracySmallClass = 'accuracy-4';
-                } else if(this.curValue < 599) {
+                } else if(this.curValue <= 600) {
                     this.mainColor = '#f7cc0f';
                     this.accuracyClass = 'accuracy-3';
                     this.accuracySmallClass = 'accuracy-3';
-                } else if(this.curValue < 899) {
+                } else if(this.curValue <= 700) {
                     this.mainColor = '#96dd47';
                     this.accuracyClass = 'accuracy-2';
                     this.accuracySmallClass = 'accuracy-2';

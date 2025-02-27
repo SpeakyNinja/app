@@ -24,7 +24,7 @@
                 </div>
             </div>
 
-            <div class="btn no-select mt-2" @click="addHint = true" v-if="!addHint">Добавить подсказку</div>
+            <div class="btn transparent no-select mt-2" @click="addHint = true" v-if="!addHint">Добавить подсказку</div>
 
             <div class="add-hint-layer mt-1" v-else>
                 <div class="row">
@@ -37,7 +37,7 @@
                 </div>
 
                 <div class="row mt-1">
-                    <div class="btn no-select" @click="closeHintLayer">Отменить</div>
+                    <div class="btn transparent no-select" @click="closeHintLayer">Отменить</div>
                 </div>
             </div>
         </div>
@@ -45,7 +45,6 @@
         <ButtonsSticked :key="trainings.getCurrent()?.answers.length">
             <template v-slot:items>
                 <div 
-                    v-if="showAnswers"
                     class="item no-select"
                     :class="{transparent : highlitedAnswer && highlitedAnswer != answer }"
                     v-for="answer in trainings.getCurrent()?.answers" 
@@ -55,7 +54,11 @@
                     {{ answer }}
                 </div>
 
-                <div v-else class="look-variants item no-select m-pointer" @click="showAnswers = true">
+                <div 
+                    v-if="!showAnswers" 
+                    class="look-variants item no-select m-pointer" 
+                    @click="showAnswers = true"
+                >
                     Посмотреть варианты
                 </div>
             </template>
@@ -433,7 +436,14 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            height: 185px;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #272733;
+            border-top: none;
         }
     }
 

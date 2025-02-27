@@ -130,7 +130,7 @@
             async showMainContent() {
                 this.isReady = true;
                 await nextTick();
-                this.$refs.itemsList.scrollBy(0, 226);
+                this.$refs.itemsList.scrollBy(0, 280);
                 // this.initSwipeLayers();
             },
 
