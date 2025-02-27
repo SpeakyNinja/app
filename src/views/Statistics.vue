@@ -256,6 +256,7 @@
         flex-grow: 2;
         width: 100%;
         height: 100vh;
+        height: 100dvh;
 
         .layers-wrapper {
             display: flex;

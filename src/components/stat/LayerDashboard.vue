@@ -71,6 +71,12 @@
                             <div class="item-value">{{ statService.getNonstopDays() }}</div>
                         </div>
                     </div>
+
+                    <div class="row">
+                        <div class="item single" @click="installPwa()" v-if="showInstallButton">
+                            Установить как приложение
+                        </div>
+                    </div>
                 </div>
                 
             </div>
@@ -100,7 +106,7 @@
 </template>
 
 <script>
-    import { nextTick } from "vue";
+    import { inject } from 'vue';
     import StatService from '@/services/StatService.js';
     import RoundProgress from '@/components/RoundProgress.vue';
     import HexRed from '@/components/icons/HexRed.vue';
@@ -110,6 +116,7 @@
     import NoticeLayer from '@/components/NoticeLayer.vue'
     import TimerStat from '@/components/TimerStat.vue'
     import NoticeService from '@/services/NoticeService.js';
+    import PwaInstallService from '@/services/PwaInstallService.js';
 
     export default {
 
@@ -134,7 +141,8 @@
             return {
                 showStagesNotice: false,
                 showTimerNotice: false,
-                noticeService: null
+                noticeService: null,
+                showInstallButton: !!PwaInstallService.deferredPrompt
             }
         },
 
@@ -214,11 +222,24 @@
 
             closeTimerNotice() {
                 this.showTimerNotice = false;
+            },
+
+            async installPwa() {
+                try {
+                    this.preloader.show = true;
+                    await PwaInstallService.install();
+                } catch(error) {
+                    this.modal.show({message: 'Ошибка при попытке установки PWA'});
+                } finally {
+                    this.preloader.show = false;
+                }
             }
         },
 
         beforeMount() {
             this.noticeService = new NoticeService();
+            this.modal = inject('modal');
+            this.preloader = inject('preloader');
         }
     }
 </script>
@@ -277,7 +298,7 @@
                 position: relative;
 
                 >:last-child {
-                    margin-bottom: 30px;
+                    margin-bottom: 10px;
                 }
 
                 .settings-button {
@@ -414,6 +435,12 @@
                             justify-content: center;
                             gap: 10px;
                             box-shadow: 10px 10px 15px 0px rgba(0, 0, 0, 0.2);
+
+                            &.single {
+                                width: 100%;
+                                font-family: Light;
+                                color: white;
+                            }
 
                             .item-title {
                                 text-align: center;
