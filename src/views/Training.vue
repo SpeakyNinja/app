@@ -340,6 +340,7 @@
         justify-content: flex-start;
         gap: 30px;
         height: 100vh;
+        height: 100dvh;
 
         .top-fixed {
             position: absolute;
