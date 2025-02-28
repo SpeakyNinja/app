@@ -3,7 +3,7 @@
     "short_name": "Speaky.Ninja",
     "description": "Усвоение слов без усилий.",
     "start_url": "/",
-    "display": "fullscreen",
+    "display": "standalone",
     "background_color": "#30313f",
     "theme_color": "#30313f",
     "icons": [
