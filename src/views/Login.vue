@@ -1,29 +1,31 @@
 <template>
     <div class="login main-bg">
         
-        <div class="title">Speaky Ninja</div>
+        <div class="wrapper no-scrollbar">
+            <div class="title">Speaky.Ninja</div>
 
-        <div class="m-light m-gray mt-1">вход</div>
+            <div class="m-light m-gray mt-1">вход</div>
 
-        <div class="form">
-            <div class="row">
-                <div class="m-light ml-1 mb-1 m-size20">E-mail</div>
-                <input class="input" type="text" v-model="student.email">
+            <div class="form">
+                <div class="row">
+                    <div class="m-light ml-1 mb-1 m-size20">E-mail</div>
+                    <input class="input" type="text" v-model="student.email">
+                </div>
+
+                <div class="row">
+                    <div class="m-light ml-1 mb-1 m-size20">Пароль</div>
+                    <input class="input" type="password" v-model="student.password">
+                    <div class="m-red mt-2" v-if="error">{{ error }}</div>
+                </div>
+
+                <div class="btn green mt-1" @click="login">Войти</div>
+                <div class="btn transparent mt-1" @click="registration">Регистрация</div>
             </div>
 
-            <div class="row">
-                <div class="m-light ml-1 mb-1 m-size20">Пароль</div>
-                <input class="input" type="password" v-model="student.password">
-                <div class="m-red mt-2" v-if="error">{{ error }}</div>
+            <div class="mt-2 m-center">
+                <div class=" m-size16">Регистрируясь, вы принимаете</div>
+                <a href="https://speaky.ninja/agreement" target="_blank" class="m-underline m-size16">данные условия</a>
             </div>
-
-            <div class="btn green mt-1" @click="login">Войти</div>
-            <div class="btn mt-1" @click="registration">Регистрация</div>
-        </div>
-
-        <div class="mt-2 m-center">
-            <div class=" m-size16">Регистрируясь, вы принимаете</div>
-            <a href="https://speaky.ninja/agreement" target="_blank" class="m-underline m-size16">данные условия</a>
         </div>
         
     </div>
@@ -78,23 +80,33 @@
         align-items: center;
         justify-content: center;
         color: white;
-        padding: 60px 40px 20px 40px;
+        background-color: #272733 !important;
+        height: 100vh;
+        height: 100dvh;
         
-        .title {
-            font-size: 40px;
-            font-family: Light;
-            color: #ebebed;
-        }
-
-        .form {
-            margin-top: 80px;
+        .wrapper {
+            padding: 60px 40px 20px 40px;
+            width: 100%;
             display: flex;
             flex-direction: column;
-            gap: 20px;
-            width: 420px;
+            align-items: center;
 
-            .row {
-                .lable {
+            .title {
+                font-size: 40px;
+                font-family: Light;
+                color: #ebebed;
+            }
+
+            .form {
+                margin-top: 80px;
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+                width: 420px;
+
+                .row {
+                    .lable {
+                    }
                 }
             }
         }
@@ -102,9 +114,11 @@
 
     @media(max-width: 500px) {
         .login {
-            .form {
-                min-width: 100%;
-                width: unset;
+            .wrapper {
+                .form {
+                    min-width: 100%;
+                    width: unset;
+                }
             }
 
         }

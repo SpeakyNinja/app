@@ -12,10 +12,6 @@ class PwaInstallService {
     }
 
     initEventListeners() {
-        if(this.isPwaInstalled()) {
-            return false;
-        }
-
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             this.deferredPrompt = e;
@@ -23,7 +19,6 @@ class PwaInstallService {
         
         window.addEventListener('appinstalled', () => {
             this.deferredPrompt = null;
-            localStorage.setItem('pwaInstalled', true);
         });
     }
 
@@ -36,15 +31,11 @@ class PwaInstallService {
             return true;
         }
         
-        return localStorage.getItem('pwaInstalled');
+        return !this.deferredPrompt;
     }
 
     needShowNotice(statService) {
-        if(
-            !this.deferredPrompt || 
-            this.isPwaInstalled() || 
-            localStorage.getItem('pwaInstallNoticeShown')
-        ) {
+        if(this.isPwaInstalled() || localStorage.getItem('pwaInstallNoticeShown')) {
             return false;
         }
 

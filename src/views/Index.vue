@@ -1,18 +1,20 @@
 <template>
     <div class="index main-bg">
         
-        <div class="title">Speaky Ninja</div>
-        <div class="mt-2 title2">слова запомнятся сами</div>
+        <div class="wrapper no-scrollbar">
+            <div class="title">Speaky.Ninja</div>
+            <div class="mt-2 title2">слова запомнятся сами</div>
 
-        <div class="buttons">
-            <div class="btn green" @click="toRegistration">Зарегистрироваться</div>
-            <div class="btn blue" @click="toLogin">Войти</div>
-            <div class="btn transparent" @click="toTest">Пропустить</div>
-        </div>
+            <div class="buttons">
+                <div class="btn green" @click="toRegistration">Зарегистрироваться</div>
+                <div class="btn blue" @click="toLogin">Войти</div>
+                <div class="btn transparent" @click="toTest">Пропустить</div>
+            </div>
 
-        <div class="mt-2 m-center">
-            <div class=" m-size16">Продолжая, вы принимаете</div>
-            <a href="https://speaky.ninja/agreement" target="_blank" class="m-underline m-size16">данные условия</a>
+            <div class="mt-2 m-center">
+                <div class=" m-size16">Продолжая, вы принимаете</div>
+                <a href="https://speaky.ninja/agreement" target="_blank" class="m-underline m-size16">данные условия</a>
+            </div>
         </div>
         
         <NoticeLayer 
@@ -90,38 +92,49 @@
         align-items: center;
         justify-content: center;
         color: white;
-        padding: 60px 40px 20px 40px;
-        min-height: 100%;
-        background-color: #272733;
-        
-        .title {
-            font-size: 40px;
-            font-family: Light;
-            color: #ebebed;
-        }
+        background-color: #272733 !important;
+        height: 100vh;
+        height: 100dvh;
 
-        .title2 {
-            font-size: 16px;
-            color: #ebebed;
-            letter-spacing: 2px;
-        }
-
-        .buttons {
-            margin-top: 140px;
+        .wrapper {
+            padding: 60px 40px 20px 40px;
+            width: 100%;
             display: flex;
             flex-direction: column;
-            gap: 20px;
-            width: 420px;
+            align-items: center;
+
+            .title {
+                font-size: 40px;
+                font-family: Light;
+                color: #ebebed;
+            }
+
+            .title2 {
+                font-size: 16px;
+                color: #ebebed;
+                letter-spacing: 2px;
+            }
+
+            .buttons {
+                margin-top: 140px;
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+                width: 420px;
+            }
         }
+        
     }
 
     @media(max-width: 500px) {
         .index {
-            .buttons {
-                min-width: 100%;
-                width: unset;
-            }
+            .wrapper {
+                .buttons {
+                    min-width: 100%;
+                    width: unset;
+                }
 
+            }
         }
     }
 

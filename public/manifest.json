@@ -1,7 +1,7 @@
 {
-    "name": "Speaky Ninja",
-    "short_name": "Speaky Ninja",
-    "description": "Приложение для изучения английского по инновационной методике",
+    "name": "Speaky.Ninja",
+    "short_name": "Speaky.Ninja",
+    "description": "Усвоение слов без усилий.",
     "start_url": "/",
     "display": "fullscreen",
     "background_color": "#30313f",
