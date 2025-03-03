@@ -54,6 +54,7 @@
     import NoticeService from '@/services/NoticeService.js';
     import SlideHandler from "@/services/SlideHandler.js";
     import PwaInstallService from '@/services/PwaInstallService.js';
+    import ToolsService from '@/services/ToolsService.js';
 
     export default {
 
@@ -193,6 +194,7 @@
 
             this.statService = new StatService();
             this.noticeService = new NoticeService();
+            this.tools = new ToolsService();
 
             try {
                 this.preloader.show = true;
@@ -222,7 +224,13 @@
                 }
 
                 if(PwaInstallService.needShowNotice(this.statService)) {
-                    notices.push( ...this.noticeService.getItems('pwaInstall') );
+
+                    if(this.tools.getOs() == 'ios') {
+                        notices.push( ...this.noticeService.getItems('iosInstall') );
+                    } else {
+                        notices.push( ...this.noticeService.getItems('pwaInstall') );
+                    }
+                    
                     PwaInstallService.setPwaInstallNoticeShown(true);
                 }
 

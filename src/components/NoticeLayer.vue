@@ -110,6 +110,7 @@
     import TrainingsLimitUpdated from '@/components/notices/TrainingsLimitUpdated.vue';
     import TimerNotice from '@/components/notices/TimerNotice.vue';
     import PwaInstall from '@/components/notices/PwaInstall.vue';
+    import InstallIosNotice from '@/components/notices/InstallIosNotice.vue';
 
     import StatService from '@/services/StatService.js';
     import SlideHandler from "@/services/SlideHandler.js";
@@ -134,7 +135,8 @@
             TrainingsLimit,
             TrainingsLimitUpdated,
             TimerNotice,
-            PwaInstall
+            PwaInstall,
+            InstallIosNotice
         },
 
         props: {

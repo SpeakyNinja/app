@@ -101,6 +101,12 @@
             v-if="showTimerNotice" 
         />
 
+        <NoticeLayer 
+            :items="noticeService.getItems('iosInstall')" 
+            @closedHandler="this.showInstallNotice = false" 
+            v-if="showInstallNotice" 
+        />
+
     </div>
 
 </template>
@@ -117,6 +123,7 @@
     import TimerStat from '@/components/TimerStat.vue'
     import NoticeService from '@/services/NoticeService.js';
     import PwaInstallService from '@/services/PwaInstallService.js';
+    import ToolsService from '@/services/ToolsService.js';
 
     export default {
 
@@ -141,6 +148,7 @@
             return {
                 showStagesNotice: false,
                 showTimerNotice: false,
+                showInstallNotice: false,
                 noticeService: null,
                 showInstallButton: !!PwaInstallService.deferredPrompt
             }
@@ -225,6 +233,11 @@
             },
 
             async installPwa() {
+                if(this.tools.getOs() == 'ios') {
+                    this.showInstallNotice = true;
+                    return false;
+                }
+
                 try {
                     this.preloader.show = true;
                     await PwaInstallService.install();
@@ -238,6 +251,7 @@
 
         beforeMount() {
             this.noticeService = new NoticeService();
+            this.tools = new ToolsService();
             this.modal = inject('modal');
             this.preloader = inject('preloader');
         }

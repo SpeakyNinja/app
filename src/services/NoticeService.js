@@ -517,6 +517,13 @@ export default class NoticeService {
                     customItem: 'PwaInstall',
                     hideControls: true
                 }
+            ],
+
+            iosInstall: [
+                {
+                    customItem: 'InstallIosNotice',
+                    hideControls: true
+                }
             ]
 
         };
