@@ -1,10 +1,12 @@
+import gTagManagerUrl from '../assets/gTagManager.js?url';
+
 class Analytics {
     
     initGoogleTagManager() {
         if(import.meta.env.VITE_TAG_MANAGER_OFF !== 'true') {
             // Добавление скрипта в head
             const script = document.createElement('script');
-            script.src = '/gtagManager.js';
+            script.src = gTagManagerUrl;
             document.head.appendChild(script);
 
             // Добавление iframe в noscript в body
