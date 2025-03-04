@@ -150,7 +150,7 @@
                 showTimerNotice: false,
                 showInstallNotice: false,
                 noticeService: null,
-                showInstallButton: !!PwaInstallService.deferredPrompt
+                showInstallButton: false
             }
         },
 
@@ -254,6 +254,7 @@
             this.tools = new ToolsService();
             this.modal = inject('modal');
             this.preloader = inject('preloader');
+            this.showInstallButton = this.tools.getOs() == 'ios' || !!PwaInstallService.deferredPrompt;
         }
     }
 </script>
