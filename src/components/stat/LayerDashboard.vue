@@ -254,7 +254,7 @@
             this.tools = new ToolsService();
             this.modal = inject('modal');
             this.preloader = inject('preloader');
-            this.showInstallButton = (this.tools.getOs() == 'ios' || !!PwaInstallService.deferredPrompt) && !PwaInstallService.isPwaInstalled();
+            this.showInstallButton = (this.tools.getOs() == 'ios' || !!PwaInstallService.deferredPrompt) && !window.navigator.standalone;
         }
     }
 </script>
