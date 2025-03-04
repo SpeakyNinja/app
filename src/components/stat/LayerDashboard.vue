@@ -254,7 +254,7 @@
             this.tools = new ToolsService();
             this.modal = inject('modal');
             this.preloader = inject('preloader');
-            this.showInstallButton = this.tools.getOs() == 'ios' || !!PwaInstallService.deferredPrompt;
+            this.showInstallButton = (this.tools.getOs() == 'ios' || !!PwaInstallService.deferredPrompt) && !PwaInstallService.isPwaInstalled();
         }
     }
 </script>
