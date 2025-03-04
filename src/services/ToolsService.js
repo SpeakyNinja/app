@@ -122,7 +122,14 @@ export default class ToolsService {
             return "android";
         }
 
-        if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+        // if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+        //     return "ios";
+        // }
+
+        const iosWords = [
+            'iPad Simulator', 'iPhone Simulator', 'iPod Simulator', 'iPad', 'iPhone', 'iPod'
+        ];
+        if(iosWords.includes(navigator.platform) || (navigator.userAgent.includes("Mac") && "ontouchend" in document)) {
             return "ios";
         }
 
