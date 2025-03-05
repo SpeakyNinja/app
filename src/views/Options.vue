@@ -82,13 +82,7 @@
             return {
                 storage: LocalStorage,
                 showCloseModal: false,
-                closeModalOptions: {
-                    header: 'Внимание',
-                    body: 'Вы будете отключены от вашего аккаунта',
-                    action: this.logout.bind(this),
-                    actionButtonText: 'Выйти',
-                    cancelButtonText: 'Отмена'
-                }
+                closeModalOptions: {}
             }
         },
 
@@ -124,6 +118,19 @@
             this.modal = inject('modal');
             this.preloader = inject('preloader');
             this.student = inject('student');
+
+            let body = 'Вы будете отключены от вашего аккаунта';
+            if(this.student.isAutoReg()) {
+                body = 'Если не зарегистрируетесь вы потеряете текущий прогресс, так как не сможете снова войти в этот же аккаунт.';
+            }
+
+            this.closeModalOptions = {
+                header: 'Внимание',
+                body: body,
+                action: this.logout.bind(this),
+                actionButtonText: 'Выйти',
+                cancelButtonText: 'Отмена'
+            }
         }
     }
 </script>

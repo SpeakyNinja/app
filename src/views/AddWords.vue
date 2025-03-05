@@ -175,6 +175,11 @@
             },
 
             finishHandler() {
+                if(!this.addWordService.data) {
+                    this.nextStep();
+                    return false;
+                }
+
                 const cnt = this.addWordService.data.countAddWords;
 
                 const notices = [];

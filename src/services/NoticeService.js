@@ -8,10 +8,10 @@ export default class NoticeService {
                     title: 'Легко',
                     texts: [
                         {
-                            value: 'Слова будут запоминаться сами.',
+                            value: 'Слова английского будут запоминаться сами',
                             muted: false
                         }, {
-                            value: 'Как words родного языка.',
+                            value: 'как слова родного языка',
                             muted: true
                         }
                     ]
@@ -20,10 +20,10 @@ export default class NoticeService {
                     title: 'Быстро',
                     texts: [
                         {
-                            value: 'За счет досознательного усвоения.',
+                            value: 'Методика использует досознательные механики усвоения слов мозгом.',
                             muted: false
                         }, {
-                            value: 'Иногда слова будут запоминаться с первого раза.',
+                            value: 'Удивляйся своим способностям.',
                             muted: true
                         }
                     ]
@@ -44,14 +44,11 @@ export default class NoticeService {
                         {memorization: 2, count: 10},
                         {memorization: 1, count: 6}
                     ],
-                    title: 'Эффективно',
+                    title: 'Наглядно',
                     texts: [
                         {
-                            value: 'Методика использует врожденные механики усвоения языков мозгом.',
+                            value: 'Видимый прогресс после каждой тренировки',
                             muted: false
-                        }, {
-                            value: 'Удивись своей способности запоминать слова.',
-                            muted: true
                         }
                     ]
                 }
@@ -63,13 +60,22 @@ export default class NoticeService {
                     title: 'Привет',
                     texts: [
                         {
-                            value: 'Меня зовут Атлас.',
+                            value: 'Меня зовут Талос.',
                             muted: false
                         }, {
-                            value: 'Я буду обучать английскому нейросеть твоего мозга.',
+                            value: 'Искусственная нейросеть созданная для обучения естественных нейросетей.',
+                            muted: false
+                        }
+                    ]
+                }, {
+                    component: 'Ai',
+                    title: 'Привет',
+                    texts: [
+                        {
+                            value: 'Я буду обучать тебя словам английского на досознательном уровне.',
                             muted: false
                         }, {
-                            value: 'И объяснять, что к чему.',
+                            value: 'Обучая нейросеть твоего мозга.',
                             muted: true
                         }
                     ]
@@ -78,10 +84,10 @@ export default class NoticeService {
                     title: 'Калибровка',
                     texts: [
                         {
-                            value: 'Для начала, нужно определить твой текущий уровень словарного запаса.',
+                            value: 'Начнем с небольшого тестирования для определения твоего уровня',
                             muted: false
                         }, {
-                            value: 'Чтобы определить твою зону ближайшего развития.',
+                            value: 'чтобы определить твою зону ближайшего развития',
                             muted: true
                         }
                     ]
@@ -93,7 +99,7 @@ export default class NoticeService {
                             value: 'Всё просто.',
                             muted: false
                         }, {
-                            value: 'Знаешь слово – выбери перевод.<br>Не знаешь – выбери “не знаю”.',
+                            value: 'Знаешь слово – выбери перевод. Не знаешь – выберай “не знаю”.',
                             muted: false
                         }, {
                             value: 'Стараться угадывать не нужно.',
@@ -177,14 +183,8 @@ export default class NoticeService {
 
             addWordsBefore: [
                 {
-                    component: 'Ai',
-                    title: 'Время повтора изучаемых слов еще не наступило',
-                    texts: [
-                        {
-                            value: 'Выбери новые слова.',
-                            muted: false
-                        }
-                    ]
+                    customItem: 'AddWordsBefore',
+                    hideControls: true
                 } 
             ],
 
@@ -343,7 +343,7 @@ export default class NoticeService {
                             value: 'Известные.',
                             muted: false
                         }, {
-                            value: 'Слова, которые знал.',
+                            value: 'Слова, которые знал(а).',
                             muted: true
                         }
                     ]

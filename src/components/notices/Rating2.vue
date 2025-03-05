@@ -11,7 +11,7 @@
 
     <div class="texts">
 
-        <div class="text m-light">Как тебе мой способ усвоения слов?</div>
+        <div class="text m-light">Каково первое впечатление о таком способе усвоения слов?</div>
 
         <div class="smyles" :class="{selected: rating}">
             <Smyle1 class="smyle m-pointer no-select" :class="{ active: ratingIs(1) }" @click="setRating(1)" />
@@ -22,7 +22,7 @@
         </div>
 
         <div class="button-wrapper">
-            <div class="btn m-pointer no-select" :class="{gray: !rating, green: rating}" @click="send()">
+            <div class="btn m-pointer no-select green" v-if="rating" @click="send()">
                 Отправить
             </div>
         </div>
