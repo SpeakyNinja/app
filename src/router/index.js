@@ -12,6 +12,8 @@ import Store from '@/views/Store.vue';
 import FewNeurons from '@/views/FewNeurons.vue';
 import PermanentRegistration from '@/views/PermanentRegistration.vue';
 import Feedback from '@/views/Feedback.vue';
+import ForgotPassword from '@/views/ForgotPassword.vue';
+import Recovery from '@/views/Recovery.vue';
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -25,6 +27,12 @@ const router = createRouter({
         }, {
             path: '/registration',
             component: Registration
+        }, {
+            path: '/forgot-password',
+            component: ForgotPassword
+        }, {
+            path: '/recovery/:token',
+            component: Recovery
         }, {
             path: '/test',
             component: Test

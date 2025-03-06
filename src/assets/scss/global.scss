@@ -89,6 +89,7 @@ body {
             background-color: #30313f;
             min-width: 360px;
             max-width: 600px;
+            width: 100%;
             position: relative;
             overflow: hidden;
         }
@@ -286,6 +287,10 @@ textarea {
 
 .m-center {
     text-align: center;
+}
+
+.m-right {
+    text-align: right;
 }
 
 .m-pointer {

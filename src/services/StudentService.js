@@ -34,6 +34,18 @@ export default class StudentService extends AbstractService {
         });
     }
 
+    sendRecoveryLink(email) {
+        return this.request('/recovery/send-link', {email: email});
+    }
+
+    changePassword(password, password2, token) {
+        return this.request('/recovery/change-password', {
+            password: password, 
+            password2: password2, 
+            token: token
+        });
+    }
+
     autoRegistration() {
         return this.request('/auto-registration', {}, r => {
             this.setToken(r.access_token);
