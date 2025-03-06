@@ -11,7 +11,7 @@
 
     <div class="texts">
 
-        <div class="text m-light">Каково первое впечатление о таком способе усвоения слов?</div>
+        <div class="text m-light">Интересно твоё первое впечатление о таком способе усвоения слов?</div>
 
         <div class="smyles" :class="{selected: rating}">
             <Smyle1 class="smyle m-pointer no-select" :class="{ active: ratingIs(1) }" @click="setRating(1)" />

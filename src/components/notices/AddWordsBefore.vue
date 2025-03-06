@@ -4,11 +4,11 @@
         <Ai fill="white" class="ai-image" />
     </div>
 
-    <div class="title m-light">Время повтора изучаемых слов еще не наступило</div>
+    <div class="title m-light">Выбери слова</div>
 
     <div class="texts">
         
-        <div class="text m-light">Нужно выбрать новые слова.</div>
+        <div class="text m-light">Время повтора изучаемых слов еще не наступило.</div>
         
         <div class="button-wrapper">
             <div class="btn green" @click="$parent.changeItem(1)">Ок</div>

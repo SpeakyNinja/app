@@ -384,7 +384,15 @@ export default class NoticeService {
                     hideControls: true
                 },
                 {
-                    customItem: 'Rating3'
+                    customItem: 'Rating3',
+                    hideControls: true
+                } 
+            ],
+
+            ratingShort: [
+                {
+                    customItem: 'Rating2',
+                    hideControls: true
                 } 
             ],
 

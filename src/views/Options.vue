@@ -119,7 +119,7 @@
             this.preloader = inject('preloader');
             this.student = inject('student');
 
-            let body = 'Вы будете отключены от вашего аккаунта';
+            let body = 'Вы точно хотите выйти из вашего аккаунта?';
             if(this.student.isAutoReg()) {
                 body = 'Если не зарегистрируетесь вы потеряете текущий прогресс, так как не сможете снова войти в этот же аккаунт.';
             }

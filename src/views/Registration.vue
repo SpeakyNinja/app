@@ -14,7 +14,18 @@
 
                 <div class="row">
                     <div class="m-light ml-1 mb-1 m-size20">Пароль</div>
-                    <input class="input" type="password" v-model="student.password">
+                    <PasswordBox>
+                        
+                        <template v-slot:password-input>
+                            <input type="password" v-model="student.password">
+                        </template>
+
+                        <template v-slot:text-input>
+                            <input type="text" v-model="student.password">
+                        </template>
+
+                    </PasswordBox>
+
                     <div class="m-red mt-2" v-if="error">{{ error }}</div>
                 </div>
 
@@ -33,10 +44,12 @@
 
 <script>
     import { inject } from 'vue';
+    import PasswordBox from "@/components/PasswordBox.vue";
 
     export default {
 
         components: {
+            PasswordBox
         },
 
         data() {

@@ -48,4 +48,12 @@ export default class StateService extends AbstractService {
     storeFirstTlUpdated() {
         LocalStorage.store(this.getStorageName(), 'firstTimeLimitUpdated', true);
     }
+
+    wasFewNeuronsMessage() {
+        return LocalStorage.get(this.getStorageName(), 'wasFewNeuronsMessage') || false;
+    }
+
+    storeFewNeuronsMessage() {
+        LocalStorage.store(this.getStorageName(), 'wasFewNeuronsMessage', true);
+    }
 }

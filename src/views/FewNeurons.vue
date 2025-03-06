@@ -14,23 +14,46 @@
 
     </div>
 
+    <NoticeLayer 
+        :items="noticeItemsBefore" 
+        @closedHandler="()=>{}" 
+        v-if="noticeItemsBefore?.length" 
+    />
+
 </template>
 
 <script>
+    import { inject } from 'vue';
     import Ai from '@/components/icons/Ai.vue'
+    import NoticeLayer from '@/components/NoticeLayer.vue'
+    import NoticeService from '@/services/NoticeService.js';
 
     export default {
 
         components: {
-            Ai
+            Ai,
+            NoticeLayer
         },
 
         data() {
             return {
+                noticeItemsBefore: []
             }
         },
 
         methods: {
+        },
+
+        beforeMount() {
+            this.state = inject('state');
+            this.noticeService = new NoticeService();
+
+            if(!this.state.wasFewNeuronsMessage()) {
+                this.state.storeFewNeuronsMessage();
+                const notices = [];
+                notices.push( ...this.noticeService.getItems('ratingShort') );
+                this.noticeItemsBefore = notices;
+            }
         }
     }
 </script>

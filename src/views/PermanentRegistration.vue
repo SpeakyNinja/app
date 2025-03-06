@@ -13,12 +13,32 @@
 
             <div class="row">
                 <div class="subtitle mb-1">Пароль</div>
-                <input class="input" type="password" v-model="reg.password">
+                <PasswordBox>
+                        
+                    <template v-slot:password-input>
+                        <input type="password" v-model="reg.password">
+                    </template>
+
+                    <template v-slot:text-input>
+                        <input type="text" v-model="reg.password">
+                    </template>
+
+                </PasswordBox>
             </div>
 
             <div class="row">
                 <div class="subtitle mb-1">Пароль повторно</div>
-                <input class="input" type="password" v-model="reg.password2">
+                <PasswordBox>
+                        
+                    <template v-slot:password-input>
+                        <input type="password" v-model="reg.password2">
+                    </template>
+
+                    <template v-slot:text-input>
+                        <input type="text" v-model="reg.password2">
+                    </template>
+
+                </PasswordBox>
                 <div class="m-red mt-2" v-if="error">{{ error }}</div>
             </div>
 
@@ -39,11 +59,13 @@
 <script>
     import { inject } from 'vue';
     import TopBar from '@/components/TopBar.vue';
+    import PasswordBox from "@/components/PasswordBox.vue";
 
     export default {
 
         components: {
-            TopBar
+            TopBar,
+            PasswordBox
         },
 
         data() {
