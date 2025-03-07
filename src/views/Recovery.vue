@@ -10,6 +10,7 @@
             <div class="content">
                 
                 <template v-if="step == 1">
+                    
                     <div>
                         <div class="m-light ml-1 mb-1 m-size20 m-white">Новый пароль</div>
                         <PasswordBox>
@@ -42,21 +43,20 @@
                         <div class="m-red mt-2" v-if="error">{{ error }}</div>
                     </div>
 
+                    <div class="btn mt-1 transparent" @click="$router.push('/')" >Вернуться</div>
+
                 </template>
 
                 <template v-else>
+
                     <div class="m-light ml-1 mb-1 m-size20 m-white m-center">
                         Пароль успешно изменен
                     </div>
+
+                    <div class="btn mt-1 green" @click="$router.push('/')" >Ок</div>
+
                 </template>
-                
-                <div 
-                    :class="{green: step == 2, transparent: step == 1}"
-                    class="btn mt-1" 
-                    @click="$router.push('/')"
-                >
-                    На главную страницу
-                </div>
+
             </div>
         </template>
 
