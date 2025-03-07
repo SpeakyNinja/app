@@ -63,16 +63,22 @@
             },
 
             isPublicArea() {
-                const public_paths = ['/', '/login', '/registration', '/forgot-password'];
-                const isRecovery = this.$route.path.indexOf('/recovery/') === 0;
-                return isRecovery || public_paths.includes(this.$route.path);
+                const path = window.location.pathname;
+                const public_paths = ['/login', '/registration', '/forgot-password'];
+                const isRecovery = path.indexOf('/recovery/') === 0;
+                return isRecovery || public_paths.includes(path);
             }
         },
 
         async beforeMount() {
-            if(this.student.isGuest() && !this.isPublicArea()) {
-                this.$router.push('/');
-            } else if(!this.student.isGuest()) {
+            if(this.student.isGuest()) {
+                
+                if(!this.isPublicArea()) {
+                    this.$router.push('/');
+                }
+
+            } else {
+
                 try {
                     this.preloader.show = true;
                     const r = await this.student.fetchData();
@@ -83,6 +89,7 @@
                 } finally {
                     this.preloader.show = false;
                 }
+                
             }
         },
 
