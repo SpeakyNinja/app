@@ -11,7 +11,7 @@
 
     <div class="texts">
 
-        <div class="text m-light">Интересно твоё первое впечатление о таком способе усвоения слов?</div>
+        <div class="text m-light">{{ text }}</div>
 
         <div class="smyles" :class="{selected: rating}">
             <Smyle1 class="smyle m-pointer no-select" :class="{ active: ratingIs(1) }" @click="setRating(1)" />
@@ -61,7 +61,8 @@
 
         data() {
             return {
-                rating: null
+                rating: null,
+                text: 'Интересно твоё мнение о таком способе усвоения слов после того как позанимался больше.'
             }
         },
 
@@ -95,6 +96,10 @@
             this.modal = inject('modal');
             this.preloader = inject('preloader');
             this.student = inject('student');
+
+            if(this.options.isFirst) {
+                this.text = 'Интересно твоё первое впечатление о таком способе усвоения слов?';
+            }
         }
     }
 </script>

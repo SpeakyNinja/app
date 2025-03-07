@@ -60,13 +60,19 @@
                 });
 
                 return false;
+            },
+
+            isPublicArea() {
+                const public_paths = ['/', '/login', '/registration', '/forgot-password'];
+                const isRecovery = this.$route.path.indexOf('/recovery/') === 0;
+                return isRecovery || public_paths.includes(this.$route.path);
             }
         },
 
         async beforeMount() {
-            if(this.student.isGuest()) {
+            if(this.student.isGuest() && !this.isPublicArea()) {
                 this.$router.push('/');
-            } else {
+            } else if(!this.student.isGuest()) {
                 try {
                     this.preloader.show = true;
                     const r = await this.student.fetchData();

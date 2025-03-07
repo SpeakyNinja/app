@@ -14,6 +14,7 @@ import PermanentRegistration from '@/views/PermanentRegistration.vue';
 import Feedback from '@/views/Feedback.vue';
 import ForgotPassword from '@/views/ForgotPassword.vue';
 import Recovery from '@/views/Recovery.vue';
+import Page404 from '@/views/Page404.vue';
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -21,6 +22,9 @@ const router = createRouter({
         {
             path: '/',
             component: Index
+        }, {
+            path: '/:catchAll(.*)',
+            component: Page404
         }, {
             path: '/login',
             component: Login

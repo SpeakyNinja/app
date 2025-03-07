@@ -381,6 +381,7 @@ export default class NoticeService {
                 },
                 {
                     customItem: 'Rating2',
+                    options: options,
                     hideControls: true
                 },
                 {

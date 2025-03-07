@@ -67,6 +67,7 @@
         color: white;
         flex-grow: 2;
         padding: 120px 20px 50px 20px;
+        background-color: #272733 !important;
 
         .title {
             text-align: center;

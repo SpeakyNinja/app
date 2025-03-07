@@ -216,7 +216,7 @@
                 if( this.statService.timeIsEmpty() ) {
                     notices.push( ...this.noticeService.getItems('timeIsEmpty', {statService: this.statService}) );
                 } else if( this.statService.isFirstProgress() ) {
-                    notices.push( ...this.noticeService.getItems('rating') );
+                    notices.push( ...this.noticeService.getItems('rating', {isFirst: true}) );
                     await this.statService.setStage(1);
                 } else if( this.statService.isSecondProgress() ) {
                     notices.push( ...this.noticeService.getItems('greenMem') );
