@@ -14,7 +14,7 @@
                     </div>
                 </div>
 
-                <router-link to="/statistics" class="btn green">Ок</router-link>
+                <router-link :to="link" class="btn green">Ок</router-link>
             </div>
 
 
@@ -36,11 +36,18 @@
 
         data() {
             return {
+                link: '/statistics'
             }
         },
 
         methods: {
-            
+        },
+
+        beforeMount() {
+            this.student = inject('student');
+            if(this.student.isGuest()) {
+                this.link = '/';
+            }
         }
     }
 </script>
