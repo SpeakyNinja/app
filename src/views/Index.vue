@@ -11,10 +11,13 @@
                 <div class="btn transparent" @click="toTest">Пропустить</div>
             </div>
 
-            <div class="mt-2 m-center">
+            <div class="mt-2 mb-2 m-center">
                 <div class=" m-size16">Продолжая, вы принимаете</div>
                 <a href="https://speaky.ninja/agreement" target="_blank" class="m-underline m-size16">данные условия</a>
             </div>
+
+            <GoogleLogin />
+
         </div>
         
         <NoticeLayer 
@@ -30,12 +33,14 @@
 <script>
     import { inject } from 'vue';
     import NoticeLayer from '@/components/NoticeLayer.vue';
+    import GoogleLogin from '@/components/GoogleLogin.vue';
     import NoticeService from '@/services/NoticeService.js';
 
     export default {
 
         components: {
-            NoticeLayer
+            NoticeLayer,
+            GoogleLogin
         },
 
         data() {

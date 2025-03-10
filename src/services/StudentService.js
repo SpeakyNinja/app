@@ -16,6 +16,7 @@ export default class StudentService extends AbstractService {
             LocalStorage.store('student_data', 'id', r.id);
             LocalStorage.store('student_data', 'email', r.email);
             LocalStorage.store('student_data', 'isAutoReg', false);
+            LocalStorage.store('student_data', 'isGoogleAuth', false);
         });
     }
 
@@ -25,6 +26,7 @@ export default class StudentService extends AbstractService {
             LocalStorage.store('student_data', 'id', r.id);
             LocalStorage.store('student_data', 'email', r.email);
             LocalStorage.store('student_data', 'isAutoReg', r.autoReg);
+            LocalStorage.store('student_data', 'isGoogleAuth', false);
         });
     }
 
@@ -52,6 +54,7 @@ export default class StudentService extends AbstractService {
             LocalStorage.store('student_data', 'id', r.id);
             LocalStorage.store('student_data', 'email', r.email);
             LocalStorage.store('student_data', 'isAutoReg', true);
+            LocalStorage.store('student_data', 'isGoogleAuth', false);
         });
     }
 
@@ -60,6 +63,17 @@ export default class StudentService extends AbstractService {
             this.setToken(r.access_token);
             LocalStorage.store('student_data', 'email', data.email);
             LocalStorage.store('student_data', 'isAutoReg', false);
+            LocalStorage.store('student_data', 'isGoogleAuth', false);
+        });
+    }
+
+    googleAuthHandler(token) {
+        return this.request('/auth/google', {token: token}, r => {
+            this.setToken(r.access_token);
+            LocalStorage.store('student_data', 'id', r.id);
+            LocalStorage.store('student_data', 'email', r.email);
+            LocalStorage.store('student_data', 'isAutoReg', false);
+            LocalStorage.store('student_data', 'isGoogleAuth', true);
         });
     }
 
