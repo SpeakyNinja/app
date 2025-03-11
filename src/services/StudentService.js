@@ -16,7 +16,7 @@ export default class StudentService extends AbstractService {
             LocalStorage.store('student_data', 'id', r.id);
             LocalStorage.store('student_data', 'email', r.email);
             LocalStorage.store('student_data', 'isAutoReg', false);
-            LocalStorage.store('student_data', 'isGoogleAuth', false);
+            LocalStorage.store('student_data', 'isExtAuth', false);
         });
     }
 
@@ -26,7 +26,7 @@ export default class StudentService extends AbstractService {
             LocalStorage.store('student_data', 'id', r.id);
             LocalStorage.store('student_data', 'email', r.email);
             LocalStorage.store('student_data', 'isAutoReg', r.autoReg);
-            LocalStorage.store('student_data', 'isGoogleAuth', false);
+            LocalStorage.store('student_data', 'isExtAuth', false);
         });
     }
 
@@ -54,7 +54,7 @@ export default class StudentService extends AbstractService {
             LocalStorage.store('student_data', 'id', r.id);
             LocalStorage.store('student_data', 'email', r.email);
             LocalStorage.store('student_data', 'isAutoReg', true);
-            LocalStorage.store('student_data', 'isGoogleAuth', false);
+            LocalStorage.store('student_data', 'isExtAuth', false);
         });
     }
 
@@ -63,7 +63,7 @@ export default class StudentService extends AbstractService {
             this.setToken(r.access_token);
             LocalStorage.store('student_data', 'email', data.email);
             LocalStorage.store('student_data', 'isAutoReg', false);
-            LocalStorage.store('student_data', 'isGoogleAuth', false);
+            LocalStorage.store('student_data', 'isExtAuth', false);
         });
     }
 
@@ -73,7 +73,17 @@ export default class StudentService extends AbstractService {
             LocalStorage.store('student_data', 'id', r.id);
             LocalStorage.store('student_data', 'email', r.email);
             LocalStorage.store('student_data', 'isAutoReg', false);
-            LocalStorage.store('student_data', 'isGoogleAuth', true);
+            LocalStorage.store('student_data', 'isExtAuth', true);
+        });
+    }
+
+    vkAuthHandler(idToken) {
+        return this.request('/auth/vk', {idToken: idToken}, r => {
+            this.setToken(r.access_token);
+            LocalStorage.store('student_data', 'id', r.id);
+            LocalStorage.store('student_data', 'email', r.email);
+            LocalStorage.store('student_data', 'isAutoReg', false);
+            LocalStorage.store('student_data', 'isExtAuth', true);
         });
     }
 

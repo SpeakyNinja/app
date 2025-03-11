@@ -78,13 +78,10 @@
             },
 
             async vkidOnSuccess(data) {
-                debugger;
-                const VKID = window.VKIDSDK;
-                const r = await VKID.Auth.userInfo(data.access_token);
-                debugger;
-                const a = r;
                 try {
-
+                    this.preloader.show = true;
+                    await this.student.vkAuthHandler(data.id_token);
+                    this.$router.push('/training');
                 } catch(res) {
                     this.modal.show(res);
                 } finally {
