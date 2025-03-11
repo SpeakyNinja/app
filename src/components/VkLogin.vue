@@ -78,9 +78,9 @@
             },
 
             async vkidOnSuccess(data) {
-                const VKID = window.VKIDSDK;
-                const r = await VKID.Auth.userInfo(data.id_token);
                 debugger;
+                const VKID = window.VKIDSDK;
+                const r = await VKID.Auth.userInfo(data.access_token);
                 try {
 
                 } catch(res) {
