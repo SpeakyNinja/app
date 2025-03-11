@@ -42,11 +42,7 @@
                         redirectUrl: 'https://app.speaky.ninja',
                         responseMode: VKID.ConfigResponseMode.Callback,
                         source: VKID.ConfigSource.LOWCODE,
-                        scope: 'email,info', // Заполните нужными доступами по необходимости
-                        params: {
-                            display: 'popup',
-                            force_fields: 'email'
-                        }
+                        scope: 'email', // Заполните нужными доступами по необходимости
                     });
 
                     const oneTap = new VKID.OneTap();
