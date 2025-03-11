@@ -1,5 +1,7 @@
 <template>
+
     <div id="google-login-button"></div>
+
 </template>
 
 <script>
@@ -41,7 +43,7 @@
 
                     window.google.accounts.id.renderButton(
                         document.getElementById('google-login-button'),
-                        { theme: 'outline', size: 'large' }
+                        { theme: 'outline', size: 'large', type: 'icon', shape: 'circle' }
                     );
                 } catch(e) {
                     console.log(e);

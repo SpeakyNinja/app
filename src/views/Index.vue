@@ -16,7 +16,10 @@
                 <a href="https://speaky.ninja/agreement" target="_blank" class="m-underline m-size16">данные условия</a>
             </div>
 
-            <GoogleLogin />
+            <div class="ext-buttons">
+                <GoogleLogin />
+                <VkLogin />
+            </div>
 
         </div>
         
@@ -34,13 +37,15 @@
     import { inject } from 'vue';
     import NoticeLayer from '@/components/NoticeLayer.vue';
     import GoogleLogin from '@/components/GoogleLogin.vue';
+    import VkLogin from '@/components/VkLogin.vue';
     import NoticeService from '@/services/NoticeService.js';
 
     export default {
 
         components: {
             NoticeLayer,
-            GoogleLogin
+            GoogleLogin,
+            VkLogin
         },
 
         data() {
@@ -126,6 +131,12 @@
                 flex-direction: column;
                 gap: 20px;
                 width: 420px;
+            }
+
+            .ext-buttons {
+                display: flex;
+                gap: 10px;
+                align-items: center;
             }
         }
         
