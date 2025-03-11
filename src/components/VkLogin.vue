@@ -77,8 +77,17 @@
                 // this.modal.show({message: 'Не удалось авторизоваться через VK'});
             },
 
-            vkidOnSuccess(data) {
+            async vkidOnSuccess(data) {
+                const VKID = window.VKIDSDK;
+                const r = await VKID.Auth.userInfo(data.id_token);
                 debugger;
+                try {
+
+                } catch(res) {
+                    this.modal.show(res);
+                } finally {
+                    this.preloader.show = false;
+                }
             }
         },
 
