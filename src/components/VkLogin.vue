@@ -82,6 +82,7 @@
                 const VKID = window.VKIDSDK;
                 const r = await VKID.Auth.userInfo(data.access_token);
                 debugger;
+                const a = r;
                 try {
 
                 } catch(res) {
