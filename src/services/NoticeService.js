@@ -28,22 +28,22 @@ export default class NoticeService {
                         }
                     ]
                 }, {
-                    // image: new URL('@/images/brain.svg', import.meta.url).href,
-                    component: 'Brain',
-                    brainItems: [
-                        {memorization: 12, count: 6},
-                        {memorization: 11, count: 4},
-                        {memorization: 10, count: 6},
-                        {memorization: 9, count: 11},
-                        {memorization: 8, count: 13},
-                        {memorization: 7, count: 7},
-                        {memorization: 6, count: 6},
-                        {memorization: 5, count: 13},
-                        {memorization: 4, count: 13},
-                        {memorization: 3, count: 5},
-                        {memorization: 2, count: 10},
-                        {memorization: 1, count: 6}
-                    ],
+                    image: new URL('@/images/HeatMap.svg', import.meta.url).href,
+                    // component: 'Brain',
+                    // brainItems: [
+                    //     {memorization: 12, count: 6},
+                    //     {memorization: 11, count: 4},
+                    //     {memorization: 10, count: 6},
+                    //     {memorization: 9, count: 11},
+                    //     {memorization: 8, count: 13},
+                    //     {memorization: 7, count: 7},
+                    //     {memorization: 6, count: 6},
+                    //     {memorization: 5, count: 13},
+                    //     {memorization: 4, count: 13},
+                    //     {memorization: 3, count: 5},
+                    //     {memorization: 2, count: 10},
+                    //     {memorization: 1, count: 6}
+                    // ],
                     title: 'Наглядно',
                     texts: [
                         {

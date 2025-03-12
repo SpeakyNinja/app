@@ -80,6 +80,7 @@
             async vkidOnSuccess(data) {
                 try {
                     this.preloader.show = true;
+                    console.log(data);
                     await this.student.vkAuthHandler(data.id_token);
                     this.$router.push('/training');
                 } catch(res) {
