@@ -77,8 +77,8 @@ export default class StudentService extends AbstractService {
         });
     }
 
-    vkAuthHandler(idToken) {
-        return this.request('/auth/vk', {idToken: idToken}, r => {
+    vkAuthHandler(vkAccessToken) {
+        return this.request('/auth/vk', {vkAccessToken: vkAccessToken}, r => {
             this.setToken(r.access_token);
             LocalStorage.store('student_data', 'id', r.id);
             LocalStorage.store('student_data', 'email', r.email);
