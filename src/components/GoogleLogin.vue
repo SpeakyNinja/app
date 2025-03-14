@@ -56,7 +56,7 @@
                 try {
                     this.preloader.show = true;
                     await this.student.googleAuthHandler(response.credential);
-                    this.$router.push('/training');
+                    this.$router.push('/statistics');
                 } catch(res) {
                     this.modal.show(res);
                 } finally {

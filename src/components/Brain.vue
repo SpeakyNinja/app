@@ -1,6 +1,6 @@
 <template>
     <div class="brain">
-        <canvas :width="width" :height="height" ref="canvas"></canvas>
+        <canvas :width="width * 2" :height="height * 2" ref="canvas" :style="{width: `${width}px`, height: `${height}px`}"></canvas>
     </div>
 </template>
 

@@ -7,7 +7,7 @@
 
         <template v-slot:content>
 
-            <div class="content mt-5">
+            <div class="content mt-1">
                 <div>
                     <div>
                         <div class="m-light ml-1 mb-1 m-size20 m-white">E-mail</div>
@@ -41,7 +41,8 @@
                     <div class="btn green mt-2" @click="login">Войти</div>
                 </div>
 
-                <div class="btn transparent mt-1" @click="registration">Регистрация</div>
+                <div class="btn transparent" @click="registration">Регистрация</div>
+                <div class="btn transparent" @click="$router.push('/')">Вернуться</div>
                 
                 <div class="m-center">
                     <div class=" m-size16 m-white">Регистрируясь, вы принимаете</div>
@@ -79,7 +80,7 @@
                 try {
                     this.preloader.show = true;
                     const r = await this.student.login();
-                    this.$router.push('/training');
+                    this.$router.push('/statistics');
                 } catch(res) {
                     this.error = res.message;
                 } finally {

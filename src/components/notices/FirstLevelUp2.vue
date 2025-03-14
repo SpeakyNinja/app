@@ -51,9 +51,9 @@
         data() {
             return {
                 statService: new StatService(),
-                brainWidth: window.screen.width > 550 ? 283 : 200,
+                brainWidth: window.screen.width > 550 ? 287 : 204,
                 brainHeight: window.screen.width > 550 ? 245 : 175,
-                brainHexRadius: window.screen.width > 550 ? 14 : 10,
+                brainHexRadius: window.screen.width > 550 ? 28 : 20,
 
                 brainItems: [
                     {memorization: 20, count: 100}

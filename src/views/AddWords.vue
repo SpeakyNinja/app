@@ -96,9 +96,9 @@
                 word: {},
                 progress: {width: '300px', widthFilled: '0%'},
                 isReady: false,
-                brainWidth: window.screen.width > 550 ? 368 : 283,
-                brainHeight: window.screen.width > 550 ? 316 : 245,
-                brainHexRadius: window.screen.width > 550 ? 18 : 14,
+                brainWidth: window.screen.width > 550 ? 372 : 288,
+                brainHeight: window.screen.width > 550 ? 316 : 246,
+                brainHexRadius: window.screen.width > 550 ? 36 : 28,
                 buttonsOptions: { highlightedItem: null, maxHighlightInterval: 0.5 },
                 noticeItemsAfter: [],
                 noticeItemsBefore: []
