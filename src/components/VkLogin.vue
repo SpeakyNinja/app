@@ -61,7 +61,7 @@
                     .on(VKID.OneTapInternalEvents.LOGIN_SUCCESS, this.loginHandler);
                 } catch(e) {
                     console.log(e);
-                    this.modal.show({message: 'Не удалось загрузить авторизацию VK'});
+                    // this.modal.show({message: 'Не удалось загрузить авторизацию VK'});
                 }
             },
 
