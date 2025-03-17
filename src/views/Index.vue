@@ -130,7 +130,7 @@
                 display: flex;
                 flex-direction: column;
                 gap: 20px;
-                width: 420px;
+                width: 100%;
             }
 
             .ext-buttons {
@@ -140,18 +140,6 @@
             }
         }
         
-    }
-
-    @media(max-width: 500px) {
-        .index {
-            .wrapper {
-                .buttons {
-                    min-width: 100%;
-                    width: unset;
-                }
-
-            }
-        }
     }
 
 </style>

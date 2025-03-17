@@ -60,7 +60,7 @@ export default class NoticeService {
                     title: 'Привет',
                     texts: [
                         {
-                            value: 'Меня зовут Талос.',
+                            value: 'Меня зовут Атлас.',
                             muted: false
                         }, {
                             value: 'Искусственная нейросеть созданная для обучения естественных нейросетей.',

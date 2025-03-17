@@ -60,7 +60,7 @@
                 this.lastDays = this.statService?.predict?.daysFromBegin;
             }
 
-            this.progressSize = window.innerHeight * 0.45;
+            this.progressSize = window.innerHeight * 0.40;
             if(this.progressSize > window.innerWidth * 0.85) {
                 this.progressSize = window.innerWidth * 0.85;
             }

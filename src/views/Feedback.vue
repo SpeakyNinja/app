@@ -83,8 +83,7 @@
             max-height: 100%;
 
             .row {
-                max-width: 500px;
-                width: 500px;
+                width: 100%;
                 padding: 0 30px;
 
                 .message-input {
@@ -97,17 +96,6 @@
             
         }
         
-    }
-
-    @media(max-width: 500px) {
-        .feedback {
-
-            .options-wrapper {
-                .row {
-                    width: 100%;
-                }
-            }
-        }
     }
 
 </style>

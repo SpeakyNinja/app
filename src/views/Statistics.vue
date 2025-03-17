@@ -1,40 +1,42 @@
 <template>
-    <div class="statistics main-bg no-select" v-if="isReady" ref="statisticsContainer">
-        
-        <div class="layers-wrapper" ref="layersWrapper" :class="{ 'swipe-in-progress': swipeInProgress }">
+    <div class="main-bg">
+        <div class="statistics no-select" v-if="isReady" ref="statisticsContainer">
             
-            <template v-for="layer in layers">
-                <component 
-                    :statService="statService"
-                    :is="layer.component"
-                />
-            </template>
-
-        </div>
-
-        <div class="items no-scrollbar" ref="itemsList">
-            <div class="items-wrapper">
+            <div class="layers-wrapper" ref="layersWrapper" :class="{ 'swipe-in-progress': swipeInProgress }">
                 
-                <div class="item" v-for="item in statService.items">
-                    <div class="text">
-                        <span class="en">{{ item.en }}</span><span class="m-light"> — {{ item.ru }}</span>
-                    </div>
-                    <Memorization :mem="item.memorization" fill="transparent" />
-                </div>
+                <template v-for="layer in layers">
+                    <component 
+                        :statService="statService"
+                        :is="layer.component"
+                    />
+                </template>
 
             </div>
+
+            <div class="items no-scrollbar" ref="itemsList">
+                <div class="items-wrapper">
+                    
+                    <div class="item" v-for="item in statService.items">
+                        <div class="text">
+                            <span class="en">{{ item.en }}</span><span class="m-light"> — {{ item.ru }}</span>
+                        </div>
+                        <Memorization :mem="item.memorization" fill="transparent" />
+                    </div>
+
+                </div>
+            </div>
+
+            <StatPult :layers="layers" @toggle="toggle" :curIndex="curIndex" />
+             
         </div>
 
-        <StatPult :layers="layers" @toggle="toggle" :curIndex="curIndex" />
-         
+        <NoticeLayer 
+            :items="noticeItemsBefore"
+            @closedHandler="showMainContent"
+            v-if="noticeItemsBefore.length"
+
+        />
     </div>
-
-    <NoticeLayer 
-        :items="noticeItemsBefore"
-        @closedHandler="showMainContent"
-        v-if="noticeItemsBefore.length"
-
-    />
 
 </template>
 

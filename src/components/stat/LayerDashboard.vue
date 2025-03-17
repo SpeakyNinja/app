@@ -431,18 +431,21 @@
                 .buttons-wrapper {
                     display: flex;
                     flex-direction: column;
+                    align-items: center;
                     gap: 10px;
+                    width: 100%;
 
                     .row {
                         display: flex;
+                        justify-content: center;
                         gap: 10px;
+                        width: 100%;
+                        padding: 0 40px;
 
                         .item {
                             background-color: #1e1f2c;
                             border-radius: 10px;
                             border: 1px solid #272733;
-                            width: 150px;
-                            min-width: 150px;
                             height: 87px;
                             display: flex;
                             flex-direction: column;
@@ -450,6 +453,7 @@
                             justify-content: center;
                             gap: 10px;
                             box-shadow: 10px 10px 15px 0px rgba(0, 0, 0, 0.2);
+                            flex: 1 1 0px;
 
                             &.single {
                                 width: 100%;

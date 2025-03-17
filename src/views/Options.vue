@@ -151,6 +151,7 @@
             gap: 40px;
             position: relative;
             max-height: 100%;
+            width: 100%;
 
             .block {
                 display: flex;
@@ -158,7 +159,7 @@
                 gap: 20px;
                 color: #ebebed;
                 max-width: 500px;
-                width: 500px;
+                width: 100%;
                 padding: 0 30px;
 
                 .row {

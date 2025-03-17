@@ -1,38 +1,40 @@
 <template>
-    <div class="test main-bg no-select" v-if="isReady">
+    <div class="main-bg">
+        <div class="test no-select" v-if="isReady">
 
-        <ProgressBar :settings="progress" class="mt-5" />
+            <ProgressBar :settings="progress" class="mt-5" />
 
-        <TestTimer 
-            ref="timer" 
-            @isFinish="submit" 
-            :word="testService?.question?.word"
-            @wordClick="playAudio"
-        />
+            <TestTimer 
+                ref="timer" 
+                @isFinish="submit" 
+                :word="testService?.question?.word"
+                @wordClick="playAudio"
+            />
 
-        <ButtonsSticked :key="testService?.question?.meaning_id" ref="buttons" :options="buttonsOptions">
-            <template v-slot:items>
-                <div 
-                    class="item m-light no-select" 
-                    @click="submit(answer)" 
-                    v-for="answer in testService?.question?.answers"
-                >
-                    <div class="highlight" v-if="buttonsOptions.highlightedItem == answer"></div>
-                    {{ answer }}
-                </div>
-                <div class="item soft top-border full-width m-light no-select" @click="submit()">
-                    <div class="highlight" v-if="buttonsOptions.highlightedItem == -1"></div>
-                    не знаю
-                </div>
-            </template>
-        </ButtonsSticked>
+            <ButtonsSticked :key="testService?.question?.meaning_id" ref="buttons" :options="buttonsOptions">
+                <template v-slot:items>
+                    <div 
+                        class="item m-light no-select" 
+                        @click="submit(answer)" 
+                        v-for="answer in testService?.question?.answers"
+                    >
+                        <div class="highlight" v-if="buttonsOptions.highlightedItem == answer"></div>
+                        {{ answer }}
+                    </div>
+                    <div class="item soft top-border full-width m-light no-select" @click="submit()">
+                        <div class="highlight" v-if="buttonsOptions.highlightedItem == -1"></div>
+                        не знаю
+                    </div>
+                </template>
+            </ButtonsSticked>
 
-        <div></div>
+            <div></div>
 
-    </div>
+        </div>
     
-    <NoticeLayer :items="noticeItemsBefore" @closedHandler="noticeBeforeClosed" v-if="noticeItemsBefore.length"/>
-    <NoticeLayer :items="noticeItemsAfter" @closedHandler="noticeAfterClosed" v-if="noticeItemsAfter.length"/>
+        <NoticeLayer :items="noticeItemsBefore" @closedHandler="noticeBeforeClosed" v-if="noticeItemsBefore.length"/>
+        <NoticeLayer :items="noticeItemsAfter" @closedHandler="noticeAfterClosed" v-if="noticeItemsAfter.length"/>
+    </div>
 
 </template>
 

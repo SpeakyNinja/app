@@ -98,12 +98,25 @@ body {
         color: black;
 
         .main-bg {
-            background-color: #30313f;
+            background-color: #272733;
             min-width: 360px;
-            max-width: 600px;
+            max-width: 45vh;
             width: 100%;
             position: relative;
             overflow: hidden;
+            display: flex;
+        }
+    }
+}
+
+@media(max-width: 500px) {
+    body {
+
+        #app {
+
+            .main-bg {
+                max-width: 100%;
+            }
         }
     }
 }
@@ -138,14 +151,14 @@ b {
     background-color: white;
     border-radius: 10px;
     cursor: pointer;
-    background-color: #30313f;
+    background-color: #272733;
     color: white;
     font-size: 20px;
     user-select: none;
     border: none;
 
     &:hover {
-        background-color: #363743;
+        background-color: #1b1b21;
     }
 
     &:active {
@@ -180,10 +193,10 @@ b {
     }
 
     &.dark-gray {
-        background-color: #272733;
+        background-color: #20202a;
 
         &:hover {
-            background-color: #292937;
+            background-color: #1b1b23;
         }
     }
 

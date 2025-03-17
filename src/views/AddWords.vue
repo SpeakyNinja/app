@@ -1,68 +1,70 @@
 <template>
-    <div class="add-words main-bg" v-if="isReady">
-        
-        <div class="top">
+    <div class="main-bg">
+        <div class="add-words" v-if="isReady">
+            
+            <div class="top">
 
-            <ProgressBar :settings="progress" ref="progressBar" />
+                <ProgressBar :settings="progress" ref="progressBar" />
 
-            <!-- <div class="back-button">
-                <IcoArrow height="18" fill="#ebebed" />
-            </div> -->
-        </div>
-
-        <div>
-            <!-- <div class="scores-wrapper mb-2">
-                <IcoNeuron height="30" fill="#ebebed" />
-                <div class="scores">70 000</div>
-            </div> -->
-
-            <Brain 
-                ref="brain" 
-                :hexRadius="brainHexRadius"
-                :width="brainWidth"
-                :height="brainHeight"
-            />
-
-        </div>
-
-        <div class="word-wrapper">
-            <div 
-                class="word no-select m-upper-first m-pointer" 
-                @click="toolsService.playAudio(addWordService.voice())"
-            >
-                {{ addWordService.data.word }}
+                <!-- <div class="back-button">
+                    <IcoArrow height="18" fill="#ebebed" />
+                </div> -->
             </div>
 
-            <div class="translate no-select">{{ addWordService.data.translate }}</div>
+            <div>
+                <!-- <div class="scores-wrapper mb-2">
+                    <IcoNeuron height="30" fill="#ebebed" />
+                    <div class="scores">70 000</div>
+                </div> -->
+
+                <Brain 
+                    ref="brain" 
+                    :hexRadius="brainHexRadius"
+                    :width="brainWidth"
+                    :height="brainHeight"
+                />
+
+            </div>
+
+            <div class="word-wrapper">
+                <div 
+                    class="word no-select m-upper-first m-pointer" 
+                    @click="toolsService.playAudio(addWordService.voice())"
+                >
+                    {{ addWordService.data.word }}
+                </div>
+
+                <div class="translate no-select">{{ addWordService.data.translate }}</div>
+            </div>
+
+            <div></div>
+
+            <ButtonsSticked :key="addWordService?.data?.meaning_id" ref="buttons" :options="buttonsOptions">
+                <template v-slot:items>
+                    
+                    <div class="item m-light no-select" @click="addWord('knows')">
+                        <div class="highlight" v-if="buttonsOptions.highlightedItem == 'knows'"></div>
+                        знаю
+                    </div>
+
+                    
+                    <div class="item m-light no-select" @click="addWord('in_progress')">
+                        <div class="highlight" v-if="buttonsOptions.highlightedItem == 'in_progress'"></div>
+                        учить
+                    </div>
+                    
+                    <div class="item soft top-border full-width m-light no-select" @click="addWord('deferred')">
+                        <div class="highlight" v-if="buttonsOptions.highlightedItem == 'deferred'"></div>
+                        позже
+                    </div>
+
+                </template>
+            </ButtonsSticked>
         </div>
 
-        <div></div>
-
-        <ButtonsSticked :key="addWordService?.data?.meaning_id" ref="buttons" :options="buttonsOptions">
-            <template v-slot:items>
-                
-                <div class="item m-light no-select" @click="addWord('knows')">
-                    <div class="highlight" v-if="buttonsOptions.highlightedItem == 'knows'"></div>
-                    знаю
-                </div>
-
-                
-                <div class="item m-light no-select" @click="addWord('in_progress')">
-                    <div class="highlight" v-if="buttonsOptions.highlightedItem == 'in_progress'"></div>
-                    учить
-                </div>
-                
-                <div class="item soft top-border full-width m-light no-select" @click="addWord('deferred')">
-                    <div class="highlight" v-if="buttonsOptions.highlightedItem == 'deferred'"></div>
-                    позже
-                </div>
-
-            </template>
-        </ButtonsSticked>
+        <NoticeLayer :items="noticeItemsBefore" @closedHandler="showInterface" v-if="noticeItemsBefore?.length" />
+        <NoticeLayer :items="noticeItemsAfter" @closedHandler="nextStep" v-if="noticeItemsAfter?.length" />
     </div>
-
-    <NoticeLayer :items="noticeItemsBefore" @closedHandler="showInterface" v-if="noticeItemsBefore?.length" />
-    <NoticeLayer :items="noticeItemsAfter" @closedHandler="nextStep" v-if="noticeItemsAfter?.length" />
 
 </template>
 

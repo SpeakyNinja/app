@@ -76,7 +76,7 @@
         align-items: center;
 
         .modal-container {
-            min-width: 460px;
+            width: 40vh;
             margin: 0px auto;
             padding: 20px;
             background-color: white;
@@ -125,17 +125,6 @@
             justify-content: center;
             gap: 20px;
             margin-top: 30px;
-        }
-    }
-
-    @media(max-width: 500px) {
-        .modal-mask {
-
-            .modal-container {
-                width: 90%;
-                min-width: 90%;
-                max-width: 90%;
-            }
         }
     }
 </style>
