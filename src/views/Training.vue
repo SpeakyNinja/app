@@ -8,7 +8,7 @@
                 
                 <ProgressBar :settings="progress" />
                 
-                <TrainingMenu @isLearned="isLearned" @showFeedbackForm="showFeedbackForm" />
+                <TrainingMenu @addHint="addHint = true" @showFeedbackForm="showFeedbackForm" />
                 
             </div>
 
@@ -23,8 +23,6 @@
                     <p class="m-light" v-html="hint"></p>
                 </div>
             </div>
-
-            <div class="btn transparent no-select mt-2" @click="addHint = true" v-if="!addHint">Добавить подсказку</div>
 
             <div class="add-hint-layer mt-1" v-else>
                 <div class="row">

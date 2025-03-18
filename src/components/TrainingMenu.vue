@@ -7,8 +7,8 @@
         </div>
 
         <div class="menu" :class="{'active' : isActive}">
-            <!-- <div class="item" @click="isLearned">Выучил это слово</div> -->
             <div class="item" @click="$emit('showFeedbackForm')">Сообщить об ошибке</div>
+            <div class="item" @click="$emit('addHint')">Добавить подсказку</div>
         </div>
     </div>
 </template>
@@ -21,7 +21,7 @@
         props: {
         },
 
-        emits: ["showFeedbackForm", "isLearned"],
+        emits: ["showFeedbackForm", "addHint"],
 
         data() {
             return {
