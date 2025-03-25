@@ -6,19 +6,14 @@
             <div class="mt-2 title2">слова запомнятся сами</div>
 
             <div class="buttons">
-                <div class="btn green" @click="toRegistration">Зарегистрироваться</div>
-                <div class="btn blue" @click="toLogin">Войти</div>
-                <div class="btn transparent" @click="toTest">Пропустить</div>
+                <div class="btn blue outline" @click="toLogin">Войти</div>
+                <div class="btn blue outline" @click="toRegistration">Зарегистрироваться</div>
+                <div class="btn blue" @click="toTest">Пропустить</div>
             </div>
 
             <div class="mt-2 mb-2 m-center">
                 <div class=" m-size16">Продолжая, вы принимаете</div>
                 <a href="https://speaky.ninja/agreement" target="_blank" class="m-underline m-size16">данные условия</a>
-            </div>
-
-            <div class="ext-buttons">
-                <GoogleLogin />
-                <VkLogin />
             </div>
 
         </div>
@@ -36,16 +31,12 @@
 <script>
     import { inject } from 'vue';
     import NoticeLayer from '@/components/NoticeLayer.vue';
-    import GoogleLogin from '@/components/GoogleLogin.vue';
-    import VkLogin from '@/components/VkLogin.vue';
     import NoticeService from '@/services/NoticeService.js';
 
     export default {
 
         components: {
-            NoticeLayer,
-            GoogleLogin,
-            VkLogin
+            NoticeLayer
         },
 
         data() {
@@ -86,9 +77,13 @@
                 this.$router.push('/statistics');
             }
 
-            this.noticeService = new NoticeService();
-            this.noticeItems = this.noticeService.getItems('indexBefore');
-            this.showNotice = true;
+            if(localStorage.getItem('skipIndexBefore')) {
+                localStorage.removeItem('skipIndexBefore');
+            } else {
+                this.noticeService = new NoticeService();
+                this.noticeItems = this.noticeService.getItems('indexBefore');
+                this.showNotice = true;
+            }
         }
     }
 </script>
@@ -131,12 +126,6 @@
                 flex-direction: column;
                 gap: 20px;
                 width: 100%;
-            }
-
-            .ext-buttons {
-                display: flex;
-                gap: 10px;
-                align-items: center;
             }
         }
         

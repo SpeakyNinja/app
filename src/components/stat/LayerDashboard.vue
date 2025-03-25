@@ -62,6 +62,12 @@
 
                 <div class="buttons-wrapper">
                     <div class="row">
+                        <div class="item single outline" @click="installPwa()" v-if="showInstallButton">
+                            Установить приложение
+                        </div>
+                    </div>
+
+                    <div class="row">
                         <div class="item" @click="$parent.showLayer('LayerPredict')">
                             <div class="item-title">Прогноз</div>
                             <div class="item-value">+ {{ statService.predict.curValue }}</div>
@@ -69,12 +75,6 @@
                         <div class="item" @click="$parent.showLayer('LayerRegularity')">
                             <div class="item-title">Регулярность</div>
                             <div class="item-value">{{ statService.getNonstopDays() }}</div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="item single" @click="installPwa()" v-if="showInstallButton">
-                            Установить как приложение
                         </div>
                     </div>
                 </div>
@@ -474,6 +474,10 @@
                                 color: white;
                                 text-shadow: 0px 0px 15px #7faef9, 0px 0px 15px rgba(127,174,249,0.5);
                                 line-height: 1;
+                            }
+
+                            &.outline {
+                                border: 2px solid #9ae9f5;
                             }
                         }
                     }

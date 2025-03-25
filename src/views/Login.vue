@@ -39,10 +39,15 @@
                     </div>
 
                     <div class="btn green mt-2" @click="login">Войти</div>
+
+                    <div class="ext-buttons">
+                        <GoogleLogin />
+                        <VkLogin />
+                    </div>
+
                 </div>
 
-                <div class="btn transparent" @click="registration">Регистрация</div>
-                <div class="btn transparent" @click="$router.push('/')">Вернуться</div>
+                <div class="btn transparent" @click="toHome">Вернуться</div>
                 
                 <div class="m-center">
                     <div class=" m-size16 m-white">Регистрируясь, вы принимаете</div>
@@ -61,12 +66,16 @@
     import { inject } from 'vue';
     import PasswordBox from "@/components/PasswordBox.vue";
     import Form from "@/components/Form.vue";
+    import GoogleLogin from '@/components/GoogleLogin.vue';
+    import VkLogin from '@/components/VkLogin.vue';
 
     export default {
 
         components: {
             PasswordBox,
-            Form
+            Form,
+            GoogleLogin,
+            VkLogin
         },
 
         data() {
@@ -88,8 +97,9 @@
                 }
             },
 
-            registration() {
-                this.$router.push('/registration');
+            toHome() {
+                localStorage.setItem('skipIndexBefore', true);
+                this.$router.push('/');
             }
         },
 
@@ -101,4 +111,13 @@
 </script>
 
 <style lang="scss" scoped>
+
+    .ext-buttons {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        justify-content: center;
+        margin-top: 50px;
+    }
+
 </style>

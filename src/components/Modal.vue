@@ -1,6 +1,6 @@
 <template>
     <Transition name="modal">
-        <div v-if="show" class="modal-mask">
+        <div v-if="show" class="modal-mask" :class="{'align-top': options.alignTop}">
             <div class="modal-container">
                 <div v-if="!options.hideClose" class="close no-select" @click="$emit('close')">×</div>
                 <div class="modal-header">
@@ -74,6 +74,11 @@
         display: flex;
         justify-content: center;
         align-items: center;
+
+        &.align-top {
+            align-items: flex-start;
+            padding-top: 30px;
+        }
 
         .modal-container {
             width: 40vh;

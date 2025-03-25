@@ -89,6 +89,7 @@
     import ToolsService from '@/services/ToolsService.js';
     import LocalStorage from '@/services/LocalStorageService.js';
     import NoticeService from '@/services/NoticeService.js';
+    import YandexMetrika from '@/services/YandexMetrika.js';
 
     export default {
 
@@ -138,6 +139,7 @@
                             this.state.setShowFullStat(true);
                             const r = await this.trainings.submitAnswers();
                             this.showAwardsLayer(r.hoursAward, r.wordsAward);
+                            YandexMetrika.sendReachGoal('training', {num: this.countTrainings + 1});
                         } catch(res) {
                             this.errorHandler(res);
                         } finally {
@@ -297,6 +299,7 @@
             try {
                 this.preloader.show = true;
                 const r = await this.trainings.fetch();
+                this.countTrainings = r.countTrainings;
 
                 await this.trainings.fetchMissingVoices(this.student.getId());
 

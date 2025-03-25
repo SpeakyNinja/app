@@ -81,7 +81,7 @@
 
             &.soft {
                 background-color: #30313f;
-                color: #838389;
+                color: white;
             }
 
             &.top-border {

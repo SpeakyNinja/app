@@ -47,6 +47,7 @@
     import TestService from '@/services/TestService.js';
     import ToolsService from '@/services/ToolsService.js';
     import NoticeService from '@/services/NoticeService.js';
+    import YandexMetrika from '@/services/YandexMetrika.js';
 
     export default {
         components: {
@@ -119,6 +120,7 @@
             },
 
             noticeAfterClosed() {
+                YandexMetrika.sendReachGoal('test');
                 this.$router.push('/add-words');
             }
         },

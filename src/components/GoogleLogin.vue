@@ -78,4 +78,10 @@
 </script>
 
 <style lang="scss">
+    
+    #google-login-button {
+        height: 40px;
+        overflow: hidden;
+    }
+
 </style>

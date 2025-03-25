@@ -292,8 +292,7 @@
                 }
 
                 .image, .component {
-                    height: 45%;
-                    min-height: 45%;
+                    min-height: 250px;
                     display: flex;
                     justify-content: center;
                     align-items: center;
@@ -304,22 +303,21 @@
                     flex-direction: column;
                     justify-content: flex-start;
                     align-items: center;
-                    flex-grow: 2;
                     font-size: 32px;
                     text-align: center;
+                    margin-top: 30px;
 
                     &:first-child {
                         flex-grow: unset;
-                        height: 45%;
-                        min-height: 45%;
+                        height: 35%;
+                        min-height: 35%;
                         justify-content: flex-end;
                         padding-bottom: 50px;
                     }
                 }
 
                 .texts {
-                    height: 40%;
-                    min-height: 40%;
+                    flex-grow: 2;
                     display: flex;
                     flex-direction: column;
                     justify-content: flex-start;

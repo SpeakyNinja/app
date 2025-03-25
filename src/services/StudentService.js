@@ -1,5 +1,6 @@
 import AbstractService from "@/services/AbstractService.js";
 import LocalStorage from '@/services/LocalStorageService.js';
+import YandexMetrika from '@/services/YandexMetrika.js';
 
 export default class StudentService extends AbstractService {
     progress = null;
@@ -17,6 +18,8 @@ export default class StudentService extends AbstractService {
             LocalStorage.store('student_data', 'email', r.email);
             LocalStorage.store('student_data', 'isAutoReg', false);
             LocalStorage.store('student_data', 'isExtAuth', false);
+            YandexMetrika.sendUserParams(r.id);
+            YandexMetrika.sendReachGoal('registration');
         });
     }
 
@@ -27,6 +30,7 @@ export default class StudentService extends AbstractService {
             LocalStorage.store('student_data', 'email', r.email);
             LocalStorage.store('student_data', 'isAutoReg', r.autoReg);
             LocalStorage.store('student_data', 'isExtAuth', false);
+            YandexMetrika.sendUserParams(r.id);
         });
     }
 
@@ -55,6 +59,7 @@ export default class StudentService extends AbstractService {
             LocalStorage.store('student_data', 'email', r.email);
             LocalStorage.store('student_data', 'isAutoReg', true);
             LocalStorage.store('student_data', 'isExtAuth', false);
+            YandexMetrika.sendUserParams(r.id);
         });
     }
 
@@ -74,6 +79,7 @@ export default class StudentService extends AbstractService {
             LocalStorage.store('student_data', 'email', r.email);
             LocalStorage.store('student_data', 'isAutoReg', false);
             LocalStorage.store('student_data', 'isExtAuth', true);
+            YandexMetrika.sendUserParams(r.id);
         });
     }
 
@@ -84,6 +90,7 @@ export default class StudentService extends AbstractService {
             LocalStorage.store('student_data', 'email', r.email);
             LocalStorage.store('student_data', 'isAutoReg', false);
             LocalStorage.store('student_data', 'isExtAuth', true);
+            YandexMetrika.sendUserParams(r.id);
         });
     }
 

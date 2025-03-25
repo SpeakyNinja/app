@@ -34,7 +34,7 @@
 
         data() {
             return {
-                modalOptions: {header: 'Сообщить об ошибке'},
+                modalOptions: {header: 'Сообщить об ошибке', alignTop: true},
                 message: '',
                 error: '',
                 meaningId: null

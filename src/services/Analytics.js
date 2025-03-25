@@ -2,7 +2,7 @@ import gTagManagerUrl from '../assets/gTagManager.js?url';
 
 class Analytics {
     
-    initGoogleTagManager() {
+    init() {
         if(import.meta.env.VITE_TAG_MANAGER_OFF !== 'true') {
             // Добавление скрипта в head
             const script = document.createElement('script');

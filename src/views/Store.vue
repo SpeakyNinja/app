@@ -63,6 +63,11 @@
             },
 
             async buy(item) {
+                if(this.student.isAutoReg()) {
+                    this.$router.push('/permanent-registration');
+                    return false;
+                }
+
                 try {
                     this.preloader.show = true;
 
@@ -97,6 +102,7 @@
         async beforeMount() {
             this.modal = inject('modal');
             this.preloader = inject('preloader');
+            this.student = inject('student');
             this.storeService = new StoreService();
             this.yk = new YookassaService();
 
@@ -141,6 +147,7 @@
             padding: 90px 20px 10px 20px;
             gap: 40px;
             overflow-y: auto;
+            width: 100%;
             height: 100%;
             position: relative;
 
