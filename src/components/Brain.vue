@@ -17,17 +17,17 @@
             width: {
                 type: Number,
                 required: false,
-                default: 368
+                default: window.screen.width > 550 ? 372 : 288
             },
             height: {
                 type: Number,
                 required: false,
-                default: 316
+                default: window.screen.width > 550 ? 316 : 246
             },
             hexRadius: {
                 type: Number,
                 required: false,
-                default: 18
+                default: window.screen.width > 550 ? 36 : 28
             },
             items: {
                 type: Array,

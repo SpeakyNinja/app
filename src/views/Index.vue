@@ -1,42 +1,58 @@
 <template>
-    <div class="index main-bg">
-        
-        <div class="wrapper no-scrollbar">
-            <div class="title">Speaky.Ninja</div>
-            <div class="mt-2 title2">слова запомнятся сами</div>
 
-            <div class="buttons">
-                <div class="btn blue outline" @click="toLogin">Войти</div>
-                <div class="btn blue outline" @click="toRegistration">Зарегистрироваться</div>
-                <div class="btn blue" @click="toTest">Пропустить</div>
+    <Form class="main-bg">
+
+        <template v-slot:description>
+            <div class="m-light m-gray mt-1">слова запомнятся сами</div>
+        </template>
+
+        <template v-slot:content>
+
+            <div class="content mt-1">
+                <div>
+                    <div>
+                        <div class="btn blue outline" @click="toLogin">Войти</div>
+                    </div>
+
+                    <div>
+                        <div class="btn blue outline mt-2" @click="toRegistration">Зарегистрироваться</div>
+                    </div>
+
+                    <div>
+                        <div class="btn blue mt-2" @click="toTest">Пропустить</div>
+                    </div>
+                </div>
             </div>
 
             <div class="mt-2 mb-2 m-center">
-                <div class=" m-size16">Продолжая, вы принимаете</div>
+                <div class=" m-size16 m-white">Продолжая, вы принимаете</div>
                 <a href="https://speaky.ninja/agreement" target="_blank" class="m-underline m-size16">данные условия</a>
             </div>
 
-        </div>
-        
-        <NoticeLayer 
-            :items="noticeItems" 
-            v-if="showNotice" 
-            @closedHandler="showNotice = false"
-            :fade="false"
-        />
+            <NoticeLayer 
+                :items="noticeItems" 
+                v-if="showNotice" 
+                @closedHandler="showNotice = false"
+                :fade="false"
+            />
 
-    </div>
+        </template>
+
+    </Form>
+
 </template>
 
 <script>
     import { inject } from 'vue';
     import NoticeLayer from '@/components/NoticeLayer.vue';
+    import Form from "@/components/Form.vue";
     import NoticeService from '@/services/NoticeService.js';
 
     export default {
 
         components: {
-            NoticeLayer
+            NoticeLayer,
+            Form
         },
 
         data() {
@@ -89,46 +105,4 @@
 </script>
 
 <style lang="scss" scoped>
-
-    .index {
-        flex-grow: 2;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        background-color: #272733 !important;
-        height: 100vh;
-        height: 100dvh;
-
-        .wrapper {
-            padding: 60px 40px 20px 40px;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-
-            .title {
-                font-size: 40px;
-                font-family: Light;
-                color: #ebebed;
-            }
-
-            .title2 {
-                font-size: 16px;
-                color: #ebebed;
-                letter-spacing: 2px;
-            }
-
-            .buttons {
-                margin-top: 140px;
-                display: flex;
-                flex-direction: column;
-                gap: 20px;
-                width: 100%;
-            }
-        }
-        
-    }
-
 </style>

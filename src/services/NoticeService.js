@@ -4,53 +4,11 @@ export default class NoticeService {
 
             indexBefore: [
                 {
-                    component: 'Rainbow',
-                    title: 'Легко',
-                    texts: [
-                        {
-                            value: 'Слова английского будут запоминаться сами',
-                            muted: false
-                        }, {
-                            value: 'как слова родного языка',
-                            muted: true
-                        }
-                    ]
+                    customItem: 'Index1'
                 }, {
-                    component: 'SpeedWidget',
-                    title: 'Быстро',
-                    texts: [
-                        {
-                            value: 'Методика использует досознательные механики усвоения слов мозгом.',
-                            muted: false
-                        }, {
-                            value: 'Удивляйся своим способностям.',
-                            muted: true
-                        }
-                    ]
+                    customItem: 'Index2'
                 }, {
-                    image: new URL('@/images/HeatMap.svg', import.meta.url).href,
-                    // component: 'Brain',
-                    // brainItems: [
-                    //     {memorization: 12, count: 6},
-                    //     {memorization: 11, count: 4},
-                    //     {memorization: 10, count: 6},
-                    //     {memorization: 9, count: 11},
-                    //     {memorization: 8, count: 13},
-                    //     {memorization: 7, count: 7},
-                    //     {memorization: 6, count: 6},
-                    //     {memorization: 5, count: 13},
-                    //     {memorization: 4, count: 13},
-                    //     {memorization: 3, count: 5},
-                    //     {memorization: 2, count: 10},
-                    //     {memorization: 1, count: 6}
-                    // ],
-                    title: 'Наглядно',
-                    texts: [
-                        {
-                            value: 'Видимый прогресс после каждой тренировки',
-                            muted: false
-                        }
-                    ]
+                    customItem: 'Index3'
                 }
             ],
 
@@ -229,149 +187,17 @@ export default class NoticeService {
 
             stagesWords: [
                 {
-                    component: 'Brain',
-                    brainItems: [
-                        {memorization: 3, count: 6},
-                        {memorization: 2, count: 15},
-                        {memorization: 1, count: 19}
-                    ],
-                    title: 'Красные',
-                    texts: [
-                        {
-                            value: 'Этап ознакомления.',
-                            muted: false
-                        }, {
-                            value: 'Три повтора с короткими интервалами. Внесение слов в краткосрочную память.',
-                            muted: true
-                        }
-                    ]
+                    customItem: 'Stage1'
                 }, {
-                    component: 'Brain',
-                    brainItems: [
-                        {memorization: 7, count: 6},
-                        {memorization: 6, count: 4},
-                        {memorization: 5, count: 6},
-                        {memorization: 4, count: 18},
-                        {memorization: 3, count: 0},
-                        {memorization: 2, count: 13},
-                        {memorization: 1, count: 13}
-                    ],
-                    title: 'Желтые',
-                    texts: [
-                        {
-                            value: 'Этап усвоения.',
-                            muted: false
-                        }, {
-                            value: 'Четыре повтора со средними интервалами. Перевод слов в среднесрочную память.',
-                            muted: true
-                        }
-                    ]
+                    customItem: 'Stage2'
                 }, {
-                    component: 'Brain',
-                    brainItems: [
-                        {memorization: 12, count: 6},
-                        {memorization: 11, count: 4},
-                        {memorization: 10, count: 6},
-                        {memorization: 9, count: 11},
-                        {memorization: 8, count: 13},
-                        {memorization: 7, count: 0},
-                        {memorization: 6, count: 0},
-                        {memorization: 5, count: 7},
-                        {memorization: 4, count: 13},
-                        {memorization: 3, count: 0},
-                        {memorization: 2, count: 13},
-                        {memorization: 1, count: 6}
-                    ],
-                    title: 'Зеленые',
-                    texts: [
-                        {
-                            value: 'Этап закрепления.',
-                            muted: false
-                        }, {
-                            value: 'Пять повторов с длинными интервалами. Закрепление слов в долгосрочной памяти.',
-                            muted: true
-                        }
-                    ]
+                    customItem: 'Stage3'
                 }, {
-                    component: 'Brain',
-                    brainItems: [
-                        {memorization: 13, count: 34},
-                        {memorization: 12, count: 0},
-                        {memorization: 11, count: 0},
-                        {memorization: 10, count: 6},
-                        {memorization: 9, count: 7},
-                        {memorization: 8, count: 6},
-                        {memorization: 7, count: 0},
-                        {memorization: 6, count: 0},
-                        {memorization: 5, count: 7},
-                        {memorization: 4, count: 13},
-                        {memorization: 3, count: 0},
-                        {memorization: 2, count: 11},
-                        {memorization: 1, count: 6}
-                    ],
-                    title: 'Циановые',
-                    texts: [
-                        {
-                            value: 'Выучил.',
-                            muted: false
-                        }, {
-                            value: 'Слова, которые прошли все этапы.',
-                            muted: true
-                        }
-                    ]
+                    customItem: 'Stage4'
                 }, {
-                    component: 'Brain',
-                    brainItems: [
-                        {memorization: 20, count: 34},
-                        {memorization: 13, count: 19},
-                        {memorization: 12, count: 0},
-                        {memorization: 11, count: 0},
-                        {memorization: 10, count: 0},
-                        {memorization: 9, count: 0},
-                        {memorization: 8, count: 20},
-                        {memorization: 7, count: 0},
-                        {memorization: 6, count: 0},
-                        {memorization: 5, count: 0},
-                        {memorization: 4, count: 17},
-                        {memorization: 3, count: 0},
-                        {memorization: 2, count: 4},
-                        {memorization: 1, count: 6}
-                    ],
-                    title: 'Белые',
-                    texts: [
-                        {
-                            value: 'Известные.',
-                            muted: false
-                        }, {
-                            value: 'Слова, которые знал(а).',
-                            muted: true
-                        }
-                    ]
+                    customItem: 'Stage5'
                 }, {
-                    component: 'Brain',
-                    brainItems: [
-                        {memorization: 20, count: 6},
-                        {memorization: 13, count: 10},
-                        {memorization: 12, count: 5},
-                        {memorization: 11, count: 6},
-                        {memorization: 10, count: 7},
-                        {memorization: 9, count: 6},
-                        {memorization: 8, count: 13},
-                        {memorization: 7, count: 7},
-                        {memorization: 6, count: 6},
-                        {memorization: 5, count: 7},
-                        {memorization: 4, count: 6},
-                        {memorization: 3, count: 5},
-                        {memorization: 2, count: 10},
-                        {memorization: 1, count: 6}
-                    ],
-                    title: 'Тепловая карта уровней',
-                    texts: [
-                        {
-                            value: 'Показывает количество слов на всех этапах усвоения.',
-                            muted: false
-                        }
-                    ]
+                    customItem: 'Stage6'
                 }
             ],
 

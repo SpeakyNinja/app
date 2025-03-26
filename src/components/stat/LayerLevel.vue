@@ -9,10 +9,6 @@
             <div class="brains no-scrollbar" :class="brainsWrapperClass">
                 <template v-for="items in brainItems">
                     <Brain 
-                        ref="brain" 
-                        :hexRadius="brainHexRadius"
-                        :width="brainWidth"
-                        :height="brainHeight"
                         :items="items"
                     />
                 </template>
@@ -43,9 +39,6 @@
 
         data() {
             return {
-                brainWidth: window.screen.width > 550 ? 372 : 288,
-                brainHeight: window.screen.width > 550 ? 316 : 246,
-                brainHexRadius: window.screen.width > 550 ? 36 : 28,
             }
         },
 

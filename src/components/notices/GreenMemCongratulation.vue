@@ -4,21 +4,20 @@
         <Ai fill="white" class="ai-image" />
     </div>
 
-    <div class="title m-light">
+    <div class="title m-light mb-2">
         Поздравляю
     </div>
 
     <div class="texts">
         <div class="text m-light">С достижением этапа закрепления.</div>
 
-        <Brain 
-            ref="brain" 
-            :hexRadius="brainHexRadius"
-            :width="brainWidth"
-            :height="brainHeight"
-            :items="statService.getLevelsForBrain(brainItems)[0]"
-            class="m-center"
-        />
+        <div class="bottom">
+            <Brain 
+                ref="brain" 
+                :items="statService.getLevelsForBrain(brainItems)[0]"
+                class="m-center"
+            />
+        </div>
     </div>
 
 </template>
@@ -47,9 +46,6 @@
         data() {
             return {
                 statService: new StatService(),
-                brainWidth: window.screen.width > 550 ? 288 : 246,
-                brainHeight: window.screen.width > 550 ? 245 : 211,
-                brainHexRadius: window.screen.width > 550 ? 28 : 24,
                 brainItems: [
                     {memorization: 12, count: 6},
                     {memorization: 11, count: 4},
@@ -74,6 +70,16 @@
     .texts {
         padding-top: 0 !important;
         flex-grow: 3;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        .bottom {
+            flex-grow: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
     }
 
 </style>

@@ -22,26 +22,6 @@
 
                         <div class="component" v-if="item.component">
 
-                            <SpeedWidget 
-                                v-if="item.component == 'SpeedWidget'"
-                                :curValue="540"
-                                :maxValue="750"
-                                backgroundColor="#464664"
-                                :glow="false"
-                                forceMainColor="#96dd47"
-                            />
-
-                            <Rainbow v-if="item.component == 'Rainbow'" :freeze="freezeComponentAnimation" />
-
-                            <Brain 
-                                v-if="item.component == 'Brain'"
-                                ref="brain" 
-                                :hexRadius="brainHexRadius"
-                                :width="brainWidth"
-                                :height="brainHeight"
-                                :items="statService.getLevelsForBrain(item.brainItems)[0]"
-                            />
-
                             <Ai
                                 v-if="item.component == 'Ai'"
                                 fill="white"
@@ -92,9 +72,6 @@
 
     import { nextTick } from 'vue';
     import Arr2 from '@/components/icons/Arr2.vue';
-    import SpeedWidget from '@/components/SpeedWidget.vue';
-    import Rainbow from '@/components/Rainbow.vue';
-    import Brain from '@/components/Brain.vue';
     import Ai from '@/components/icons/Ai.vue';
     import Rating1 from '@/components/notices/Rating1.vue';
     import Rating2 from '@/components/notices/Rating2.vue';
@@ -112,16 +89,21 @@
     import PwaInstall from '@/components/notices/PwaInstall.vue';
     import InstallIosNotice from '@/components/notices/InstallIosNotice.vue';
     import AddWordsBefore from '@/components/notices/AddWordsBefore.vue';
+    import Index1 from '@/components/notices/Index1.vue';
+    import Index2 from '@/components/notices/Index2.vue';
+    import Index3 from '@/components/notices/Index3.vue';
+    import Stage1 from '@/components/notices/stages/Stage1.vue';
+    import Stage2 from '@/components/notices/stages/Stage2.vue';
+    import Stage3 from '@/components/notices/stages/Stage3.vue';
+    import Stage4 from '@/components/notices/stages/Stage4.vue';
+    import Stage5 from '@/components/notices/stages/Stage5.vue';
+    import Stage6 from '@/components/notices/stages/Stage6.vue';
 
-    import StatService from '@/services/StatService.js';
     import SlideHandler from "@/services/SlideHandler.js";
 
     export default {
         components: {
             Arr2,
-            SpeedWidget,
-            Rainbow,
-            Brain,
             Ai,
             Rating1,
             Rating2,
@@ -138,7 +120,16 @@
             TimerNotice,
             PwaInstall,
             InstallIosNotice,
-            AddWordsBefore
+            AddWordsBefore,
+            Index1,
+            Index2,
+            Index3,
+            Stage1,
+            Stage2,
+            Stage3,
+            Stage4,
+            Stage5,
+            Stage6
         },
 
         props: {
@@ -160,16 +151,10 @@
                 isClosed: false,
                 marginLeft: 0,
                 ml: 0,
-                freezeComponentAnimation: false,
                 hideControls: false,
                 itemIndex: 0,
                 swipeDelta: 20,
-                swipeInProgress: false,
-
-                statService: new StatService(),
-                brainWidth: window.screen.width > 550 ? 372 : 288,
-                brainHeight: window.screen.width > 550 ? 316 : 246,
-                brainHexRadius: window.screen.width > 550 ? 36 : 28
+                swipeInProgress: false
             }
         },
 
@@ -183,15 +168,8 @@
                 this.itemIndex += step;
                 this.hideControls = !!this.items[this.itemIndex]?.hideControls;
 
-                this.freezeComponentAnimation = true;
-
                 if(-newMargin / 100 < this.items.length) {
                     this.marginLeft = newMargin;
-                    
-                    await nextTick();
-                    setTimeout(() => {
-                        this.freezeComponentAnimation = false;
-                    }, 300);
                 } else {
                     this.isClosed = true;
                     this.$emit('closedHandler');
@@ -322,7 +300,7 @@
                     flex-direction: column;
                     justify-content: flex-start;
                     gap: 20px;
-                    padding-top: 30px;
+                    padding-top: 80px;
 
                     .text {
                         text-align: center;
