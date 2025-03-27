@@ -9,7 +9,7 @@
         <template v-slot:content>
 
             <div class="content mt-1">
-                <div>
+                <div class="buttons">
                     <div>
                         <div class="btn blue outline" @click="toLogin">Войти</div>
                     </div>
@@ -22,12 +22,13 @@
                         <div class="btn blue mt-2" @click="toTest">Пропустить</div>
                     </div>
                 </div>
+
+                <div class="m-center">
+                    <div class=" m-size16 m-white">Продолжая, вы принимаете</div>
+                    <a href="https://speaky.ninja/agreement" target="_blank" class="m-underline m-size16">данные условия</a>
+                </div>
             </div>
 
-            <div class="mt-2 mb-2 m-center">
-                <div class=" m-size16 m-white">Продолжая, вы принимаете</div>
-                <a href="https://speaky.ninja/agreement" target="_blank" class="m-underline m-size16">данные условия</a>
-            </div>
 
             <NoticeLayer 
                 :items="noticeItems" 
@@ -105,4 +106,11 @@
 </script>
 
 <style lang="scss" scoped>
+    .buttons {
+        flex-grow: 2;
+        padding: 20px 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
 </style>

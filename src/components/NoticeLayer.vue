@@ -237,7 +237,9 @@
         }
 
         .items {
-            width: 600px;
+            min-width: 360px;
+            max-width: 50vh;
+            width: 100%;
             overflow-x: hidden;
             display: flex;
             flex-wrap: nowrap;
@@ -344,7 +346,8 @@
             .controls-wrapper {
                 display: flex;
                 justify-content: space-between;
-                max-width: 600px;
+                min-width: 360px;
+                max-width: 50vh;
                 width: 100%;
 
                 .button {

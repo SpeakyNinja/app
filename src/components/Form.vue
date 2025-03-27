@@ -56,10 +56,10 @@
 
             .content {
                 flex-grow: 2;
-                padding: 10px 40px;
+                padding: 40px 40px;
                 display: flex;
                 flex-direction: column;
-                justify-content: space-around;
+                justify-content: space-between;
                 max-width: 500px;
                 width: 100%;
             }
