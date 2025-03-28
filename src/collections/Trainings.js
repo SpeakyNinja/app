@@ -67,11 +67,6 @@ export default class Trainings extends AbstractCollection {
         });
     }
 
-    isCorrectAnswer(answer) {
-        const training = this.getCurrent();
-        return training.isCorrectAnswer(answer);
-    }
-
     deleteAnswer(answer) {
         const training = this.getCurrent();
         training.deleteAnswer(answer);

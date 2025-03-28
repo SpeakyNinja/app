@@ -14,15 +14,11 @@ export default class Training extends AbstractModel {
 
     deleteAnswer(answer) {
         for(let i in this.answers) {
-            if(this.answers[i] == answer) {
+            if(this.answers[i].text == answer.text) {
                 this.answers.splice(i, 1);
                 break;
             }
         }
-    }
-
-    isCorrectAnswer(answer) {
-        return this.text == answer;
     }
 
     async getNextVoice(studentId, searchInServer = false) {

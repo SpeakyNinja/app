@@ -44,12 +44,12 @@
             <template v-slot:items>
                 <div 
                     class="item no-select"
-                    :class="{transparent : highlitedAnswer && highlitedAnswer != answer }"
+                    :class="{transparent : highlitedAnswer && highlitedAnswer != answer.text }"
                     v-for="answer in trainings.getCurrent()?.answers" 
                     @click="nextStep(answer)"
                 >
-                    <div class="highlight" v-if="highlitedAnswer == answer"></div>
-                    {{ answer }}
+                    <div class="highlight" v-if="highlitedAnswer == answer.text"></div>
+                    {{ answer.text }}
                 </div>
 
                 <div 
@@ -120,14 +120,14 @@
 
         methods: {
             nextStep(answer) {
-                if(!this.trainings.isCorrectAnswer(answer)) {
+                if(!answer.isCorrect) {
                     this.trainings.countError();
                     this.trainings.deleteAnswer(answer);
                     this.$forceUpdate();
                     return false;
                 }
 
-                this.highlitedAnswer = answer;
+                this.highlitedAnswer = answer.text;
                 this.playAudio('muteTrainingVoice2');
                 this.preloader.show = true;
                 setTimeout(async () => {
