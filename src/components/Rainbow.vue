@@ -1,9 +1,9 @@
 <template>
     <div class="rainbow no-select">
         
-        <button class="btn" :class="{freeze: freeze}"></button>
+        <button class="btn" :class="{freeze: freeze, hidden: isSafari}"></button>
 
-        <div class="safari"></div>
+        <div class="safari" :class="{hidden: !isSafari}"></div>
 
     </div>
 </template>
@@ -22,7 +22,17 @@
 
 
         data() {
+            const ua = navigator.userAgent.toLowerCase();
+            const vendor = navigator.vendor;
+            const isSafari = vendor && vendor.toLowerCase().includes('apple') &&
+                   ua.includes('safari') &&
+                   !ua.includes('chrome') &&
+                   !ua.includes('crios') &&
+                   !ua.includes('fxios') &&
+                   !ua.includes('edgios');
+
             return {
+                isSafari: isSafari
             }
         },
 
@@ -41,7 +51,27 @@
         overflow: hidden;
 
         .safari {
-            display: none;
+            display: block;
+            width: 130px;
+            height: 130px;
+            margin: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(0deg, #fffb00, #48ff00);
+
+            &:before {
+                content: '';
+                width: 116px;
+                height: 116px;
+                border-radius: 50%;
+                background-color: #272733;
+            }
+
+            &.hidden {
+                display: none;
+            }
         }
 
         .btn {
@@ -53,6 +83,10 @@
             position: relative;
             z-index: 0;
             border-radius: 50%;
+
+            &.hidden {
+                display: none;
+            }
         
             &:after {
                 content: "";
@@ -102,34 +136,6 @@
             100% {background-position: 0 0;}
         }
 
-    }
-
-    @supports (-webkit-touch-callout: none) {
-        .rainbow {
-            .btn {
-                display: none;
-            }
-
-            .safari {
-                display: block;
-                width: 130px;
-                height: 130px;
-                margin: 40px;
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                background: linear-gradient(0deg, #fffb00, #48ff00);
-
-                &:before {
-                    content: '';
-                    width: 116px;
-                    height: 116px;
-                    border-radius: 50%;
-                    background-color: #272733;
-                }
-            }
-        }
     }
 
 </style>
