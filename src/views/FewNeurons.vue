@@ -24,6 +24,7 @@
 
 <script>
     import { inject } from 'vue';
+    import { isEngagementPreviewActive, bootstrapFewNeuronsPreview } from '@/utils/engagementPreviewBootstrap.js';
     import Ai from '@/components/icons/Ai.vue'
     import NoticeLayer from '@/components/NoticeLayer.vue'
     import NoticeService from '@/services/NoticeService.js';
@@ -47,6 +48,11 @@
         beforeMount() {
             this.state = inject('state');
             this.noticeService = new NoticeService();
+
+            if (isEngagementPreviewActive(this.$route, inject('engagementPreview', false))) {
+                bootstrapFewNeuronsPreview(this);
+                return;
+            }
 
             if(!this.state.wasFewNeuronsMessage()) {
                 this.state.storeFewNeuronsMessage();

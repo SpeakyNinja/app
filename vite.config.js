@@ -11,9 +11,14 @@ export default defineConfig({
         VitePWA({
             registerType: 'autoUpdate',
             includeAssets: [],
+            workbox: {
+                cleanupOutdatedCaches: true,
+                navigateFallback: 'index.html',
+                navigateFallbackDenylist: [/^\/api\//],
+            },
             devOptions: {
                 enabled: true,
-            }
+            },
         })
     ],
 

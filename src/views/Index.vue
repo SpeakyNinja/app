@@ -45,6 +45,7 @@
 
 <script>
     import { inject } from 'vue';
+    import { isEngagementPreviewActive } from '@/utils/engagementPreviewBootstrap.js';
     import NoticeLayer from '@/components/NoticeLayer.vue';
     import Form from "@/components/Form.vue";
     import NoticeService from '@/services/NoticeService.js';
@@ -89,6 +90,17 @@
             this.modal = inject('modal');
             this.preloader = inject('preloader');
             this.student = inject('student');
+
+            if (inject('animationPreview', false)) {
+                return;
+            }
+
+            if (isEngagementPreviewActive(this.$route, inject('engagementPreview', false))) {
+                this.noticeService = new NoticeService();
+                this.noticeItems = this.noticeService.getItems('indexBefore');
+                this.showNotice = true;
+                return;
+            }
 
             if(!this.student.isGuest()) {
                 this.$router.push('/statistics');

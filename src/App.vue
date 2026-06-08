@@ -66,11 +66,23 @@
                 const path = window.location.pathname;
                 const public_paths = ['/login', '/registration', '/forgot-password'];
                 const isRecovery = path.indexOf('/recovery/') === 0;
-                return isRecovery || public_paths.includes(path);
+                const isEngagementPreview = path.indexOf('/engagement-preview/') === 0;
+                const isAnimationPreview = path.indexOf('/animation-preview/') === 0;
+                return isRecovery || isEngagementPreview || isAnimationPreview || public_paths.includes(path);
+            },
+
+            isEngagementPreviewArea() {
+                const path = window.location.pathname;
+                return path.indexOf('/engagement-preview/') === 0
+                    || path.indexOf('/animation-preview/') === 0;
             }
         },
 
         async beforeMount() {
+            if (this.isEngagementPreviewArea()) {
+                return;
+            }
+
             if(this.student.isGuest()) {
                 
                 if(!this.isPublicArea()) {

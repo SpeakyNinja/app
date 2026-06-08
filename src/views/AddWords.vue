@@ -70,6 +70,7 @@
 
 <script>
     import { inject } from 'vue';
+    import { isEngagementPreviewActive, bootstrapAddWordsPreview } from '@/utils/engagementPreviewBootstrap.js';
     import { nextTick } from "vue";
     import Brain from '@/components/Brain.vue';
     import ProgressBar from '@/components/ProgressBar.vue';
@@ -217,6 +218,11 @@
             this.toolsService = new ToolsService();
             this.addWordService = new AddWordService();
             this.noticeService = new NoticeService();
+
+            if (isEngagementPreviewActive(this.$route, inject('engagementPreview', false))) {
+                bootstrapAddWordsPreview(this, this.$route);
+                return;
+            }
 
             try {
                 this.preloader.show = true;

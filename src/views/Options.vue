@@ -42,6 +42,14 @@
 
             <div class="block">
 
+                <div
+                    v-if="dialogTestEnabled"
+                    class="btn dark-gray no-select"
+                    @click="$router.push('/dialog-test')"
+                >
+                    Тест диалогов
+                </div>
+
                 <div class="btn dark-gray no-select" @click="$router.push('/feedback')">
                     Обратная связь
                 </div>
@@ -82,7 +90,8 @@
             return {
                 storage: LocalStorage,
                 showCloseModal: false,
-                closeModalOptions: {}
+                closeModalOptions: {},
+                dialogTestEnabled: import.meta.env.VITE_DIALOG_TEST_ENABLED === 'true',
             }
         },
 

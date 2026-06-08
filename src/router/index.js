@@ -15,6 +15,24 @@ import Feedback from '@/views/Feedback.vue';
 import ForgotPassword from '@/views/ForgotPassword.vue';
 import Recovery from '@/views/Recovery.vue';
 import Page404 from '@/views/Page404.vue';
+import DialogTestMenu from '@/views/DialogTestMenu.vue';
+import DialogTestPlay from '@/views/DialogTestPlay.vue';
+import EngagementPreview from '@/views/EngagementPreview.vue';
+import AnimationPreview from '@/views/AnimationPreview.vue';
+
+const dialogTestEnabled = import.meta.env.VITE_DIALOG_TEST_ENABLED === 'true';
+
+const dialogTestRoutes = dialogTestEnabled ? [
+    {
+        path: '/dialog-test',
+        component: DialogTestMenu,
+    },
+    {
+        path: '/dialog-test/:slug',
+        component: DialogTestPlay,
+        props: true,
+    },
+] : [];
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -22,6 +40,14 @@ const router = createRouter({
         {
             path: '/',
             component: Index
+        }, {
+            path: '/engagement-preview/:moduleKey',
+            component: EngagementPreview,
+            props: true,
+        }, {
+            path: '/animation-preview/:scenarioKey',
+            component: AnimationPreview,
+            props: true,
         }, {
             path: '/:catchAll(.*)',
             component: Page404
@@ -64,7 +90,8 @@ const router = createRouter({
         }, {
             path: '/feedback',
             component: Feedback
-        }
+        },
+        ...dialogTestRoutes,
     ]
 })
 

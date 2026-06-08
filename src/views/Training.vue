@@ -78,6 +78,11 @@
 
 <script>
     import { inject } from 'vue';
+    import {
+        isEngagementPreviewActive,
+        bootstrapTrainingPreview,
+        resolveTrainingShowAnswers,
+    } from '@/utils/engagementPreviewBootstrap.js';
     import moment from 'moment';
     import ProgressBar from '@/components/ProgressBar.vue'
     import Memorization from '@/components/Memorization.vue'
@@ -211,7 +216,7 @@
 
             updateShowAnswers() {
                 const training = this.trainings.getCurrent();
-                this.showAnswers = training.memorization < 3;
+                this.showAnswers = resolveTrainingShowAnswers(training?.memorization);
             },
 
             closeHintLayer() {
@@ -295,6 +300,12 @@
             this.toolsService = new ToolsService();
             this.trainings = new Trainings();
             this.noticeService = new NoticeService();
+
+            if (isEngagementPreviewActive(this.$route, inject('engagementPreview', false))) {
+                bootstrapTrainingPreview(this, this.$route);
+                this.updateShowAnswers();
+                return;
+            }
 
             try {
                 this.preloader.show = true;

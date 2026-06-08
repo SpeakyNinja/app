@@ -40,6 +40,7 @@
 
 <script>
     import { inject } from 'vue';
+    import { isEngagementPreviewActive, bootstrapTestPreview } from '@/utils/engagementPreviewBootstrap.js';
     import TestTimer from '@/components/TestTimer.vue';
     import ButtonsSticked from '@/components/ButtonsSticked.vue';
     import ProgressBar from '@/components/ProgressBar.vue';
@@ -133,6 +134,11 @@
 
             this.noticeService = new NoticeService();
             this.noticeItemsBefore = this.noticeService.getItems('testBefore');
+
+            if (isEngagementPreviewActive(this.$route, inject('engagementPreview', false))) {
+                bootstrapTestPreview(this, this.$route);
+                return;
+            }
             
             try {
                 this.preloader.show = true;

@@ -42,6 +42,7 @@
 
 <script>
     import { inject } from 'vue';
+    import { isEngagementPreviewActive, bootstrapStatisticsPreview, bootstrapStatisticsAnimPreview } from '@/utils/engagementPreviewBootstrap.js';
     import { nextTick } from "vue";
     import Memorization from '@/components/Memorization.vue';
     import LayerAccuracy from '@/components/stat/LayerAccuracy.vue';
@@ -59,6 +60,12 @@
     import ToolsService from '@/services/ToolsService.js';
 
     export default {
+
+        props: {
+            previewLayer: { type: String, default: null },
+        },
+
+        emits: ['preview-ready'],
 
         components: {
             Memorization,
@@ -197,6 +204,39 @@
             this.statService = new StatService();
             this.noticeService = new NoticeService();
             this.tools = new ToolsService();
+
+            const engagementPreview = inject('engagementPreview', false);
+            const animationPreview = inject('animationPreview', false);
+            const animStatLayers = inject('animationPreviewStatLayers', null);
+            if (animationPreview) {
+                const previewLayer =
+                    this.previewLayer || inject('engagementPreviewStatLayer', null) || 'LayerDashboard';
+                if (animStatLayers?.length) {
+                    bootstrapStatisticsAnimPreview(this, animStatLayers, this.$route);
+                } else {
+                    bootstrapStatisticsPreview(this, previewLayer, this.$route);
+                }
+                this.state = {
+                    getShowFullStat: () => false,
+                    setShowFullStat: () => {},
+                };
+                await nextTick();
+                if (this.$refs.layersWrapper) {
+                    this.updateLeft();
+                }
+                this.$emit('preview-ready');
+                return;
+            }
+            if (isEngagementPreviewActive(this.$route, engagementPreview)) {
+                const previewLayer =
+                    this.previewLayer || inject('engagementPreviewStatLayer', null) || 'LayerDashboard';
+                bootstrapStatisticsPreview(this, previewLayer, this.$route);
+                await nextTick();
+                if (this.$refs.layersWrapper) {
+                    this.updateLeft();
+                }
+                return;
+            }
 
             try {
                 this.preloader.show = true;
