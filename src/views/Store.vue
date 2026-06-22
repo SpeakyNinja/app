@@ -64,7 +64,7 @@
 
             async buy(item) {
                 if(this.student.isAutoReg()) {
-                    this.$router.push('/permanent-registration');
+                    this.$router.push('/link-email');
                     return false;
                 }
 

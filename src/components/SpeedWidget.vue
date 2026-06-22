@@ -143,6 +143,20 @@
                 return `${dash} ${circumference - dash}`;
             },
 
+            syncFromValue() {
+                this.progress = Math.round(this.curValue * 100 / this.maxValue);
+                if (this.progress > 100) {
+                    this.progress = 100;
+                }
+
+                this.arrowAngle = Math.round(this.progress * 180 / 100);
+                if (this.arrowAngle > 180) {
+                    this.arrowAngle = 180;
+                }
+                this.cssArrowRotate = `rotate(${this.arrowAngle}deg)`;
+                this.makeCssClasses();
+            },
+
             makeCssClasses() {
                 if(this.curValue <= 200) {
                     this.mainColor = '#fb4545';
@@ -172,23 +186,20 @@
             }
         },
 
+        watch: {
+            curValue() {
+                this.syncFromValue();
+            },
+            maxValue() {
+                this.syncFromValue();
+            },
+        },
+
         beforeMount() {
             this.tools = new ToolsService();
 
             this.radius = this.progressSize * 0.4;
-
-            this.progress = Math.round(this.curValue * 100 / this.maxValue);
-            if(this.progress > 100) {
-                this.progress = 100;
-            }
-            
-            this.arrowAngle = Math.round(this.progress * 180 / 100);
-            if(this.arrowAngle > 180) {
-                this.arrowAngle = 180;
-            }
-            this.cssArrowRotate = `rotate(${this.arrowAngle}deg)`;
-
-            this.makeCssClasses();
+            this.syncFromValue();
         }
     }
 </script>

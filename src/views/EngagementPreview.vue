@@ -52,7 +52,7 @@ import Options from '@/views/Options.vue';
 import DialogTestPlay from '@/views/DialogTestPlay.vue';
 import Registration from '@/views/Registration.vue';
 import Feedback from '@/views/Feedback.vue';
-import PermanentRegistration from '@/views/PermanentRegistration.vue';
+import LinkEmail from '@/views/LinkEmail.vue';
 import ForgotPassword from '@/views/ForgotPassword.vue';
 import DialogTestMenu from '@/views/DialogTestMenu.vue';
 import StatisticsLayerPreview from '@/views/engagement/StatisticsLayerPreview.vue';
@@ -67,10 +67,11 @@ const ROUTE_VIEWS = {
     'route.login': Login,
     'route.store': Store,
     'route.options': Options,
-    'route.registration': Registration,
+    'route.registration': Login,
     'route.feedback': Feedback,
-    'route.permanent_registration': PermanentRegistration,
-    'route.forgot_password': ForgotPassword,
+    'route.permanent_registration': LinkEmail,
+    'route.link_email': LinkEmail,
+    'route.forgot_password': Login,
     'route.dialog_test_menu': DialogTestMenu,
 };
 
@@ -91,7 +92,7 @@ export default {
         DialogTestPlay,
         Registration,
         Feedback,
-        PermanentRegistration,
+        LinkEmail,
         ForgotPassword,
         DialogTestMenu,
         StatisticsLayerPreview,

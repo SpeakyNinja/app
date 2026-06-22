@@ -50,7 +50,7 @@
         },
 
         mounted() {
-        }
+        },
     }
 </script>
 

@@ -6,8 +6,12 @@ import App from './App.vue'
 import './registerServiceWorker'
 import router from './router'
 import YandexMetrika from './services/YandexMetrika.js'
+import ConsentService from './services/ConsentService.js'
 
-YandexMetrika.init();
+if (ConsentService.hasAnalyticsConsent()) {
+    YandexMetrika.initIfConsented();
+}
+
 const app = createApp(App)
 
 app.use(router)

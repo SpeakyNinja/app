@@ -4,7 +4,7 @@ export default class Brain {
     fillColors;
     radiusCoeffs;
 
-    constructor() {
+    constructor(options = {}) {
         this.baseColor = '#525465';
         this.activeOutlineColor = '#525465';
         this.fillColors = {
@@ -42,6 +42,16 @@ export default class Brain {
             m10: 0.8,
             m11: 0.85
         };
+
+        if (options.baseColor) {
+            this.baseColor = options.baseColor;
+        }
+        if (options.activeOutlineColor) {
+            this.activeOutlineColor = options.activeOutlineColor;
+        }
+        if (options.fillColors) {
+            this.fillColors = { ...this.fillColors, ...options.fillColors };
+        }
 
         this.makeHexagons();
     }

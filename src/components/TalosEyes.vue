@@ -2,6 +2,10 @@
     <svg
         ref="svgRoot"
         class="talos-eyes"
+        :class="{
+            'talos-eyes--speak': speakGlow,
+            'talos-eyes--speak-pulse': speakGlow && glowPulsing,
+        }"
         :viewBox="displayViewBox"
         fill="currentColor"
         :style="{ color: fill, fill }"
@@ -278,6 +282,9 @@ export default {
         mood: { type: String, default: 'neutral' },
         moodTransition: { type: Boolean, default: false },
         moodTransitionMs: { type: Number, default: 500 },
+        /** Preview/dialog: brief brightness pulse on vectors per speakPulseKey tick */
+        speakGlow: { type: Boolean, default: false },
+        speakPulseKey: { type: Number, default: 0 },
     },
 
     data() {
@@ -290,6 +297,8 @@ export default {
             transitionFrameId: null,
             transitionToken: 0,
             smilEpoch: 0,
+            glowPulsing: false,
+            speakGlowTimer: null,
         };
     },
 
@@ -536,12 +545,32 @@ export default {
     },
 
     watch: {
+        animated(next) {
+            if (!next) {
+                return;
+            }
+
+            this.$nextTick(() => {
+                if (this.runSmil) {
+                    this.restartSmilAnimations();
+                }
+            });
+        },
+
         mood(nextMood) {
             if (nextMood === this.smilMood && !this.transitioning) {
                 return;
             }
 
             this.queueMoodTransition(nextMood);
+        },
+
+        speakPulseKey(nextKey) {
+            if (!this.speakGlow || !nextKey) {
+                return;
+            }
+
+            this.triggerSpeakPulse();
         },
     },
 
@@ -558,9 +587,22 @@ export default {
 
     beforeUnmount() {
         this.cancelTransition();
+        clearTimeout(this.speakGlowTimer);
     },
 
     methods: {
+        triggerSpeakPulse() {
+            clearTimeout(this.speakGlowTimer);
+            this.glowPulsing = false;
+
+            this.$nextTick(() => {
+                this.glowPulsing = true;
+                this.speakGlowTimer = setTimeout(() => {
+                    this.glowPulsing = false;
+                }, 140);
+            });
+        },
+
         getPoseRefs() {
             return {
                 contourSway: this.$refs.contourSway,
@@ -720,6 +762,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+/* Вспышка яркости на векторах — без scale, без дрожания */
+.talos-eyes--speak :deep(path),
+.talos-eyes--speak :deep(.talos-eyes__pupil ellipse) {
+    filter: brightness(1);
+    transition: filter 0.12s ease-out;
+}
+
+.talos-eyes--speak-pulse :deep(path),
+.talos-eyes--speak-pulse :deep(.talos-eyes__pupil ellipse) {
+    filter: brightness(2.1) drop-shadow(0 0 1px currentColor);
+    transition: filter 0.05s ease-in;
+}
+
 @media (max-width: 550px) {
     .talos-eyes.ai-image {
         width: 80vw;

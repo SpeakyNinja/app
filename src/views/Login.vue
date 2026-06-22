@@ -6,92 +6,72 @@
         </template>
 
         <template v-slot:content>
-
             <div class="content mt-1">
-                <div>
+                <template v-if="step === 1">
                     <div>
                         <div class="m-light ml-1 mb-1 m-size20 m-white">E-mail</div>
-                        <input class="input" type="text" v-model="student.email">
-                    </div>
+                        <input class="input" type="email" v-model="email" autocomplete="email">
 
-                    <div>
-                        <div class="m-light ml-1 mb-1 mt-1 m-size20 m-white">Пароль</div>
+                        <ConsentCheckbox v-model="pdConsent" :showError="consentError" class="mt-2" />
 
-                        <PasswordBox>
-                            
-                            <template v-slot:password-input>
-                                <input type="password" v-model="student.password">
-                            </template>
-
-                            <template v-slot:text-input>
-                                <input type="text" v-model="student.password">
-                            </template>
-
-                        </PasswordBox>
-
-                        <div class="mt-1 m-right">
-                            <router-link to="/forgot-password" class="m-underline m-size16">
-                                Забыли пароль?
-                            </router-link>
-                        </div>
+                        <div class="btn green mt-2" @click="submit">Получить ссылку для входа</div>
 
                         <div class="m-red mt-2" v-if="error">{{ error }}</div>
                     </div>
 
-                    <div class="btn green mt-2" @click="login">Войти</div>
+                    <div class="btn transparent mt-1" @click="toHome">Вернуться</div>
+                </template>
 
-                    <div class="ext-buttons">
-                        <GoogleLogin />
-                        <VkLogin />
+                <template v-else>
+                    <div class="m-light ml-1 mb-1 m-size20 m-white m-center">
+                        Ссылка для входа отправлена на вашу почту. Перейдите по ней в течение 15 минут.
                     </div>
 
-                </div>
-
-                <div class="btn transparent" @click="toHome">Вернуться</div>
-                
-                <div class="m-center">
-                    <div class=" m-size16 m-white">Регистрируясь, вы принимаете</div>
-                    <a href="https://speaky.ninja/agreement" target="_blank" class="m-underline m-size16">данные условия</a>
-                </div>
+                    <div class="btn green mt-2" @click="toHome">Ок</div>
+                </template>
             </div>
-
-
         </template>
 
     </Form>
-
 </template>
 
 <script>
     import { inject } from 'vue';
-    import PasswordBox from "@/components/PasswordBox.vue";
-    import Form from "@/components/Form.vue";
-    import GoogleLogin from '@/components/GoogleLogin.vue';
-    import VkLogin from '@/components/VkLogin.vue';
+    import Form from '@/components/Form.vue';
+    import ConsentCheckbox from '@/components/ConsentCheckbox.vue';
+    import ConsentService from '@/services/ConsentService.js';
 
     export default {
-
         components: {
-            PasswordBox,
             Form,
-            GoogleLogin,
-            VkLogin
+            ConsentCheckbox,
         },
 
         data() {
             return {
-                error: ''
-            }
+                email: '',
+                error: '',
+                step: 1,
+                pdConsent: false,
+                consentError: false,
+            };
         },
 
         methods: {
-            async login() {
+            async submit() {
+                if (!this.pdConsent) {
+                    this.consentError = true;
+                    return;
+                }
+
+                ConsentService.setPdConsent(true);
+
                 try {
                     this.preloader.show = true;
-                    const r = await this.student.login();
-                    this.$router.push('/statistics');
-                } catch(res) {
-                    this.error = res.message;
+                    await this.student.sendMagicLink(this.email);
+                    this.step = 2;
+                } catch (res) {
+                    this.error = res.message || 'Ошибка сервера';
                 } finally {
                     this.preloader.show = false;
                 }
@@ -100,24 +80,12 @@
             toHome() {
                 localStorage.setItem('skipIndexBefore', true);
                 this.$router.push('/');
-            }
+            },
         },
 
         beforeMount() {
             this.preloader = inject('preloader');
             this.student = inject('student');
-        }
-    }
+        },
+    };
 </script>
-
-<style lang="scss" scoped>
-
-    .ext-buttons {
-        display: flex;
-        gap: 10px;
-        align-items: center;
-        justify-content: center;
-        margin-top: 50px;
-    }
-
-</style>

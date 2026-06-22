@@ -2,7 +2,6 @@ import { createRouter, createWebHistory } from 'vue-router';
 import axios from 'axios';
 import Index from '@/views/Index.vue';
 import Login from '@/views/Login.vue';
-import Registration from '@/views/Registration.vue';
 import Test from '@/views/Test.vue';
 import AddWords from '@/views/AddWords.vue';
 import Training from '@/views/Training.vue';
@@ -10,15 +9,16 @@ import Statistics from '@/views/Statistics.vue';
 import Options from '@/views/Options.vue';
 import Store from '@/views/Store.vue';
 import FewNeurons from '@/views/FewNeurons.vue';
-import PermanentRegistration from '@/views/PermanentRegistration.vue';
+import LinkEmail from '@/views/LinkEmail.vue';
 import Feedback from '@/views/Feedback.vue';
-import ForgotPassword from '@/views/ForgotPassword.vue';
-import Recovery from '@/views/Recovery.vue';
+import PrivacyPolicy from '@/views/PrivacyPolicy.vue';
+import MagicLinkVerify from '@/views/MagicLinkVerify.vue';
 import Page404 from '@/views/Page404.vue';
 import DialogTestMenu from '@/views/DialogTestMenu.vue';
 import DialogTestPlay from '@/views/DialogTestPlay.vue';
 import EngagementPreview from '@/views/EngagementPreview.vue';
 import AnimationPreview from '@/views/AnimationPreview.vue';
+import DesignPreview from '@/views/DesignPreview.vue';
 
 const dialogTestEnabled = import.meta.env.VITE_DIALOG_TEST_ENABLED === 'true';
 
@@ -49,20 +49,28 @@ const router = createRouter({
             component: AnimationPreview,
             props: true,
         }, {
-            path: '/:catchAll(.*)',
-            component: Page404
+            path: '/design-preview/:moduleKey',
+            component: DesignPreview,
+            props: true,
+        }, {
+            path: '/privacy',
+            component: PrivacyPolicy,
         }, {
             path: '/login',
             component: Login
         }, {
+            path: '/auth/magic/:token',
+            component: MagicLinkVerify,
+            props: true,
+        }, {
             path: '/registration',
-            component: Registration
+            redirect: '/login',
         }, {
             path: '/forgot-password',
-            component: ForgotPassword
+            redirect: '/login',
         }, {
             path: '/recovery/:token',
-            component: Recovery
+            redirect: '/login',
         }, {
             path: '/test',
             component: Test
@@ -85,13 +93,20 @@ const router = createRouter({
             path: '/few-neurons',
             component: FewNeurons
         }, {
+            path: '/link-email',
+            component: LinkEmail,
+        }, {
             path: '/permanent-registration',
-            component: PermanentRegistration
+            redirect: '/link-email',
         }, {
             path: '/feedback',
             component: Feedback
         },
         ...dialogTestRoutes,
+        {
+            path: '/:catchAll(.*)',
+            component: Page404
+        },
     ]
 })
 

@@ -11,11 +11,7 @@
             <div class="content mt-1">
                 <div class="buttons">
                     <div>
-                        <div class="btn blue outline" @click="toLogin">Войти</div>
-                    </div>
-
-                    <div>
-                        <div class="btn blue outline mt-2" @click="toRegistration">Зарегистрироваться</div>
+                        <div class="btn blue outline" @click="toLogin">Войти по e-mail</div>
                     </div>
 
                     <div>
@@ -23,10 +19,7 @@
                     </div>
                 </div>
 
-                <div class="m-center">
-                    <div class=" m-size16 m-white">Продолжая, вы принимаете</div>
-                    <a href="https://speaky.ninja/agreement" target="_blank" class="m-underline m-size16">данные условия</a>
-                </div>
+                <ConsentCheckbox v-model="pdConsent" :showError="consentError" class="mt-2" />
             </div>
 
 
@@ -47,25 +40,44 @@
     import { inject } from 'vue';
     import { isEngagementPreviewActive } from '@/utils/engagementPreviewBootstrap.js';
     import NoticeLayer from '@/components/NoticeLayer.vue';
-    import Form from "@/components/Form.vue";
+    import Form from '@/components/Form.vue';
+    import ConsentCheckbox from '@/components/ConsentCheckbox.vue';
+    import ConsentService from '@/services/ConsentService.js';
     import NoticeService from '@/services/NoticeService.js';
 
     export default {
 
         components: {
             NoticeLayer,
-            Form
+            Form,
+            ConsentCheckbox,
         },
 
         data() {
             return {
                 showNotice: false,
-                noticeItems: []
+                noticeItems: [],
+                pdConsent: false,
+                consentError: false,
             }
         },
 
         methods: {
+            ensureConsent() {
+                if (!this.pdConsent) {
+                    this.consentError = true;
+                    return false;
+                }
+
+                ConsentService.setPdConsent(true);
+                return true;
+            },
+
             async toTest() {
+                if (!this.ensureConsent()) {
+                    return;
+                }
+
                 try {
                     this.preloader.show = true;
                     await this.student.autoRegistration();
@@ -78,15 +90,15 @@
             },
 
             toLogin() {
+                if (!this.ensureConsent()) {
+                    return;
+                }
+
                 this.$router.push('/login');
             },
-
-            toRegistration() {
-                this.$router.push('/registration');
-            }
         },
 
-        beforeMount() {
+        async beforeMount() {
             this.modal = inject('modal');
             this.preloader = inject('preloader');
             this.student = inject('student');
@@ -102,18 +114,20 @@
                 return;
             }
 
-            if(!this.student.isGuest()) {
+            const authenticated = await this.student.checkAuth();
+            if (authenticated) {
                 this.$router.push('/statistics');
+                return;
             }
 
-            if(localStorage.getItem('skipIndexBefore')) {
+            if (localStorage.getItem('skipIndexBefore')) {
                 localStorage.removeItem('skipIndexBefore');
             } else {
                 this.noticeService = new NoticeService();
                 this.noticeItems = this.noticeService.getItems('indexBefore');
                 this.showNotice = true;
             }
-        }
+        },
     }
 </script>
 

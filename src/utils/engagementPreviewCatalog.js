@@ -13,7 +13,8 @@ export const ENGAGEMENT_PREVIEW_CATALOG = {
     'route.store': { kind: 'route', routeKey: 'route.store' },
     'route.options': { kind: 'route', routeKey: 'route.options' },
     'route.feedback': { kind: 'route', routeKey: 'route.feedback' },
-    'route.permanent_registration': { kind: 'route', routeKey: 'route.permanent_registration' },
+    'route.link_email': { kind: 'route', routeKey: 'route.link_email' },
+    'route.permanent_registration': { kind: 'route', routeKey: 'route.link_email' },
     'route.forgot_password': { kind: 'route', routeKey: 'route.forgot_password' },
     'route.dialog_test_menu': { kind: 'route', routeKey: 'route.dialog_test_menu' },
 
@@ -85,7 +86,8 @@ const ROUTE_SUFFIX_TO_KEY = {
     store: 'route.store',
     options: 'route.options',
     feedback: 'route.feedback',
-    permanent_registration: 'route.permanent_registration',
+    permanent_registration: 'route.link_email',
+    link_email: 'route.link_email',
     forgot_password: 'route.forgot_password',
     dialog_test_menu: 'route.dialog_test_menu',
 };

@@ -1,6 +1,7 @@
 <template>
     <RouterView />
 
+    <CookieConsent />
     <Preloader :isEnabled="preloader.show" />
     <Modal :show="modal.showModal" :options="modal.modalOptions" @close="modal.showModal = false" />
 </template>
@@ -8,15 +9,17 @@
 <script>
     import { provide } from 'vue';
     import { RouterLink, RouterView } from 'vue-router';
-    import Modal from "@/components/Modal.vue";
-    import Preloader from "@/components/Preloader.vue";
-    import StudentService from "@/services/StudentService.js";
+    import Modal from '@/components/Modal.vue';
+    import Preloader from '@/components/Preloader.vue';
+    import CookieConsent from '@/components/CookieConsent.vue';
+    import StudentService from '@/services/StudentService.js';
     import StateService from '@/services/StateService.js'
 
     export default {
     	components: {
     		Modal,
-            Preloader
+            Preloader,
+            CookieConsent,
         },
 
         data() {
@@ -64,17 +67,19 @@
 
             isPublicArea() {
                 const path = window.location.pathname;
-                const public_paths = ['/login', '/registration', '/forgot-password'];
-                const isRecovery = path.indexOf('/recovery/') === 0;
+                const public_paths = ['/login', '/privacy'];
+                const isMagicLink = path.indexOf('/auth/magic/') === 0;
                 const isEngagementPreview = path.indexOf('/engagement-preview/') === 0;
                 const isAnimationPreview = path.indexOf('/animation-preview/') === 0;
-                return isRecovery || isEngagementPreview || isAnimationPreview || public_paths.includes(path);
+                const isDesignPreview = path.indexOf('/design-preview/') === 0;
+                return isMagicLink || isEngagementPreview || isAnimationPreview || isDesignPreview || public_paths.includes(path);
             },
 
             isEngagementPreviewArea() {
                 const path = window.location.pathname;
                 return path.indexOf('/engagement-preview/') === 0
-                    || path.indexOf('/animation-preview/') === 0;
+                    || path.indexOf('/animation-preview/') === 0
+                    || path.indexOf('/design-preview/') === 0;
             }
         },
 
@@ -83,25 +88,23 @@
                 return;
             }
 
-            if(this.student.isGuest()) {
-                
-                if(!this.isPublicArea()) {
-                    this.$router.push('/');
-                }
+            let authenticated = false;
 
-            } else {
+            try {
+                this.preloader.show = true;
+                authenticated = await this.student.checkAuth();
 
-                try {
-                    this.preloader.show = true;
+                if (authenticated) {
                     const r = await this.student.fetchData();
                     this.checkPwaVersion(r.pwaVersion);
                     localStorage.setItem('appTimezone', r.appTimezone);
-                } catch(res) {
-                    this.modal.show(res);
-                } finally {
-                    this.preloader.show = false;
+                } else if (!this.isPublicArea()) {
+                    this.$router.push('/');
                 }
-                
+            } catch (res) {
+                this.modal.show(res);
+            } finally {
+                this.preloader.show = false;
             }
         },
 

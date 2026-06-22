@@ -1,0 +1,110 @@
+export const DESIGN_PREVIEW_GROUPS = {
+    auth: 'Авторизация',
+    learning: 'Обучение',
+    stats: 'Статистика',
+    dialog: 'Диалоги',
+    overlays: 'Оверлеи',
+};
+
+export const DESIGN_PREVIEW_MODULES = [
+    {
+        module_key: 'auth',
+        title: 'Auth · Index / Login',
+        group: 'auth',
+        description: 'Speaky.Ninja, outline-кнопки, green CTA, Talos опционально.',
+        route: '/',
+    },
+    {
+        module_key: 'add_words',
+        title: 'Add words · Brain',
+        group: 'learning',
+        description: 'Hex-мозг, слово, bottom sheet знаю/учить/пozже.',
+        route: '/add-words',
+    },
+    {
+        module_key: 'training',
+        title: 'Training',
+        group: 'learning',
+        description: 'Progress, transcription, hints, answer sheet.',
+        route: '/training',
+    },
+    {
+        module_key: 'statistics_dashboard',
+        title: 'Statistics · Dashboard',
+        group: 'stats',
+        description: 'Кольцо пояса, плитки, нейроны, green CTA.',
+        route: '/statistics',
+        preview_module: 'statistics',
+        preview_layer: 'LayerDashboard',
+    },
+    {
+        module_key: 'statistics_regularity',
+        title: 'Statistics · Регулярность',
+        group: 'stats',
+        description: 'Серия дней, виджет регулярности.',
+        route: '/statistics',
+        preview_module: 'statistics',
+        preview_layer: 'LayerRegularity',
+    },
+    {
+        module_key: 'statistics_accuracy',
+        title: 'Statistics · Слова',
+        group: 'stats',
+        description: 'Точность и последние тренировки.',
+        route: '/statistics',
+        preview_module: 'statistics',
+        preview_layer: 'LayerAccuracy',
+    },
+    {
+        module_key: 'statistics_predict',
+        title: 'Statistics · Прогноз',
+        group: 'stats',
+        description: 'Спидометр ожидаемого прироста.',
+        route: '/statistics',
+        preview_module: 'statistics',
+        preview_layer: 'LayerPredict',
+    },
+    {
+        module_key: 'statistics_level',
+        title: 'Statistics · Уровень',
+        group: 'stats',
+        description: 'Мозги по уровням запоминания.',
+        route: '/statistics',
+        preview_module: 'statistics',
+        preview_layer: 'LayerLevel',
+    },
+    {
+        module_key: 'statistics_intensity',
+        title: 'Statistics · Интенсивность',
+        group: 'stats',
+        description: 'Heatmap времени за неделю.',
+        route: '/statistics',
+        preview_module: 'statistics',
+        preview_layer: 'LayerIntensity',
+    },
+    {
+        module_key: 'dialog',
+        title: 'Dialog play',
+        group: 'dialog',
+        description: 'Timer, Talos mood, replica lines, reactions.',
+        route: '/dialog-test/:slug',
+    },
+    {
+        module_key: 'notice',
+        title: 'Notice overlay',
+        group: 'overlays',
+        description: 'NoticeLayer card поверх затемнённого экрана.',
+        route: 'NoticeLayer',
+    },
+    {
+        module_key: 'modal',
+        title: 'Modal · error',
+        group: 'overlays',
+        description: 'Системная модалка (сейчас white — в preview тестируем dark).',
+        route: 'Modal.vue',
+    },
+];
+
+export function findDesignPreviewModule(moduleKey) {
+    return DESIGN_PREVIEW_MODULES.find((m) => m.module_key === moduleKey) || null;
+}

@@ -33,18 +33,100 @@
                 type: Array,
                 required: false,
                 default: []
-            }
+            },
+            colorTheme: {
+                type: Object,
+                required: false,
+                default: null,
+            },
+            introSequence: {
+                type: Array,
+                required: false,
+                default: () => [],
+            },
+            introStaggerMs: {
+                type: Number,
+                required: false,
+                default: 65,
+            },
+            centerInCanvas: {
+                type: Boolean,
+                default: false,
+            },
+            glassCells: {
+                type: Boolean,
+                default: false,
+            },
         },
 
         data() {
             return {
+                contentOffset: { cx: 0, cy: 0, scale: 1 },
             }
         },
 
         methods: {
+            computeCanvasOffset() {
+                let minX = Infinity;
+                let maxX = -Infinity;
+                let minY = Infinity;
+                let maxY = -Infinity;
+
+                this.brainService.hexagons.forEach((row, y) => {
+                    row.forEach((hex, x) => {
+                        if (hex.isEmpty) {
+                            return;
+                        }
+
+                        const pos = this.getPosition(x, y);
+                        minX = Math.min(minX, pos.x - this.hexRadius);
+                        maxX = Math.max(maxX, pos.x + this.hexRadius);
+                        minY = Math.min(minY, pos.y - this.hexRadius);
+                        maxY = Math.max(maxY, pos.y + this.hexRadius);
+                    });
+                });
+
+                if (!Number.isFinite(minX)) {
+                    return { cx: 0, cy: 0, scale: 1 };
+                }
+
+                const contentW = maxX - minX;
+                const contentH = maxY - minY;
+                const viewportW = this.width * 2;
+                const viewportH = this.height * 2;
+                const scale = Math.min(
+                    1,
+                    (viewportW * 0.94) / contentW,
+                    (viewportH * 0.94) / contentH,
+                );
+
+                return {
+                    cx: (minX + maxX) / 2,
+                    cy: (minY + maxY) / 2,
+                    scale,
+                };
+            },
+
+            applyCanvasOffset() {
+                this.ctx.setTransform(1, 0, 0, 1, 0, 0);
+
+                if (!this.centerInCanvas) {
+                    return;
+                }
+
+                const { cx, cy, scale } = this.contentOffset;
+                // Canvas buffer is 2× CSS size; visible center is (width, height) in buffer coords.
+                this.ctx.translate(this.width, this.height);
+                this.ctx.scale(scale, scale);
+                this.ctx.translate(-cx, -cy);
+            },
+
             init() {
                 this.ctx = this.$refs.canvas.getContext('2d');
-                this.ctx.setTransform(1, 0, 0, 1, 0, 0);
+                this.contentOffset = this.centerInCanvas
+                    ? this.computeCanvasOffset()
+                    : { cx: 0, cy: 0, scale: 1 };
+                this.applyCanvasOffset();
                 this.ctx.fillStyle = 'white';
                 this.drawBackground(this.brainService.getHexagons());
                 
@@ -55,12 +137,23 @@
                 this.drawHexagons(this.brainService.getHexagons());
             },
 
+            isFilledCell(item) {
+                return item.fillColor && item.fillColor !== 'transparent';
+            },
+
             drawHexagons(hexagons) {
                 hexagons.forEach((row, y) => {
                     row.forEach((item, x) => {
                         const position = this.getPosition(row.length - 1 - x, y);
-                        this.drawHexagon(item.fillColor, position, null, item.radiusCoeff);
-                        this.drawOutline(item.outlineColor, position);
+                        const useGlass = this.glassCells && this.isFilledCell(item);
+
+                        if (useGlass) {
+                            this.drawGlassHexagon(item.fillColor, position, null, item.radiusCoeff);
+                            this.drawGlassOutline(item.outlineColor, position);
+                        } else {
+                            this.drawHexagon(item.fillColor, position, null, item.radiusCoeff);
+                            this.drawOutline(item.outlineColor, position);
+                        }
                     });
                 });
             },
@@ -109,6 +202,40 @@
                 this.ctx.fill();
             },
 
+            drawGlassHexagon(fillColor, position, radius = null, radiusCoeff = 1) {
+                if (radius == null) {
+                    radius = this.hexRadius * radiusCoeff;
+                }
+
+                const { x, y } = position;
+                this.preparePath(position, radius);
+
+                const grad = this.ctx.createLinearGradient(x, y - radius, x, y + radius * 0.92);
+                grad.addColorStop(0, 'rgba(255, 255, 255, 0.28)');
+                grad.addColorStop(0.38, 'rgba(255, 255, 255, 0.08)');
+                grad.addColorStop(0.72, 'rgba(42, 42, 46, 0.2)');
+                grad.addColorStop(1, 'rgba(18, 18, 22, 0.38)');
+
+                this.ctx.fillStyle = grad;
+                this.ctx.fill();
+
+                this.preparePath(position, radius * 0.9);
+                this.ctx.save();
+                this.ctx.shadowColor = 'rgba(122, 158, 194, 0.72)';
+                this.ctx.shadowBlur = 16;
+                this.ctx.globalAlpha = 0.62;
+                this.ctx.fillStyle = fillColor;
+                this.ctx.fill();
+                this.ctx.restore();
+            },
+
+            drawGlassOutline(outlineColor, position) {
+                this.preparePath(position, this.hexRadius);
+                this.ctx.lineWidth = 1.5;
+                this.ctx.strokeStyle = outlineColor || 'rgba(255, 255, 255, 0.24)';
+                this.ctx.stroke();
+            },
+
             drawOutline(outlineColor, position) {
                 this.preparePath(position, this.hexRadius);
                 this.ctx.lineWidth = 2;
@@ -117,9 +244,20 @@
             },
 
             drawHexagonWithAnimation(fillColor, outlineColor, position, radius) {
-                this.drawHexagon(fillColor, position, radius);
-                if(radius == this.hexRadius) {
-                    this.drawOutline(outlineColor, position);
+                const useGlass = this.glassCells && fillColor && fillColor !== 'transparent';
+
+                if (useGlass) {
+                    this.drawGlassHexagon(fillColor, position, radius);
+                } else {
+                    this.drawHexagon(fillColor, position, radius);
+                }
+
+                if (radius == this.hexRadius) {
+                    if (useGlass) {
+                        this.drawGlassOutline(outlineColor, position);
+                    } else {
+                        this.drawOutline(outlineColor, position);
+                    }
                 }
                 
                 if(radius < this.hexRadius) {
@@ -183,15 +321,31 @@
             },
 
             refresh() {
+                this.ctx.setTransform(1, 0, 0, 1, 0, 0);
                 this.ctx.clearRect(0, 0, this.$refs.canvas.width, this.$refs.canvas.height);
+                if (this.centerInCanvas) {
+                    this.contentOffset = this.computeCanvasOffset();
+                }
+                this.applyCanvasOffset();
                 this.drawBackground(this.brainService.getHexagons());
                 this.drawHexagons(this.brainService.getHexagons());
-            }
+            },
+
+            playIntroSequence() {
+                const stagger = this.introStaggerMs;
+                this.introSequence.forEach((status, i) => {
+                    setTimeout(() => this.addWord(status), 180 + i * stagger);
+                });
+            },
         },
 
         mounted() {
-            this.brainService = new Brain();
+            this.brainService = new Brain(this.colorTheme || {});
             this.init();
+
+            if (this.introSequence?.length) {
+                this.$nextTick(() => this.playIntroSequence());
+            }
         }
     }
 </script>
