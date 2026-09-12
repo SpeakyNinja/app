@@ -119,12 +119,17 @@
                 userHint: null,
                 showFeedback: false,
                 noticeItemsBefore: [],
-                noticeItemsAfter: []
+                noticeItemsAfter: [],
+                stepPending: false
             }
         },
 
         methods: {
             nextStep(answer) {
+                if (this.stepPending) {
+                    return false;
+                }
+
                 if(!answer.isCorrect) {
                     this.trainings.countError();
                     this.trainings.deleteAnswer(answer);
@@ -132,10 +137,16 @@
                     return false;
                 }
 
+                this.stepPending = true;
                 this.highlitedAnswer = answer.text;
                 this.playAudio('muteTrainingVoice2');
                 this.preloader.show = true;
-                setTimeout(async () => {
+                clearTimeout(this.nextStepTimer);
+                this.nextStepTimer = setTimeout(async () => {
+                    if (this._unmounted) {
+                        return;
+                    }
+
                     this.stopTimer();
                     this.trainings.setAnswer(this.elapsedTime);
                     if(this.trainings.isFinish()) {
@@ -150,6 +161,7 @@
                         } finally {
                             this.highlitedAnswer = '';
                             this.preloader.show = false;
+                            this.stepPending = false;
                         }
                     } else {
                         this.$refs.training.scrollTo(0, 0);
@@ -158,12 +170,16 @@
                         this.updateProgress();
                         this.$forceUpdate();
 
-                        setTimeout(() => {
-                            this.playAudio('muteTrainingVoice1');
+                        clearTimeout(this.audioTimer);
+                        this.audioTimer = setTimeout(() => {
+                            if (!this._unmounted) {
+                                this.playAudio('muteTrainingVoice1');
+                            }
                         }, 1000);
                         
                         this.startTimer();
                         this.preloader.show = false;
+                        this.stepPending = false;
                     }
                 }, 1000);
             },
@@ -225,8 +241,9 @@
             },
 
             async sendUserHint() {
-                if(!this.userHint) {
+                if(!this.userHint?.trim()) {
                     this.modal.show({message: 'Необходимо ввести подсказку'});
+                    return;
                 }
 
                 const training = this.trainings.getCurrent();
@@ -340,6 +357,12 @@
             } finally {
                 this.preloader.show = false;
             }
+        },
+
+        beforeUnmount() {
+            this._unmounted = true;
+            clearTimeout(this.nextStepTimer);
+            clearTimeout(this.audioTimer);
         }
     }
 </script>

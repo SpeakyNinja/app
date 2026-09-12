@@ -110,6 +110,8 @@
                     return false;
                 }
 
+                clearTimeout(this.chooseTimer);
+
                 let timeout = 400;
                 let status = 'pending';
                 if(this.isIknow) {
@@ -126,7 +128,11 @@
                 this.$refs.card.style.top = this.lastCoords.y - this.start.y + 'px';
                 this.$refs.card.style.left = this.lastCoords.x - this.start.x + 'px';
 
-                setTimeout(() => {
+                this.chooseTimer = setTimeout(() => {
+                    if (this._unmounted) {
+                        return;
+                    }
+
                     this.isCardHidden = true;
 
                     this.$refs.card.style.left = 0;
@@ -161,6 +167,13 @@
         beforeMount() {
             this.toolsService = new ToolsService();
             this.toolsService.nextItemIndex = 0;
+        },
+
+        beforeUnmount() {
+            this._unmounted = true;
+            document.removeEventListener('mousemove', this.mouseMove);
+            document.removeEventListener('touchmove', this.mouseMove);
+            clearTimeout(this.chooseTimer);
         }
     }
 </script>

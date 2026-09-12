@@ -35,17 +35,32 @@ export default class YookassaService extends AbstractService {
         document.head.appendChild(script);
     }
 
-    waitForScript() {
+    waitForScript(timeoutMs = 30000) {
+        this.cancelWait();
+
         return new Promise((resolve, reject) => {
-            const interval = setInterval(() => {
-                if(this.loaded) {
-                    clearInterval(interval);
+            const deadline = Date.now() + timeoutMs;
+
+            this._waitInterval = setInterval(() => {
+                if (this.loaded) {
+                    this.cancelWait();
                     resolve();
-                } else if(this.loadingFailed) {
+                } else if (this.loadingFailed) {
+                    this.cancelWait();
                     reject({ message: this.errorMessage });
+                } else if (Date.now() >= deadline) {
+                    this.cancelWait();
+                    reject({ message: 'Превышено время ожидания загрузки платёжного виджета' });
                 }
             }, 100);
         });
+    }
+
+    cancelWait() {
+        if (this._waitInterval) {
+            clearInterval(this._waitInterval);
+            this._waitInterval = null;
+        }
     }
 
     showWidget(containerId) {
@@ -86,8 +101,12 @@ export default class YookassaService extends AbstractService {
         });
     }
 
-    createPayment(storeItemId) {
-        return this.request('/payment/create', { id: storeItemId }, r => {
+    createPayment(storeItemId, promoCode = null) {
+        const payload = { id: storeItemId };
+        if (promoCode) {
+            payload.promo_code = promoCode;
+        }
+        return this.request('/payment/create', payload, r => {
             this.confirmationToken = r.confirmationToken;
             this.paymentId = r.paymentId;
         });

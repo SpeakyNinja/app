@@ -43,13 +43,22 @@
                 try {
                     this.preloader.show = true;
                     await this.student.verifyMagicLink(this.$route.params.token);
+                    if (this._unmounted) {
+                        return;
+                    }
                     YandexMetrika.sendUserParams(this.student.getId());
-                    this.$router.replace('/statistics');
+                    const route = await this.student.resolvePostLoginRoute();
+                    this.$router.replace(route);
                 } catch (res) {
+                    if (this._unmounted) {
+                        return;
+                    }
                     this.error = res.message || 'Ссылка не найдена или устарела';
                     this.loading = false;
                 } finally {
-                    this.preloader.show = false;
+                    if (!this._unmounted) {
+                        this.preloader.show = false;
+                    }
                 }
             },
         },
@@ -58,6 +67,10 @@
             this.preloader = inject('preloader');
             this.student = inject('student');
             this.verify();
+        },
+
+        beforeUnmount() {
+            this._unmounted = true;
         },
     };
 </script>

@@ -3,7 +3,7 @@ export const DESIGN_PREVIEW_VARIANT_MESSAGE = 'sn-design-preview-variant';
 export function listenDesignPreviewVariant(callback) {
     const handler = (event) => {
         if (event?.data?.type === DESIGN_PREVIEW_VARIANT_MESSAGE) {
-            callback(event.data.variant || 'baseline');
+            callback(event.data.variant || 'prism_flow');
         }
     };
 

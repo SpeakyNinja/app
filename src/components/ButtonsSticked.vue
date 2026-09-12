@@ -19,17 +19,22 @@
 
         data() {
             return {
-                startHighlightTime: null
+                startHighlightTime: null,
+                highlightStopTimer: null
             }
         },
 
         methods: {
             highlightStart(answer = -1) {
+                clearTimeout(this.highlightStopTimer);
+                this.highlightStopTimer = null;
                 this.options.highlightedItem = answer;
                 this.startHighlightTime = (new Date()).getTime();
             },
 
             highlightStop() {
+                clearTimeout(this.highlightStopTimer);
+
                 const elapsedTime = (new Date()).getTime() - this.startHighlightTime;
                 let timeout = this.options.maxHighlightInterval * 1000 - elapsedTime;
 
@@ -37,11 +42,16 @@
                     timeout = 0;
                 }
 
-                setTimeout(() => {
+                this.highlightStopTimer = setTimeout(() => {
                     this.options.highlightedItem = null;
                     this.startHighlightTime = null;
+                    this.highlightStopTimer = null;
                 }, timeout);
             }
+        },
+
+        beforeUnmount() {
+            clearTimeout(this.highlightStopTimer);
         }
     }
 </script>

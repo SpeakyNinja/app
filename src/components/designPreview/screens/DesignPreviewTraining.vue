@@ -53,7 +53,7 @@ export default {
     },
 
     props: {
-        variant: { type: String, default: 'baseline' },
+        variant: { type: String, default: 'prism_flow' },
     },
 
     data() {
