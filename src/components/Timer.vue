@@ -83,6 +83,10 @@
 
         mounted() {
             this.startAnimation();
+        },
+
+        beforeUnmount() {
+            this.stop();
         }
     }
 </script>

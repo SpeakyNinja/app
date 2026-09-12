@@ -2,7 +2,13 @@
     <div
         ref="pageRoot"
         class="design-preview-page"
-        :class="themeClass"
+        :class="[
+            themeClass,
+            {
+                'design-preview-page--standalone': isStandalone,
+                'design-preview-page--concept': isConceptScreen,
+            },
+        ]"
         :style="rootStyle"
     >
         <component :is="screenComponent" v-if="screenComponent" :variant="config.variant" />
@@ -13,13 +19,22 @@
 </template>
 
 <script>
-import DesignPreviewAuth from '@/components/designPreview/screens/DesignPreviewAuth.vue';
-import DesignPreviewAddWords from '@/components/designPreview/screens/DesignPreviewAddWords.vue';
+import ConceptAtelierCover from '@/components/designPreview/concepts/ConceptAtelierCover.vue';
+import ConceptAtelierSpread from '@/components/designPreview/concepts/ConceptAtelierSpread.vue';
+import ConceptSalonInbox from '@/components/designPreview/concepts/ConceptSalonInbox.vue';
+import ConceptSalonTraining from '@/components/designPreview/concepts/ConceptSalonTraining.vue';
+import ConceptSalonDialog from '@/components/designPreview/concepts/ConceptSalonDialog.vue';
+import ConceptSalonSession from '@/components/designPreview/concepts/ConceptSalonSession.vue';
+import ConceptSalonStats from '@/components/designPreview/concepts/ConceptSalonStats.vue';
+import ConceptSalonQuests from '@/components/designPreview/concepts/ConceptSalonQuests.vue';
+import ConceptSalonAchievements from '@/components/designPreview/concepts/ConceptSalonAchievements.vue';
+import ConceptSalonReport from '@/components/designPreview/concepts/ConceptSalonReport.vue';
+import ConceptSalonSettings from '@/components/designPreview/concepts/ConceptSalonSettings.vue';
+import ConceptSalonAccount from '@/components/designPreview/concepts/ConceptSalonAccount.vue';
+import ConceptGardenHome from '@/components/designPreview/concepts/ConceptGardenHome.vue';
+import ConceptGardenConservatory from '@/components/designPreview/concepts/ConceptGardenConservatory.vue';
 import DesignPreviewTraining from '@/components/designPreview/screens/DesignPreviewTraining.vue';
-import DesignPreviewStatistics from '@/components/designPreview/screens/DesignPreviewStatistics.vue';
-import DesignPreviewDialog from '@/components/designPreview/screens/DesignPreviewDialog.vue';
-import DesignPreviewNotice from '@/components/designPreview/screens/DesignPreviewNotice.vue';
-import DesignPreviewModal from '@/components/designPreview/screens/DesignPreviewModal.vue';
+import { isConceptPreviewModule } from '@/utils/designPreviewCatalog.js';
 import {
     cssVarsFromDesignTheme,
     readDesignPreviewConfig,
@@ -29,13 +44,21 @@ import { bindDesignPreviewPress } from '@/utils/designPreviewPress.js';
 import { onMounted, onUnmounted, ref } from 'vue';
 
 const SCREEN_MAP = {
-    auth: DesignPreviewAuth,
-    add_words: DesignPreviewAddWords,
+    atelier_cover: ConceptAtelierCover,
+    atelier_spread: ConceptAtelierSpread,
+    salon_inbox: ConceptSalonInbox,
+    salon_training: ConceptSalonTraining,
+    salon_dialog: ConceptSalonDialog,
+    salon_session: ConceptSalonSession,
+    salon_stats: ConceptSalonStats,
+    salon_quests: ConceptSalonQuests,
+    salon_achievements: ConceptSalonAchievements,
+    salon_report: ConceptSalonReport,
+    salon_settings: ConceptSalonSettings,
+    salon_account: ConceptSalonAccount,
+    garden_home: ConceptGardenHome,
+    garden_conservatory: ConceptGardenConservatory,
     training: DesignPreviewTraining,
-    statistics: DesignPreviewStatistics,
-    dialog: DesignPreviewDialog,
-    notice: DesignPreviewNotice,
-    modal: DesignPreviewModal,
 };
 
 export default {
@@ -67,15 +90,35 @@ export default {
     },
 
     computed: {
+        isStandalone() {
+            if (typeof window === 'undefined') {
+                return false;
+            }
+
+            return window.self === window.top;
+        },
+
+        isConceptScreen() {
+            return isConceptPreviewModule(this.moduleKey);
+        },
+
         screenComponent() {
             return SCREEN_MAP[this.moduleKey] || null;
         },
 
         themeClass() {
+            if (this.isConceptScreen) {
+                return null;
+            }
+
             return `design-preview-theme-${this.config.variant}`;
         },
 
         rootStyle() {
+            if (this.isConceptScreen) {
+                return {};
+            }
+
             return cssVarsFromDesignTheme(this.config.variant);
         },
     },
@@ -85,4 +128,5 @@ export default {
 <style lang="scss">
 @import '@/assets/scss/designPreview.scss';
 @import '@/assets/scss/prismFlow.scss';
+@import '@/assets/scss/conceptFlows.scss';
 </style>

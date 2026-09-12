@@ -65,12 +65,16 @@
 
             stop() {
                 clearTimeout(this.autoSubmitPid);
+                clearTimeout(this.startDelayPid);
                 this.progressPercent = 0.001;
                 this.isAnimated = false;
             },
 
             start() {
-                setTimeout(async () => {
+                clearTimeout(this.startDelayPid);
+                clearTimeout(this.autoSubmitPid);
+
+                this.startDelayPid = setTimeout(async () => {
                     await nextTick();
                     this.isAnimated = true;
                     await nextTick();
@@ -96,6 +100,10 @@
 
         mounted() {
             this.start();
+        },
+
+        beforeUnmount() {
+            this.stop();
         }
     }
 </script>

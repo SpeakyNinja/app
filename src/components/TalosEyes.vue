@@ -285,6 +285,7 @@ export default {
         /** Preview/dialog: brief brightness pulse on vectors per speakPulseKey tick */
         speakGlow: { type: Boolean, default: false },
         speakPulseKey: { type: Number, default: 0 },
+        hidePupils: { type: Boolean, default: false },
     },
 
     data() {
@@ -332,6 +333,10 @@ export default {
         },
 
         showPupils() {
+            if (this.hidePupils) {
+                return false;
+            }
+
             if (this.poseOverlay) {
                 return this.poseOverlay.pupilOpacity > 0.02;
             }

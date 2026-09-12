@@ -123,6 +123,11 @@
                 try {
                     this.preloader.show = true;
                     const r = await this.addWordService.rateWord(status, this.countSeconds());
+                    if (r.finished) {
+                        this.$refs.buttons.highlightStop();
+                        this.finishHandler();
+                        return;
+                    }
                     this.playAudio();
                     this.updateProgress();
                     this.$refs.buttons.highlightStop();
@@ -226,7 +231,12 @@
 
             try {
                 this.preloader.show = true;
-                await this.addWordService.fetchWord();
+                const r = await this.addWordService.fetchWord();
+
+                if (r.finished) {
+                    this.finishHandler();
+                    return;
+                }
 
                 if(this.addWordService.data.countAddWords > 0) {
                     this.noticeItemsBefore = this.noticeService.getItems('addWordsBefore');

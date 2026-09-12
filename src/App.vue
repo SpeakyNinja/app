@@ -1,5 +1,5 @@
 <template>
-    <RouterView />
+    <RouterView v-if="authReady" />
 
     <CookieConsent />
     <Preloader :isEnabled="preloader.show" />
@@ -24,6 +24,7 @@
 
         data() {
             return {
+            	authReady: false,
             	modal: {
                     showModal: false,
                     modalOptions: {},
@@ -85,6 +86,7 @@
 
         async beforeMount() {
             if (this.isEngagementPreviewArea()) {
+                this.authReady = true;
                 return;
             }
 
@@ -92,19 +94,25 @@
 
             try {
                 this.preloader.show = true;
-                authenticated = await this.student.checkAuth();
 
-                if (authenticated) {
-                    const r = await this.student.fetchData();
-                    this.checkPwaVersion(r.pwaVersion);
-                    localStorage.setItem('appTimezone', r.appTimezone);
-                } else if (!this.isPublicArea()) {
-                    this.$router.push('/');
+                if (!this.isPublicArea()) {
+                    authenticated = await this.student.checkAuth();
+
+                    if (authenticated) {
+                        const r = await this.student.fetchData();
+                        this.checkPwaVersion(r.pwaVersion);
+                        localStorage.setItem('appTimezone', r.appTimezone);
+                    } else {
+                        this.$router.push('/');
+                    }
                 }
             } catch (res) {
-                this.modal.show(res);
+                if (!this.isPublicArea()) {
+                    this.modal.show(res);
+                }
             } finally {
                 this.preloader.show = false;
+                this.authReady = true;
             }
         },
 

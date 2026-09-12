@@ -53,6 +53,36 @@
             </div>
 
             <div class="block">
+                <div class="row title">Реферальная программа</div>
+                <div class="row subtitle" v-if="referralLoading">Загрузка…</div>
+                <template v-else-if="referralEnabled">
+                    <div class="row subtitle">Ваш код для друзей</div>
+                    <div class="row referral-code" @click="copyReferral">
+                        {{ referralCode || '—' }}
+                        <span class="copy-hint">{{ referralCopied ? 'Скопировано' : 'Нажмите, чтобы скопировать' }}</span>
+                    </div>
+                    <div class="row subtitle" v-if="referralSettings.referrer_neurons">
+                        Вы получите {{ formatNeurons(referralSettings.referrer_neurons) }} нейронов,
+                        друг — {{ formatNeurons(referralSettings.referee_neurons) }}
+                        ({{ referralSettings.reward_on === 'signup' ? 'при регистрации' : 'после первой покупки' }})
+                    </div>
+                    <div class="row apply-row" v-if="!student.isAutoReg()">
+                        <input
+                            v-model.trim="friendCode"
+                            type="text"
+                            class="referral-input"
+                            placeholder="Код друга / партнёра"
+                        />
+                        <button type="button" class="btn dark-gray apply-btn" :disabled="applyBusy" @click="applyFriendCode">
+                            {{ applyBusy ? '…' : 'Применить' }}
+                        </button>
+                    </div>
+                    <div class="row subtitle" v-if="applyHint" :class="{ error: applyError }">{{ applyHint }}</div>
+                </template>
+                <div class="row subtitle" v-else>Программа временно выключена</div>
+            </div>
+
+            <div class="block">
 
                 <div
                     v-if="dialogTestEnabled"
@@ -103,6 +133,7 @@
     import TopBar from '@/components/TopBar.vue';
     import ConsentService from '@/services/ConsentService.js';
     import YandexMetrika from '@/services/YandexMetrika.js';
+    import AbstractService from '@/services/AbstractService.js';
 
     export default {
 
@@ -121,10 +152,70 @@
                 deleteModalOptions: {},
                 dialogTestEnabled: import.meta.env.VITE_DIALOG_TEST_ENABLED === 'true',
                 analyticsEnabled: false,
+                referralLoading: true,
+                referralEnabled: true,
+                referralCode: '',
+                referralSettings: {},
+                referralCopied: false,
+                friendCode: '',
+                applyBusy: false,
+                applyHint: '',
+                applyError: false,
+                api: null,
             }
         },
 
         methods: {
+            formatNeurons(n) {
+                return new Intl.NumberFormat('ru-RU').format(n || 0);
+            },
+
+            async loadReferral() {
+                this.referralLoading = true;
+                try {
+                    const r = await this.api.request('/referral/me', {});
+                    this.referralCode = r.code || '';
+                    this.referralSettings = r.settings || {};
+                    this.referralEnabled = r.settings?.enabled !== false;
+                } catch {
+                    this.referralEnabled = false;
+                } finally {
+                    this.referralLoading = false;
+                }
+            },
+
+            async copyReferral() {
+                if (!this.referralCode) return;
+                try {
+                    await navigator.clipboard.writeText(this.referralCode);
+                    this.referralCopied = true;
+                    setTimeout(() => { this.referralCopied = false; }, 2000);
+                } catch {
+                    this.modal.show({ message: 'Не удалось скопировать код' });
+                }
+            },
+
+            async applyFriendCode() {
+                this.applyHint = '';
+                this.applyError = false;
+                if (!this.friendCode) {
+                    this.applyHint = 'Введите код';
+                    this.applyError = true;
+                    return;
+                }
+                this.applyBusy = true;
+                try {
+                    await this.api.request('/referral/apply', { code: this.friendCode });
+                    this.applyHint = 'Код применён';
+                    this.friendCode = '';
+                } catch (res) {
+                    this.applyHint = res?.message || 'Не удалось применить код';
+                    this.applyError = true;
+                } finally {
+                    this.applyBusy = false;
+                }
+            },
+
             toggleAnalytics() {
                 const enabled = !this.analyticsEnabled;
 
@@ -182,7 +273,9 @@
             this.modal = inject('modal');
             this.preloader = inject('preloader');
             this.student = inject('student');
+            this.api = new AbstractService();
             this.analyticsEnabled = ConsentService.hasAnalyticsConsent();
+            this.loadReferral();
 
             let body = 'Вы точно хотите выйти из вашего аккаунта?';
             if(this.student.isAutoReg()) {
@@ -242,6 +335,53 @@
 
                     .delete-account {
                         color: #ff8a8a;
+                    }
+
+                    .referral-code {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 6px;
+                        padding: 14px 16px;
+                        border-radius: 14px;
+                        background: #2f3040;
+                        border: 1px solid #54546f;
+                        font-family: Bold;
+                        font-size: 22px;
+                        letter-spacing: 0.04em;
+                        cursor: pointer;
+
+                        .copy-hint {
+                            font-family: Light;
+                            font-size: 13px;
+                            color: #9e9ea8;
+                            letter-spacing: 0;
+                        }
+                    }
+
+                    .apply-row {
+                        display: flex;
+                        gap: 10px;
+                        align-items: center;
+
+                        .referral-input {
+                            flex: 1;
+                            border: 1px solid #54546f;
+                            border-radius: 12px;
+                            background: #2f3040;
+                            color: #fff;
+                            padding: 12px 14px;
+                            font-size: 15px;
+                            text-transform: uppercase;
+                        }
+
+                        .apply-btn {
+                            margin: 0;
+                            white-space: nowrap;
+                        }
+                    }
+
+                    .subtitle.error {
+                        color: #f07178;
                     }
 
                 .row {

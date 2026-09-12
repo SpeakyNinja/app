@@ -1,0 +1,37 @@
+# Frontend Design Skills — Cursor Rules
+# Community skills live in .agents/skills/ (gitignored).
+
+## Priority
+
+Use community design skills in `.agents/skills/` — techniques, audits, component patterns. Adapt output to SpeakNinja stack (Vue 3 Options API + SCSS, dark mobile-first).
+
+## Available Skills (.agents/skills/)
+
+### Meta / orchestration
+- `impeccable/SKILL.md` — `/impeccable audit|polish|colorize|…` (read reference/*.md for sub-commands)
+- `webdesign-review/SKILL.md` — comprehensive design review
+- `frontend-design/SKILL.md` — anti-AI-slop, bold aesthetic direction
+
+### Core design
+- `ui-design/SKILL.md` — layout, grids, visual hierarchy
+- `ux-design/SKILL.md` — IA, interaction patterns
+- `ui-design-brain/SKILL.md` — 60+ component best practices (see components.md)
+
+### Typography, color & accessibility
+- `web-typography/SKILL.md`
+- `color-theory/SKILL.md`
+- `accessibility/SKILL.md`
+
+### Implementation
+- `usability/SKILL.md`, `responsive-design/SKILL.md`, `navigation-design/SKILL.md`
+- `images-media/SKILL.md`, `branding-identity/SKILL.md`, `component-patterns/SKILL.md`
+
+### Strategy & trends
+- `customer-journey/SKILL.md`, `design-process/SKILL.md`, `ai-design-workflow/SKILL.md`
+- `landing-pages/SKILL.md`, `website-audit/SKILL.md`, `design-trends/SKILL.md`
+- `ui-patterns/SKILL.md`, `visual-direction/SKILL.md`, `agent-ui-design/SKILL.md`
+
+## Stack reminder (SpeakNinja)
+
+- Vue 3 Options API + SCSS — not React/Tailwind/shadcn
+- Do not apply Impeccable/frontend-design default fonts (Inter) or light themes without user approval

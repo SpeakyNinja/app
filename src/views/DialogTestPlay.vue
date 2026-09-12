@@ -129,7 +129,13 @@ export default {
             const res = this.engagementPreview
                 ? await this.api.initEngagementPreview(this.slug)
                 : await this.api.init(this.slug);
+            if (this._unmounted) {
+                return;
+            }
             await this.applyResponse(res, { startSequence: false });
+            if (this._unmounted) {
+                return;
+            }
             this.ready = true;
             await this.scheduleReplicaSequence();
         } catch (e) {
@@ -146,6 +152,7 @@ export default {
     },
 
     beforeUnmount() {
+        this._unmounted = true;
         this.clearReplicaTimers();
         if (this.timerInterval) {
             clearInterval(this.timerInterval);
@@ -223,12 +230,19 @@ export default {
         },
 
         async applyResponse(res, options = { startSequence: true }) {
+            if (this._unmounted) {
+                return;
+            }
+
             if (!res?.success) {
                 throw res;
             }
 
             if (res.closed) {
                 this.clearReplicaTimers();
+                if (this._unmounted) {
+                    return;
+                }
                 if (this.engagementPreview) {
                     this.previewError = 'Диалог завершён';
                     this.ready = false;
@@ -247,6 +261,10 @@ export default {
                 this.view = await this.viewWithDoors(res.view);
             } else {
                 this.view = res.view;
+            }
+
+            if (this._unmounted) {
+                return;
             }
 
             if (options.startSequence) {
@@ -279,6 +297,9 @@ export default {
 
             if (this.view?.is_endpoint && !(this.view?.reactions || []).length) {
                 this.view = await this.viewWithDoors(this.view);
+                if (this._unmounted) {
+                    return;
+                }
                 await this.scheduleReplicaSequence();
                 return;
             }
@@ -288,15 +309,23 @@ export default {
                 const res = this.engagementPreview
                     ? await this.api.reactionEngagementPreview(this.slug, this.state, choice.id)
                     : await this.api.reaction(this.slug, this.state, choice.id);
+                if (this._unmounted) {
+                    return;
+                }
                 await this.applyResponse(res);
             } catch (e) {
+                if (this._unmounted) {
+                    return;
+                }
                 if (this.engagementPreview) {
                     this.previewError = this.normalizeError(e).message || 'Ошибка при выборе ответа';
                     return;
                 }
                 this.modal.show(this.normalizeError(e));
             } finally {
-                this.busy = false;
+                if (!this._unmounted) {
+                    this.busy = false;
+                }
             }
         },
 

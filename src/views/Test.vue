@@ -66,12 +66,17 @@
                 isReady: false,
                 buttonsOptions: { highlightedItem: null, maxHighlightInterval: 0.5 },
                 noticeItemsBefore: [],
-                noticeItemsAfter: []
+                noticeItemsAfter: [],
+                submitting: false
             }
         },
 
         methods: {
             async submit(text = '') {
+                if (this.submitting) {
+                    return;
+                }
+                this.submitting = true;
                 this.$refs.buttons.highlightStart( (text || -1) );
 
                 try {
@@ -92,6 +97,7 @@
                     this.modal.show(res);
                 } finally {
                     this.preloader.show = false;
+                    this.submitting = false;
                 }
             },
 

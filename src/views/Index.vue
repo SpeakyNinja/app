@@ -116,7 +116,8 @@
 
             const authenticated = await this.student.checkAuth();
             if (authenticated) {
-                this.$router.push('/statistics');
+                const route = await this.student.resolvePostLoginRoute();
+                this.$router.push(route);
                 return;
             }
 

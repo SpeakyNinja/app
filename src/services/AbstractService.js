@@ -11,6 +11,8 @@ export default class AbstractService {
     request(url, data = {}, successHandler = () => {}) {
         const headers = {
             'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest',
         };
 
         return axios.post(this.baseUrl + url, data, { headers, withCredentials: true }).then(res => {
@@ -38,7 +40,17 @@ export default class AbstractService {
             if (window.location.pathname.indexOf('/engagement-preview/') === 0) {
                 throw e;
             }
-            throw e;
+            throw {
+                message: 'Сессия истекла. Войдите снова.',
+            };
+        } else if (e?.response?.status == 429) {
+            throw {
+                message: 'Слишком много запросов. Подождите минуту и попробуйте снова.',
+            };
+        } else if (!e?.response) {
+            throw {
+                message: 'Нет соединения с сервером. Проверьте интернет и попробуйте снова.',
+            };
         } else {
             throw e;
         }

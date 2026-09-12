@@ -44,7 +44,7 @@ export default class StudentService extends AbstractService {
             });
             this._authenticated = true;
         } catch (e) {
-            if (e?.response?.status === 401) {
+            if (e?.response?.status === 401 || e?.message === 'Сессия истекла. Войдите снова.') {
                 this._authenticated = false;
             } else if (e?.success === false) {
                 this._authenticated = false;
@@ -109,8 +109,17 @@ export default class StudentService extends AbstractService {
 
     async autoRegistration() {
         const challenge = await this.ensureGuestChallenge();
+        const params = new URLSearchParams(window.location.search);
+        const referralCode = params.get('ref') || params.get('referral_code') || LocalStorage.get('growth', 'referral_code') || '';
+        if (referralCode) {
+            LocalStorage.store('growth', 'referral_code', referralCode);
+        }
 
-        return this.request('/auto-registration', { challenge, pd_consent: true }, r => {
+        return this.request('/auto-registration', {
+            challenge,
+            pd_consent: true,
+            referral_code: referralCode || undefined,
+        }, r => {
             this.applySession(r);
             YandexMetrika.sendUserParams(r.id);
         });
@@ -148,6 +157,21 @@ export default class StudentService extends AbstractService {
         return this.request('/get-student-data', {}, r => {
             this.applySession(r);
         });
+    }
+
+    async resolvePostLoginRoute() {
+        try {
+            const r = await this.request('/get-progress', {});
+            const progress = r.progress || {};
+
+            if (!progress.trainingCount) {
+                return '/test';
+            }
+
+            return '/statistics';
+        } catch (e) {
+            return '/test';
+        }
     }
 
     rateApp(rating) {
