@@ -1,4 +1,7 @@
+import { FIELD_SCREENS } from './fieldConcept.js';
+
 export const DESIGN_PREVIEW_GROUPS = {
+    field: 'FIELD · Поле языка',
     salon: 'Salon',
     atelier: 'Atelier',
     garden: 'Glass Garden',
@@ -6,6 +9,7 @@ export const DESIGN_PREVIEW_GROUPS = {
 };
 
 export const CONCEPT_MODULE_KEYS = new Set([
+    ...FIELD_SCREENS.map(([key]) => `field_${key}`),
     'atelier_cover',
     'atelier_spread',
     'salon_inbox',
@@ -23,6 +27,13 @@ export const CONCEPT_MODULE_KEYS = new Set([
 ]);
 
 export const DESIGN_PREVIEW_MODULES = [
+    ...FIELD_SCREENS.map(([key, title, description]) => ({
+        module_key: `field_${key}`,
+        title: `FIELD · ${title}`,
+        group: 'field',
+        description,
+        route: `/design-preview/field_${key}`,
+    })),
     {
         module_key: 'salon_inbox',
         title: 'Salon · Хаб',

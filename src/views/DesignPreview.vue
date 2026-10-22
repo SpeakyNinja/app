@@ -11,7 +11,7 @@
         ]"
         :style="rootStyle"
     >
-        <component :is="screenComponent" v-if="screenComponent" :variant="config.variant" />
+        <component :is="screenComponent" v-if="screenComponent" :variant="config.variant" :module-key="moduleKey" />
         <div v-else class="design-preview-missing dp-column">
             <p>Модуль «{{ moduleKey }}» не найден.</p>
         </div>
@@ -19,6 +19,8 @@
 </template>
 
 <script>
+import ConceptField from '@/components/designPreview/concepts/ConceptField.vue';
+import { FIELD_SCREENS } from '@/utils/fieldConcept.js';
 import ConceptAtelierCover from '@/components/designPreview/concepts/ConceptAtelierCover.vue';
 import ConceptAtelierSpread from '@/components/designPreview/concepts/ConceptAtelierSpread.vue';
 import ConceptSalonInbox from '@/components/designPreview/concepts/ConceptSalonInbox.vue';
@@ -44,6 +46,7 @@ import { bindDesignPreviewPress } from '@/utils/designPreviewPress.js';
 import { onMounted, onUnmounted, ref } from 'vue';
 
 const SCREEN_MAP = {
+    ...Object.fromEntries(FIELD_SCREENS.map(([key]) => [`field_${key}`, ConceptField])),
     atelier_cover: ConceptAtelierCover,
     atelier_spread: ConceptAtelierSpread,
     salon_inbox: ConceptSalonInbox,
